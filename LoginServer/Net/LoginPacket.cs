@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
@@ -12,7 +12,7 @@ namespace Server.Ghost
             using (var plew = new OutPacket())
             {
                 plew.WriteHexString("AA 55 2F 00 11"); // Packet Header
-                plew.WriteInt(2020030403); // Patch Version 2020 / 03 / 03 / 03 --> V
+                plew.WriteInt(2020032101); // Patch Version 2020 / 03 / 03 / 03 --> V
                 plew.WriteHexString("00 00 00 00");
                 plew.WriteString("http://ghost.pleum.in.th/");
                 plew.WriteString("file/test");
