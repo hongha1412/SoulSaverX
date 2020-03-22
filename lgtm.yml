@@ -1,0 +1,7 @@
+extraction:
+  csharp:
+    index:
+      solution: SoulsaverX/SoulsaverX.sln
+      msbuild:
+        configuration: release   
+        platform: x86
