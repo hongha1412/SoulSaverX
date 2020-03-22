@@ -83,13 +83,13 @@ namespace Server
                         ScrollingHeader = Settings.GetString("ScrollingHeader", world),
                         Rates = new ServerUtilities.Rates()
                         {
-                            Experience = 6,
-                            QuestExperience = 6,
-                            PartyQuestExperience = 6,
+                            Experience = Settings.GetInt("ExperienceRate", world),
+                            QuestExperience = Settings.GetInt("QuestExperienceRate", world),
+                            PartyQuestExperience = Settings.GetInt("PartyQuestExperience", world),
 
-                            Meso = 3,
-                            Loot = 2
-                        } // TODO: Actual rate load.
+                            Meso = Settings.GetInt("MesoDropRate", world),
+                            Loot = Settings.GetInt("LootDropRate", world)
+                        }
                     });
                 }
 
