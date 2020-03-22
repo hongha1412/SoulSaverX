@@ -1,8 +1,9 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost;
 using Server.Interoperability;
+using Server.Common.Constants;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -46,8 +47,7 @@ namespace Server
             Clients = new List<Client>();
 
             Log.SetLogFile(".\\Logs\\LoginLog.log");
-
-            Log.Entitle("Login Server v.{0}.{1}", 10, 10);
+            Log.Entitle("Login Server (CLIENT VERSION {0})", ServerConstants.CLIENT_VERSION);
 
             try
             {
@@ -69,7 +69,7 @@ namespace Server
 
                 LoginServer.Pinger.Interval = Settings.GetInt("PingInterval");
                 LoginServer.Pinger.Start();
-                Log.Inform("Clients pinger set to {0}ms.", LoginServer.Pinger.Interval);
+                Log.Inform("Clients pinger set to {0} ms.", LoginServer.Pinger.Interval);
 
                 foreach (string world in Settings.GetBlocksFromBlock("Worlds", 1))
                 {
