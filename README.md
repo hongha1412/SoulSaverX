@@ -11,12 +11,13 @@ Login server:
 - [x] Display world status (e.g. overpopulated)
 - [x] Channel selection
 
+
 Char server:
 - [x] Create character
 - [] Delete character
 - [x] World selection
 
-Map server:
-- [x] all todo!
+World server:
+- [] all todo!
 
 
