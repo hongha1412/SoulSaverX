@@ -7,7 +7,7 @@ Discord: https://discord.gg/dX5xHjr
 Login server:
 - [x] Login user
 - [ ] Password Encryption
-- [x] Display world ribbons
+- [x] Display world
 - [x] Display world status (e.g. overpopulated)
 - [x] Channel selection
 
