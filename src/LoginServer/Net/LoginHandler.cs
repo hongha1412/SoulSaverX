@@ -100,9 +100,9 @@ namespace Server.Ghost
                 */
                 if (login_status)
                 {
-                    string isMaster = c.Account.Master ? "Master" : "User";
+                    string isMaster = c.Account.Master == 1 ? "Master" : "non-Master";
                     LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
-                    Log.Success("[Login_Req] Username: {0} | Password: {1} |({2})", c.Account.Username, c.Account.password, isMaster);
+                    Log.Success("[Login_Req] Username: {0} | Password: {1} |({2})", c.Account.Username, c.Account.Password, isMaster);
                     c.Account.LoggedIn = 1;
                 }
             }
@@ -209,13 +209,13 @@ namespace Server.Ghost
         {
 
             int isSubPassword = c.Account.TwoFA;
-
-            switch (isSubPassword)
+			string Password = lea.ReadString();
+			string ConfrimPassword = lea.ReadString();
+			string AccountSubPassword = c.Account.TwoFactorPassword;
+			switch (isSubPassword)
             {
 
                 case 0:
-                    string Password = lea.ReadString();
-                    string ConfrimPassword = lea.ReadString();
                     if (ServerConstants.DEBUG_MODE)
                     {
                         Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
@@ -223,8 +223,6 @@ namespace Server.Ghost
                     LoginPacket.SubPassError(c);
                     break;
                 case 1:
-                    string Password = lea.ReadString();
-                    string AccountSubPassword = c.Account.TwoFactorPassword;
                     if ( AccountSubPassword == Password )
                     {
                         LoginPacket.SubPassLoginOK(c);

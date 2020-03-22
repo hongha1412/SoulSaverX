@@ -3,7 +3,6 @@ using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost;
 using Server.Interoperability;
-using Server.Common.Constants;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -13,7 +12,7 @@ using Timer = System.Timers.Timer;
 
 namespace Server
 {
-    public static class LoginServer
+	public static class LoginServer
     {
         private static bool isAlive;
         private static ManualResetEvent AcceptDone;

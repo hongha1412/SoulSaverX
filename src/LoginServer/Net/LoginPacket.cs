@@ -59,7 +59,7 @@ namespace Server.Ghost
                 }
                 plew.WriteByte((byte)state);  /* it's short packet ? */
                 plew.WriteHexString("00");
-                if (c.Account.Master)
+                if (c.Account.Master == 1)
                 {
                     //plew.WriteInt(isGM); // Send GM Status
                 }
