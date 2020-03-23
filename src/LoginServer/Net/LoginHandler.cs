@@ -46,82 +46,53 @@ namespace Server.Ghost
                 /*
                     Check Banned status
                 */
-                bool login_status = true;
                 switch (c.Account.Banned)
                 {
                     case 1:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED);
-                        login_status = false;
                         break;
                     case 7:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);
-                        login_status = false;
                         break;
                     case 8:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK);
-                        login_status = false;
                         break;
                     case 10:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK);
-                        login_status = false;
                         break;
                     case 11:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);
-                        login_status = false;
                         break;
                     case 12:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-                        login_status = false;
                         break;
                     case 13:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-                        login_status = false;
                         break;
                     case 16:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
-                        login_status = false;
                         break;
                     case 17:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
-                        login_status = false;
                         break;
                     case 29:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
-                        login_status = false;
                         break;
                     case 31:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
-                        login_status = false;
+                        break;
+                    default:
+                        string isMaster = c.Account.Master == 1 ? "Master" : "non-Master";
+                        Log.Success("[Login_Req] Username: {0} | Password: {1} |({2})", c.Account.Username, c.Account.Password, isMaster);
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
+                        c.Account.LoggedIn = 1;
                         break;
                 }
 
-                /*
-                    Login Success
-                */
-                if (login_status)
-                {
-                    string isMaster = c.Account.Master == 1 ? "Master" : "non-Master";
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
-                    Log.Success("[Login_Req] Username: {0} | Password: {1} |({2})", c.Account.Username, c.Account.Password, isMaster);
-                    c.Account.LoggedIn = 1;
-                }
             }
-            catch (NoAccountException)
+            catch (NoAccountException e)
             {
-                /*
-                // TODO !
-				int hardcode_switch = 2;
-                switch (hardcode_switch)
-                {
-                    case 1:
-                        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-                        break;
-                    case 2:
-                        LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-                        break;
-                }
-                */
-                
+                Log.Error("[Login_Req] Username: {0} | Password: {1} ({2})", username, password, e.Message);
                 /*
                     Check ServerConstants.AUTO_REGISTRATION == True [ Register new account ]
                     Check ServerConstants.AUTO_REGISTRATION == False [ Return ServerState.LoginState.NO_USERNAME]
@@ -147,9 +118,12 @@ namespace Server.Ghost
                     account.GamePoints = 0;
                     account.GiftPoints = 0;
                     account.BonusPoints = 0;
-                    account.Save();                    
+                    account.Save();
+                    // Add Login success?
+                    return;
                 } else {
                     LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+                    return;
                 }
             }
         }

@@ -66,28 +66,28 @@ namespace Server.Accounts
         {
             dynamic datum = new Datum("accounts");
 
-            //datum.username = this.Username;
-            //datum.password = this.Password;
-            //datum.creation = this.Creation;
-            //datum.isLoggedIn = this.LoggedIn;
-            //datum.isBanned = this.Banned;
-            //datum.isMaster = this.Master;
-            //datum.isTwoFactor = this.TwoFA;
-            //datum.TwoFactorPassword = this.TwoFactorPassword;
-            //datum.gamePoints = this.GamePoints;
-            //datum.giftPoints = this.GiftPoints;
-            //datum.bonusPoints = this.BonusPoints;
-            //if (this.Assigned)
-            //{
-            //    datum.Update("ID = '{0}'", this.ID);
-            //}
-            //else
-            //{
-            //    datum.Insert();
+            datum.username = this.Username;
+            datum.password = this.Password;
+            datum.creation = this.Creation;
+            datum.isLoggedIn = this.LoggedIn;
+            datum.isBanned = this.Banned;
+            datum.isMaster = this.Master;
+            datum.isTwoFactor = this.TwoFA;
+            datum.TwoFactorPassword = this.TwoFactorPassword;
+            datum.gamePoints = this.GamePoints;
+            datum.giftPoints = this.GiftPoints;
+            datum.bonusPoints = this.BonusPoints;
+            if (this.Assigned)
+            {
+                datum.Update("ID = '{0}'", this.ID);
+            }
+            else
+            {
+                datum.Insert();
 
-            //    this.ID = Database.Fetch("accounts", "ID", "Username = '{0}'", this.Username);
-            //    this.Assigned = true;
-            //}
+                this.ID = Database.Fetch("accounts", "ID", "Username = '{0}'", this.Username);
+                this.Assigned = true;
+            }
 
             Log.Inform("Saved account '{0}' to database.", this.Username);
         }
