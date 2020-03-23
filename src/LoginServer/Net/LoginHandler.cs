@@ -1,4 +1,4 @@
-﻿using Server.Accounts;
+using Server.Accounts;
 using Server.Common;
 using Server.Common.Constants;
 using Server.Common.Data;
@@ -16,105 +16,102 @@ namespace Server.Ghost
             string username = lea.ReadString();
             string password = lea.ReadString();
 
-            if (username.IsAlphaNumeric() == false)
-            {
-                LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-                return;
-            }
-
             c.SetAccount(new Account(c));
-
             try
             {
+                /*
+                    Load Username
+                */
                 c.Account.Load(username);
 
-                if(c.RetryLoginCount >= 3)
+                /*
+                    Check Password [IsAlphaNumeric / Equals]
+                */
+                if (!password.IsAlphaNumeric() || !password.Equals(c.Account.Password))
+                {
+                    Log.Error("[Login_Req] Username: {0} | Password: {1}", username, password);
+                    LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
+                    c.RetryLoginCount += 1;
+
+                }
+                
+                /*
+                    if RetryLoginCount >= 3
+                */
+                if (c.RetryLoginCount >= 3) 
                 {
                     c.Dispose();
                 }
 
-
-
-
-
-                if (password.IsAlphaNumeric() == false)
+                /*
+                    Check Banned status
+                */
+                bool login_status = true;
+                switch (c.Account.Banned)
                 {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-                    Log.Error("Login Fail!");
-                    c.RetryLoginCount += 1;
-                }
-                if (!password.Equals(c.Account.Password))
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-                    Log.Error("Login Fail!");
-                    Log.Inform("Retry Count: {0}", c.RetryLoginCount);
-                    c.RetryLoginCount += 1;
-                }
-                else if (c.Account.Banned == 1)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED); //Account Lock
-                }
-
-                
-                
-                else if (c.Account.Banned == 7)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK); // Hack Ban
-                }
-                else if (c.Account.Banned == 8)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK); // Billing Lock
-                }
-                else if (c.Account.Banned == 10)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK); //SPAM  LOCK
-                }
-                else if (c.Account.Banned == 11)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
-                }
-                else if (c.Account.Banned == 12)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-                }
-                else if (c.Account.Banned == 13)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-                }
-                else if (c.Account.Banned == 16)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
-                }
-                else if (c.Account.Banned == 17)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
-                }
-                else if (c.Account.Banned == 29)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
-                }
-                else if(c.Account.Banned == 31)
-                {
-                    LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
+                    case 1:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED);
+                        login_status = false;
+                        break;
+                    case 7:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);
+                        login_status = false;
+                        break;
+                    case 8:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK);
+                        login_status = false;
+                        break;
+                    case 10:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK);
+                        login_status = false;
+                        break;
+                    case 11:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);
+                        login_status = false;
+                        break;
+                    case 12:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
+                        login_status = false;
+                        break;
+                    case 13:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+                        login_status = false;
+                        break;
+                    case 16:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
+                        login_status = false;
+                        break;
+                    case 17:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
+                        login_status = false;
+                        break;
+                    case 29:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
+                        login_status = false;
+                        break;
+                    case 31:
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
+                        login_status = false;
+                        break;
                 }
 
-
-                //LOGIN_FAILED
-                else
+                /*
+                    Login Success
+                */
+                if (login_status)
                 {
-                    int isMaster = c.Account.Master;
+                    string isMaster = c.Account.Master == 1 ? "Master" : "non-Master";
                     LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
-                    
+                    Log.Success("[Login_Req] Username: {0} | Password: {1} |({2})", c.Account.Username, c.Account.Password, isMaster);
                     c.Account.LoggedIn = 1;
-                   
-                    Log.Success("Login Success! Username: {0}", username);
                 }
-
-                Log.Debug("Password = {0}", password);
             }
             catch (NoAccountException)
             {
-                switch (2)
+                /*
+                // TODO !
+				int hardcode_switch = 2;
+                switch (hardcode_switch)
                 {
                     case 1:
                         LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
@@ -123,107 +120,117 @@ namespace Server.Ghost
                         LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
                         break;
                 }
+                */
                 
+                /*
+                    Check ServerConstants.AUTO_REGISTRATION == True [ Register new account ]
+                    Check ServerConstants.AUTO_REGISTRATION == False [ Return ServerState.LoginState.NO_USERNAME]
                 
-                //if (ServerConstants.AUTO_REGISTRATION == true)
-                //{
-                //    if (username.Length < 5 || password.Length < 5)
-                //        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+                */
+                if (ServerConstants.AUTO_REGISTRATION)
+                {
+                    if (username.Length < 5 || password.Length < 5) 
+                    {
+                        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+                    }
 
-                 Account account = new Account(c);
-                //    //account.Username = username.ToLower();
-                //    //account.Password = password;
-                //    //account.Creation = DateTime.Now;
-                //    //account.LoggedIn = 0;
-                //    //account.Banned = 0;
-                //    //account.Master = 0;
-                //    //account.GamePoints = 0;
-                //    //account.GiftPoints = 0;
-                //    //account.BonusPoints = 0;
-
-                   account.Save();
-                //    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-                //    return;
-                //}
-
-
+                    Account account = new Account(c);
+                    account.Username = username;
+                    account.Password = password;
+                    account.Creation = DateTime.Now;
+                    /*
+                        Dont hardcode it ? 
+                    */
+                    account.LoggedIn = 0;
+                    account.Banned = 0;
+                    account.Master = 0;
+                    account.GamePoints = 0;
+                    account.GiftPoints = 0;
+                    account.BonusPoints = 0;
+                    account.Save();                    
+                } else {
+                    LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+                }
             }
         }
 
+        /*
+
+        */
         public static void ServerList_Req(InPacket lea, Client c)
         {
-            switch (c.Account.Banned) // Check If player use WPE (Winsock Packet Edior) to Skip Error Msg
+            /* Check If player use WPE (Winsock Packet Edior) to Skip Error Msg */
+            switch (c.Account.Banned) 
             {
                 case 1:
-                    c.Dispose();
-                    break;
                 case 7:
-                    c.Dispose();
-                    break;
                 case 8:
-                    c.Dispose();
-                    break;
                 case 9:
-                    c.Dispose();
-                    break;
                 case 10:
-                    c.Dispose();
-                    break;
                 case 11:
-                    c.Dispose();
-                    break;
                 case 12:
-                    c.Dispose();
-                    break;
                 case 13:
-                    c.Dispose();
-                    break;
                 case 29:
                     c.Dispose();
                     break;
             }
+
             LoginPacket.ServerList_Ack(c);
         }
         
+        /*
+
+        */
         public static void PatchVersion_Req(InPacket lea, Client c)
         {
             LoginPacket.GameVersionInfoAck(c);
         }
 
+        /*
+
+        */
         public static void Game_Req(InPacket lea, Client c)
         {
             LoginPacket.Game_Ack(c, ServerState.ChannelState.OK);
         }
 
+        /*
+
+        */
         public static void World_Req(InPacket lea, Client c)
         {
             LoginPacket.World_Ack(c);
         }
+
+        /*
+        
+        */
         public static void TWOFACTOR_REQ(InPacket lea, Client c)
         {
 
             int isSubPassword = c.Account.TwoFA;
-            if(isSubPassword == 0)
+			string Password = lea.ReadString();
+			string ConfrimPassword = lea.ReadString();
+			string AccountSubPassword = c.Account.TwoFactorPassword;
+			switch (isSubPassword)
             {
-                string Password = lea.ReadString();
-                string ConfrimPassword = lea.ReadString();
-                Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
-                LoginPacket.SubPassError(c);
-            }if(isSubPassword == 1)
-            {
-                string Password = lea.ReadString();
-                string AccountSubPassword = c.Account.TwoFactorPassword;
-                if(AccountSubPassword == Password)
-                {
-                    LoginPacket.SubPassLoginOK(c);
-                }else
-                {
-                    LoginPacket.SubPassLoginWrong(c);
-                }
+
+                case 0:
+                    if (ServerConstants.DEBUG_MODE)
+                    {
+                        Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
+                    }
+                    LoginPacket.SubPassError(c);
+                    break;
+                case 1:
+                    if ( AccountSubPassword == Password )
+                    {
+                        LoginPacket.SubPassLoginOK(c);
+                    } else {
+                        LoginPacket.SubPassLoginWrong(c);
+                    }
+                    break;
             }
-           
-            
-            
         }
     }
 }

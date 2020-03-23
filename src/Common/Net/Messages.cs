@@ -36,6 +36,10 @@
         WhisperFindResult
     }
 
+    /*
+        Type for request Login / char / map
+        Client -> Server
+    */
     public enum LoginClientOpcode : byte
     {
         LOGIN_REQ = 0x30,
@@ -46,9 +50,13 @@
         TWOFACTOR_REQ = 0x39
     }
 
+    /*
+        Header Packet form Client
+        Client -> Server
+    */
     public enum ClientOpcode : ushort
     {
-        LOGIN_SERVER = 0x55AA,
+        LOGIN_SERVER = 0x55AA, 
         SERVER = 0x105, //0x4D
 
         // CharServer
@@ -195,6 +203,11 @@
         SP_WARP_C = 0x193,
     }
 
+    /*
+        Type for Response Login / char / map
+        Server -> Client
+        [Login Server]
+    */
     public enum LoginServerOpcode : byte
     {
         // LoginServer
@@ -205,6 +218,10 @@
         SubPasswordACK = 0x3A
     }
 
+    /*
+        Header Packet from Server
+        Server -> Client
+    */
     public enum ServerOpcode : ushort
     {
         // CharServer
@@ -599,6 +616,10 @@
         SOULSTACKWAR_READY = 0x212,
     }
 
+    /*
+        Header Packet from Server
+        Server -> Client
+    */
     public enum MessengerServerOpcode : ushort
     {
         MSG_GAMELOG = 0x99,
