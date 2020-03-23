@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost.Characters;
@@ -138,13 +138,11 @@ namespace Server.Packet
             using (OutPacket plew = new OutPacket())
             {
                 //Opcode = 5F
-                plew.WriteHexString("05 01 5F 01 14 00");
-                plew.WriteHexString("02 00 00 00 00 00");
-                plew.WriteHexString("00 00 00");
+                plew.WriteHexString("05 01 5F 01");
+                plew.WriteHexString("14 00 78 02");
+                plew.WriteHexString("00 00 00 00");
+                plew.WriteHexString("00 00 00 00");
                 plew.WriteHexString("FF FF FF FF");
-                plew.WriteHexString("74 00 81 00");
-                plew.WriteHexString("36 00 2B 01");
-                plew.WriteHexString("00 00 00 00 08");
                 c.SendCustom(plew);
 
             }
