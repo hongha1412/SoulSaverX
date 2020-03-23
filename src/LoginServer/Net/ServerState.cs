@@ -3,6 +3,15 @@
     public class ServerState
     {
         /* state
+         * 07 - 因使用Bug進行遊戲，帳號已凍結
+         * 08 - 因不正當賺取金錢，帳號已凍結
+         * 09 - 因口出穢言，帳號已凍結
+         * 10 - 因洗頻，帳號已凍結
+         * 11 - 帳號暫時被凍結
+         * 12 - 帳號已凍結
+         * 13 - 帳號錯誤，請重新輸入
+         * 14 - 您所輸入的密碼錯誤
+         * 29 - 因偵測到不當的遊戲進行方式，1小時內將無法進行遊戲
          * -----------------------------------------------
          * 07 - Account is frozen due to gameplay using hack
          * 08 - Account has been frozen due to improper money earning

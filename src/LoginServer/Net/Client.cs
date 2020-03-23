@@ -1,4 +1,4 @@
-﻿using Server.Accounts;
+using Server.Accounts;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
