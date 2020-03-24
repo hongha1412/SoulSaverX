@@ -624,18 +624,7 @@ namespace Server.Ghost.Provider
                     string name = str.Name;
                     int val1 = reader.ReadInt32();
                     int val2 = reader.ReadInt32();
-                    int val3 = reader.ReadInt32();
-
-                    
-
-
-                    using (System.IO.StreamWriter writefile =
-                    new System.IO.StreamWriter(@"C:\GodlikeGames\ghostonline\UserData\MapProject.txt", true))
-                    {
-                        writefile.WriteLine("Map Name: {0} | Theme: {1}  State: {2}", name, Map.MapX,Map.MapY);
-
-                    }
-                   
+                    int val3 = reader.ReadInt32();                   
 
                     //=========================================sub_655150
                     int strCount = reader.ReadInt32();
@@ -954,14 +943,6 @@ namespace Server.Ghost.Provider
                                 reader.ReadInt32();
                                 ++ss2;
                             } while (ss2 < ss);
-
-                            using (System.IO.StreamWriter writefile =
-                            new System.IO.StreamWriter(@"C:\GodlikeGames\ghostonline\UserData\MapProject.txt", true))
-                            {
-                                writefile.WriteLine(" Map Monster ID List: {0} | Direction : {3} |Monster Pos : X: {1} Y: {2} | Monster Speed: {4} ", MonsterID, PosX, PosY,Direction, Speed);
-
-                            }
-
 
                             //
                             char[] Value = MonsterID.ToString().ToCharArray();

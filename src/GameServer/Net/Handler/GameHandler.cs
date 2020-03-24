@@ -52,15 +52,6 @@ namespace Server.Handler
 
          //   string CharacterReqName = data1[0] + data1[1];
            // Log.Debug("Request Character Name : {0}", CharacterReqName);
-
-            using (System.IO.StreamWriter writefile =
-            new System.IO.StreamWriter(@"C:\EvoziGame\GhostOnline\UserData\login.txt", true))
-            {
-                writefile.Write("[{3}]  UserName: {0}  Character: {1}  IP: {2}", username, selectCharacter, hostid, DateTime.Now);
-                writefile.WriteLine("");
-
-            }
-
             //    Log.Debug("Request Character POS : {0}", poschr);
 
 
