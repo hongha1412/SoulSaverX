@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.Data;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
@@ -98,93 +98,103 @@ namespace Server.Handler
             Character chr = gc.Character;
             chr.CharacterID = gc.CharacterID;
             GamePacket.Game_LoginStatus(gc);
-            GamePacket.Game_ServerTime(gc);
-            GamePacket.Game_FristLoad_ACK(gc);
-            GamePacket.Game_LOAD_2(gc);
-            GamePacket.Game_LOAD_3(gc);
-            GamePacket.Game_LOAD_4(gc);
-            GamePacket.Game_LOAD_5(gc);
-            GamePacket.Game_AvartarJarItem(gc);
-            GamePacket.Game_LOAD_7(gc);
-            //     StatusPacket.getStatusInfo(gc);
-            GamePacket.Game_CHARALL(gc);
-            GamePacket.Game_FURY(gc);
-            GamePacket.Game_LOAD_471(gc);
-            GamePacket.Game_LOAD_471(gc);
-            for (int i = 1; i < 7; i++)
-            {
-               
-                for (int j = 0; j < 2; j++)
-                {
-                    GamePacket.Game_LOAD_431(gc, i, j);
-                }
-            }
+			GamePacket.Game_LOAD_2(gc);
+			GamePacket.Game_ServerTime(gc);
+			GamePacket.Game_LOAD_3(gc);
+			System.Threading.Thread.Sleep(250);
 
-            GamePacket.Game_LOAD_420(gc);
-            GamePacket.Game_LOAD_421(gc);
-            GamePacket.Game_LOAD_461(gc);
-            GamePacket.Game_LOAD_462(gc);
-            GamePacket.getQuickSlot(gc, chr.Keymap);
-            GamePacket.Game_LOAD_26(gc);
-            GamePacket.Game_LOAD_8D(gc);
-            GamePacket.Game_LOAD_50(gc);
-            GamePacket.Game_LOAD_63(gc);
-            GamePacket.Game_LOAD_64(gc);
-            GamePacket.Game_LOAD_73(gc);
-            GamePacket.Game_LOAD_02(gc);
-            GamePacket.Game_LOAD_DB(gc);
-            GamePacket.Game_LOAD_42(gc);
-            GamePacket.Game_LOAD_79(gc);
-            GamePacket.getQuickSlot(gc, chr.Keymap);
-            StoragePacket.getStoreInfo(gc);
-            // StoragePacket.getStoreMoney(gc);
-            GamePacket.Game_LOAD_AB(gc);
-            GamePacket.Game_LOAD_1C(gc);
-            InventoryPacket.getInvenCash(gc);
-            GamePacket.Game_LOAD_81(gc);
-            GamePacket.Game_LOAD_E7(gc);
-            GamePacket.Game_LOAD_F2(gc);
-            GamePacket.Game_LOAD_A5(gc);
-            GamePacket.Game_LOAD_1B(gc);
-            GamePacket.Game_LOAD_6D(gc);
+			GamePacket.Game_LOAD_4(gc);
+			GamePacket.Game_LOAD_5(gc);
 
-            //Game_AvartarJarItem
-            //    GamePacket.Game_login2_ack(gc);
+			/*  GamePacket.Game_ServerTime(gc);
+			  GamePacket.Game_FristLoad_ACK(gc);
+			  GamePacket.Game_LOAD_2(gc);
+			  GamePacket.Game_LOAD_3(gc);
+			  GamePacket.Game_LOAD_4(gc);
+			  GamePacket.Game_LOAD_5(gc);
+			  GamePacket.Game_AvartarJarItem(gc);
+			  GamePacket.Game_LOAD_7(gc);
+			  //     StatusPacket.getStatusInfo(gc);
+			  GamePacket.Game_CHARALL(gc);
+			  GamePacket.Game_FURY(gc);
+			  GamePacket.Game_LOAD_471(gc);
+			  GamePacket.Game_LOAD_471(gc);
+			  for (int i = 1; i < 7; i++)
+			  {
 
-            //  MapFactory.AllCharacters.Add(chr);
-            // StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
-            //   GamePacket.FW_DISCOUNTFACTION(gc);
-            //    StatusPacket.getStatusInfo(gc);
-            //    InventoryPacket.getCharacterEquip(gc);
-            //SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
-            //QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-            //GamePacket.getQuickSlot(gc, chr.Keymap);
-            //StoragePacket.getStoreInfo(gc);
-            //StoragePacket.getStoreMoney(gc);
-            //MapPacket.enterMapStart(gc);
-            //InventoryPacket.getInvenCash(gc);
-            //CashShopPacket.MgameCash(gc);
-            //CashShopPacket.GuiHonCash(gc);
-            //InventoryPacket.getInvenEquip(gc);
-            //InventoryPacket.getInvenEquip1(gc);
-            //InventoryPacket.getInvenEquip2(gc);
-            //InventoryPacket.getInvenSpend3(gc);
-            //InventoryPacket.getInvenOther4(gc);
-            //InventoryPacket.getInvenPet5(gc);
-        }
+				  for (int j = 0; j < 2; j++)
+				  {
+					  GamePacket.Game_LOAD_431(gc, i, j);
+				  }
+			  }
 
-        private static int SearchBytes(byte[] content, byte[] v)
+			  GamePacket.Game_LOAD_420(gc);
+			  GamePacket.Game_LOAD_421(gc);
+			  GamePacket.Game_LOAD_461(gc);
+			  GamePacket.Game_LOAD_462(gc);
+			  GamePacket.getQuickSlot(gc, chr.Keymap);
+			  GamePacket.Game_LOAD_26(gc);
+			  GamePacket.Game_LOAD_8D(gc);
+			  GamePacket.Game_LOAD_50(gc);
+			  GamePacket.Game_LOAD_63(gc);
+			  GamePacket.Game_LOAD_64(gc);
+			  GamePacket.Game_LOAD_73(gc);
+			  GamePacket.Game_LOAD_02(gc);
+			  GamePacket.Game_LOAD_DB(gc);
+			  GamePacket.Game_LOAD_42(gc);
+			  GamePacket.Game_LOAD_79(gc);
+			  GamePacket.getQuickSlot(gc, chr.Keymap);
+			  StoragePacket.getStoreInfo(gc);
+			  // StoragePacket.getStoreMoney(gc);
+			  GamePacket.Game_LOAD_AB(gc);
+			  GamePacket.Game_LOAD_1C(gc);
+			  InventoryPacket.getInvenCash(gc);
+			  GamePacket.Game_LOAD_81(gc);
+			  GamePacket.Game_LOAD_E7(gc);
+			  GamePacket.Game_LOAD_F2(gc);
+			  GamePacket.Game_LOAD_A5(gc);
+			  GamePacket.Game_LOAD_1B(gc);
+			  GamePacket.Game_LOAD_6D(gc);
+			  */
+
+			//Game_AvartarJarItem
+			//    GamePacket.Game_login2_ack(gc);
+
+			//  MapFactory.AllCharacters.Add(chr);
+			// StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
+			//   GamePacket.FW_DISCOUNTFACTION(gc);
+			//    StatusPacket.getStatusInfo(gc);
+			//    InventoryPacket.getCharacterEquip(gc);
+			//SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
+			//QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+			//GamePacket.getQuickSlot(gc, chr.Keymap);
+			//StoragePacket.getStoreInfo(gc);
+			//StoragePacket.getStoreMoney(gc);
+			//MapPacket.enterMapStart(gc);
+			//InventoryPacket.getInvenCash(gc);
+			//CashShopPacket.MgameCash(gc);
+			//CashShopPacket.GuiHonCash(gc);
+			//InventoryPacket.getInvenEquip(gc);
+			//InventoryPacket.getInvenEquip1(gc);
+			//InventoryPacket.getInvenEquip2(gc);
+			//InventoryPacket.getInvenSpend3(gc);
+			//InventoryPacket.getInvenOther4(gc);
+			//InventoryPacket.getInvenPet5(gc);
+		}
+
+		private static int SearchBytes(byte[] content, byte[] v)
         {
             throw new NotImplementedException();
         }
 
         public static void Character_Info_Req(InPacket lea, Client gc)
         {
-          
-           
-
-        }
-        public static void Command_Req(InPacket lea, Client gc)
+			
+			GamePacket.Game_LOAD_6(gc);
+			System.Threading.Thread.Sleep(1500);
+			GamePacket.Game_LOAD_7(gc);
+		}
+		public static void Command_Req(InPacket lea, Client gc)
         {
             string[] cmd = lea.ReadString(60).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 
