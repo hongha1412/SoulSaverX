@@ -1,4 +1,4 @@
-﻿using Server.Accounts;
+using Server.Accounts;
 using Server.Characters;
 using Server.Common.Constants;
 using Server.Common.Data;
@@ -93,25 +93,25 @@ namespace Server.Ghost
             }
         }
 
-        public static void Create_MyChar_Req(InPacket lea, Client gc)
-        {
-            string name = lea.ReadString(20);
-            int gender = lea.ReadByte();
-            int value1 = lea.ReadByte();
-            int value2 = lea.ReadByte();
-            int value3 = lea.ReadByte();
-            int eyes = lea.ReadInt();
-            int hair = lea.ReadInt();
-            int weapon = lea.ReadInt();
-            int outfit = lea.ReadInt();
-            int job = lea.ReadByte();
-            int seal = 8510011;
+		public static void Create_MyChar_Req(InPacket lea, Client gc)
+		{
+			string name = lea.ReadString(20);
+			int gender = lea.ReadByte();
+			int value1 = lea.ReadByte();
+			int value2 = lea.ReadByte();
+			int value3 = lea.ReadByte();
+			int eyes = lea.ReadInt();
+			int hair = lea.ReadInt();
+			int weapon = lea.ReadInt();
+			int outfit = lea.ReadInt();
+			int job = lea.ReadByte();
+			int seal = 8510011;
 
 
 
 
 
-            /*
+			/*
             Private
             [05 01 ] [0A 00 38 00] [47 01 01 00] 00 00  Header
             4E 69 6E 6A 61 35 35 35 35  CharacterName
@@ -124,19 +124,24 @@ namespace Server.Ghost
             02 00 00 00 
              * 
              */
-            Log.Inform(">> Create Character");
-            Log.Debug(">> Character Name: {0} Gender : {1} Value1 : {2} Value2 : {3} Value3 : {4}", name, gender, value1, value2, value3);
-            Log.Debug(">> Character ITEM : Eye : {0} Hair: {1} Weapon: {2} Outfit: {3} Job: {4}", eyes, hair, weapon, outfit, job);
+			Log.Inform(">> Create Character");
+			Log.Debug(">> Character Name: {0} Gender : {1} Value1 : {2} Value2 : {3} Value3 : {4}", name, gender, value1, value2, value3);
+			Log.Debug(">> Character ITEM : Eye : {0} Hair: {1} Weapon: {2} Outfit: {3} Job: {4}", eyes, hair, weapon, outfit, job);
 
 
-            var account_id = gc.Account.ID;
-            if (gender != 1 && gender != 2)
-            {
-                account_id = 0;
-                gc.Dispose();
-            }
+			var account_id = gc.Account.ID;
+			if (gender != 1 && gender != 2)
+			{
+				account_id = 0;
+				gc.Dispose();
+			}
 
-            // Hack Check
+			// Hack Check
+			int DefaultCharacterLevel = 1;
+			if (job == 6 || job == 7 || job == 8 || job == 9) {
+				DefaultCharacterLevel = 60;
+			}
+
             if (job != 1 && job != 2 && job != 3 && job != 4 && job != 5 && job != 6 & job != 7 && job != 8 && job != 9 && job != 10 && job != 11)
             {
                 job = 0;
@@ -263,14 +268,7 @@ namespace Server.Ghost
             chr.WorldID = gc.WorldID;
             chr.Name = name;
             chr.Title = "";
-            if (job == 6 && job == 7 && job == 8)
-            {
-                chr.Level = 60;
-            }
-            else
-            {
-                chr.Level = 1;
-            }
+            chr.Level = (byte)DefaultCharacterLevel;
             chr.Class = 0;
             chr.ClassLevel = 0xFF;
             chr.Guild = 0xFF;
