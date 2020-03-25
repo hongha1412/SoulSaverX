@@ -1,4 +1,4 @@
-﻿namespace Server.Common.Net
+namespace Server.Common.Net
 {
     public enum InteroperabilityMessage : ushort
     {
@@ -72,7 +72,7 @@
         GAMELOG_REQ = 0x18,
         LOAD_DATA_REQ = 0x720,
         // 2019-08-31 15:53 [GMT+7]
-        GAME_LOGIN4_REQ = 0x15,
+        GAME_ISACTIVE = 0x15,
         CHARACTER_INFO_REQ = 0x76,
 
         ENTER_WARP_ACK_REQ = 0x1D,
