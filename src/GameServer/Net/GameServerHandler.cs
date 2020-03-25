@@ -1,4 +1,4 @@
-﻿using Server.Common.IO;
+using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Handler;
@@ -33,9 +33,11 @@ namespace Server.Net
                 case ClientOpcode.CHARACTER_INFO_REQ: // OPCODE = 76  // Try Change test = E4 
                     GameHandler.Character_Info_Req(ip, gc);
                     break;
-
-                // Shop
-                case ClientOpcode.NPC_SHOP_BUY_REQ:
+				case ClientOpcode.GAME_ISACTIVE:
+					GameHandler.GameisActive_Ack(ip, gc);
+					break;
+				// Shop
+				case ClientOpcode.NPC_SHOP_BUY_REQ:
                     NpcShopHandler.Buy_Req(ip, gc);
                     break;
                 case ClientOpcode.NPC_SHOP_SELL_REQ:
