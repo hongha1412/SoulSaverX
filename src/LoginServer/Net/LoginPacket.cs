@@ -108,7 +108,7 @@ namespace Server.Ghost
 						plew.WriteInt(ServerConstants.CHANNEL_LOAD); // Maximum number of channels
 						plew.WriteInt(1); // Type of seal
 						plew.WriteInt(0);
-						plew.WriteByte(i < world.Count ? 1 : 2); // Channel open
+						plew.WriteByte(i < world.Count ? 1 : 4); // Channel open
 						plew.WriteInt(15199);
 					}
 				}
