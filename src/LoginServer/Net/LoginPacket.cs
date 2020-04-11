@@ -13,7 +13,7 @@ namespace Server.Ghost
             using (var plew = new OutPacket())
             {
                 plew.WriteHexString("AA 55 2F 00 11"); // Packet Header
-                plew.WriteInt(2020041104); // Patch Version YYYYMMDD VV Eg 2020031501
+                plew.WriteInt(2020041106); // Patch Version YYYYMMDD VV Eg 2020031501
                 plew.WriteHexString("00 00 00 00");
                 plew.WriteString("http://patch.ghostonline.xyz/");
                 plew.WriteString("test/");
