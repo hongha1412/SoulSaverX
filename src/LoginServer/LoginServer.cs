@@ -44,9 +44,10 @@ namespace Server
             AcceptDone = new ManualResetEvent(false);
             Worlds = new Worlds();
             Clients = new List<Client>();
+			int ServerVersion = ServerConstants.SERVER_VERSION;
 
-            Log.SetLogFile(".\\Logs\\LoginLog.log");
-            Log.Entitle("Login Server (CLIENT VERSION {0})", ServerConstants.CLIENT_VERSION);
+			Log.SetLogFile(".\\Logs\\LoginLog.log");
+            Log.Entitle("Login Server (CLIENT VERSION {0})", ServerVersion);
 
             try
             {

@@ -10,12 +10,14 @@ namespace Server.Ghost
     {
         public static void GameVersionInfoAck(Client c)
         {
-            using (var plew = new OutPacket())
+			int ServerVersion = ServerConstants.SERVER_VERSION;
+			
+			using (var plew = new OutPacket())
             {
-                plew.WriteHexString("AA 55 2F 00 11"); // Packet Header
-                plew.WriteInt(2020041902); // Patch Version YYYYMMDD VV Eg 2020031501
+                plew.WriteHexString("AA 55 33 00 11"); // Packet Header
+                plew.WriteInt(ServerVersion); // Patch Version YYYYMMDD VV Eg 2020031501
                 plew.WriteHexString("00 00 00 00");
-                plew.WriteString("http://patch.ghostonline.xyz/");
+                plew.WriteString("https://file-cdn.ghostonline.xyz/");
                 plew.WriteString("test/");
                 plew.WriteHexString("55 AA"); //END Packet
                 c.SendCustom(plew);

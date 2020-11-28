@@ -3,8 +3,8 @@ namespace Server.Common.Constants
     public class ServerConstants
     {
 
-        public static readonly int CLIENT_VERSION = 202003122;
-
+        public static readonly int CLIENT_VERSION = 20202122;
+		public static readonly int SERVER_VERSION = 2020112802;
         public static readonly string SERVER_IP = "127.0.0.1";
         public static readonly bool AUTO_REGISTRATION = false;
         public static readonly int CHANNEL_DEFAULT = 8;
