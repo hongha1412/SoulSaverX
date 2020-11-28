@@ -379,9 +379,7 @@ namespace Server.Ghost
 
                 plew.WriteInt(0); // length + CRC
                 plew.WriteInt(0);
-
                 plew.WriteHexString("01 00 58 03 01 00 00 00");
-
                 gc.Send(plew);
             }
         }
