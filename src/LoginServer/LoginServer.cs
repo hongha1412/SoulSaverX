@@ -13,139 +13,139 @@ using Timer = System.Timers.Timer;
 namespace Server
 {
 	public static class LoginServer
-    {
-        private static bool isAlive;
-        private static ManualResetEvent AcceptDone;
-        private static Timer Pinger = new Timer();
+	{
+		private static bool isAlive;
+		private static ManualResetEvent AcceptDone;
+		private static Timer Pinger = new Timer();
 
-        public static Worlds Worlds { get; private set; }
-        public static List<Client> Clients { get; private set; }
+		public static Worlds Worlds { get; private set; }
+		public static List<Client> Clients { get; private set; }
 
-        public static string SecurityCode { get; private set; }
-        public static bool RequireStaffIP { get; private set; }
+		public static string SecurityCode { get; private set; }
+		public static bool RequireStaffIP { get; private set; }
 
-        public static int PatchVer { get;  set; }
-        public static bool IsAlive
-        {
-            get { return isAlive; }
-            set
-            {
-                isAlive = value;
+		public static int PatchVer { get; set; }
+		public static bool IsAlive
+		{
+			get { return isAlive; }
+			set
+			{
+				isAlive = value;
 
-                if (!value)
-                {
-                    LoginServer.AcceptDone.Set();
-                }
-            }
-        }
+				if (!value)
+				{
+					LoginServer.AcceptDone.Set();
+				}
+			}
+		}
 
-        public static void ServerLoop()
-        {
-            AcceptDone = new ManualResetEvent(false);
-            Worlds = new Worlds();
-            Clients = new List<Client>();
+		public static void ServerLoop()
+		{
+			AcceptDone = new ManualResetEvent(false);
+			Worlds = new Worlds();
+			Clients = new List<Client>();
 			int ServerVersion = ServerConstants.SERVER_VERSION;
 
 			Log.SetLogFile(".\\Logs\\LoginLog.log");
-            Log.Entitle("Login Server (CLIENT VERSION {0})", ServerVersion);
+			Log.Entitle("Login Server (CLIENT VERSION {0})", ServerVersion);
 
-            try
-            {
-                Settings.Initialize();
+			try
+			{
+				Settings.Initialize();
 
-                Database.Test();
-                Database.Analyze(false);
+				Database.Test();
+				Database.Analyze(false);
 
-                SecurityCode = Settings.GetString("SecurityCode", "Interconnection");
-                Log.Inform("Cross-servers code '{0}' assigned.", Log.MaskString(LoginServer.SecurityCode));
+				SecurityCode = Settings.GetString("SecurityCode", "Interconnection");
+				Log.Inform("Cross-servers code '{0}' assigned.", Log.MaskString(LoginServer.SecurityCode));
 
-                RequireStaffIP = Settings.GetBool("RequireStaffIP", "Login");
-                Log.Inform("Staff will{0}be required to connect through a staff IP.",
-                    LoginServer.RequireStaffIP ? " " : " not ");
+				RequireStaffIP = Settings.GetBool("RequireStaffIP", "Login");
+				Log.Inform("Staff will{0}be required to connect through a staff IP.",
+					LoginServer.RequireStaffIP ? " " : " not ");
 
-                TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Login"));
-                Listener.Start();
-                Log.Inform("Initialized clients listener on {0}.", Listener.LocalEndpoint);
+				TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Login"));
+				Listener.Start();
+				Log.Inform("Initialized clients listener on {0}.", Listener.LocalEndpoint);
 
-                LoginServer.Pinger.Interval = Settings.GetInt("PingInterval");
-                LoginServer.Pinger.Start();
-                Log.Inform("Clients pinger set to {0} ms.", LoginServer.Pinger.Interval);
+				LoginServer.Pinger.Interval = Settings.GetInt("PingInterval");
+				LoginServer.Pinger.Start();
+				Log.Inform("Clients pinger set to {0} ms.", LoginServer.Pinger.Interval);
 
-                foreach (string world in Settings.GetBlocksFromBlock("Worlds", 1))
-                {
-                    Worlds.Add(new World()
-                    {
-                        ID = Settings.GetByte("ID", world),
-                        HostIP = Settings.GetIPAddress("Host", world),
-                        Flag = Settings.GetEnum<ServerUtilities.ServerFlag>("Flag", world),
-                        Channel = Settings.GetByte("Channel", world),
-                        EventMessage = Settings.GetString("EventMessage", world),
-                        DisableCreation = Settings.GetBool("DisableCreation", world),
-                        ScrollingHeader = Settings.GetString("ScrollingHeader", world),
-                        Rates = new ServerUtilities.Rates()
-                        {
-                            Experience = Settings.GetInt("ExperienceRate", world),
-                            QuestExperience = Settings.GetInt("QuestExperienceRate", world),
-                            PartyQuestExperience = Settings.GetInt("PartyQuestExperience", world),
+				foreach (string world in Settings.GetBlocksFromBlock("Worlds", 1))
+				{
+					Worlds.Add(new World()
+					{
+						ID = Settings.GetByte("ID", world),
+						HostIP = Settings.GetIPAddress("Host", world),
+						Flag = Settings.GetEnum<ServerUtilities.ServerFlag>("Flag", world),
+						Channel = Settings.GetByte("Channel", world),
+						EventMessage = Settings.GetString("EventMessage", world),
+						DisableCreation = Settings.GetBool("DisableCreation", world),
+						ScrollingHeader = Settings.GetString("ScrollingHeader", world),
+						Rates = new ServerUtilities.Rates()
+						{
+							Experience = Settings.GetInt("ExperienceRate", world),
+							QuestExperience = Settings.GetInt("QuestExperienceRate", world),
+							PartyQuestExperience = Settings.GetInt("PartyQuestExperience", world),
 
-                            Meso = Settings.GetInt("MesoDropRate", world),
-                            Loot = Settings.GetInt("LootDropRate", world)
-                        }
-                    });
-                }
+							Meso = Settings.GetInt("MesoDropRate", world),
+							Loot = Settings.GetInt("LootDropRate", world)
+						}
+					});
+				}
 
-                IsAlive = true;
+				IsAlive = true;
 
-                Log.Success("Server started on thread {0}.", Thread.CurrentThread.ManagedThreadId);
+				Log.Success("Server started on thread {0}.", Thread.CurrentThread.ManagedThreadId);
 
-                AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                {
-                    Log.Error("Unhandled exception from Server: \n{0}", e.ExceptionObject.ToString());
-                };
+				AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+				{
+					Log.Error("Unhandled exception from Server: \n{0}", e.ExceptionObject.ToString());
+				};
 
-                new Thread(new ThreadStart(InteroperabilityServer.ServerLoop)).Start();
+				new Thread(new ThreadStart(InteroperabilityServer.ServerLoop)).Start();
 
-                while (IsAlive)
-                {
-                    AcceptDone.Reset();
+				while (IsAlive)
+				{
+					AcceptDone.Reset();
 
-                    Listener.BeginAcceptSocket((iar) =>
-                    {
-                        new Client(Listener.EndAcceptSocket(iar));
+					Listener.BeginAcceptSocket((iar) =>
+					{
+						new Client(Listener.EndAcceptSocket(iar));
 
-                        AcceptDone.Set();
-                    }, null);
+						AcceptDone.Set();
+					}, null);
 
-                    AcceptDone.WaitOne();
-                }
+					AcceptDone.WaitOne();
+				}
 
-                InteroperabilityServer.Stop();
+				InteroperabilityServer.Stop();
 
-                Client[] remainingClients = Clients.ToArray();
+				Client[] remainingClients = Clients.ToArray();
 
-                foreach (Client client in remainingClients)
-                {
-                    client.Dispose();
-                }
+				foreach (Client client in remainingClients)
+				{
+					client.Dispose();
+				}
 
-                Listener.Stop();
+				Listener.Stop();
 
-                Log.Warn("Login stopped.");
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                Log.Inform("Could not start server because of errors.");
-            }
-            finally
-            {
-                Console.Read();
-            }
-        }
+				Log.Warn("Login stopped.");
+			}
+			catch (Exception e)
+			{
+				Log.Error(e);
+				Log.Inform("Could not start server because of errors.");
+			}
+			finally
+			{
+				Console.Read();
+			}
+		}
 
-        public static void Stop()
-        {
-            IsAlive = false;
-        }
-    }
+		public static void Stop()
+		{
+			IsAlive = false;
+		}
+	}
 }

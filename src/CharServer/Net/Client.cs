@@ -7,97 +7,97 @@ using System.Net.Sockets;
 
 namespace Server.Ghost
 {
-    public sealed class Client : Session
-    {
-        public Account Account { get; private set; }
-        public byte WorldID { get; private set; }
-        public byte GameID { get; private set; }
-        public int RetryLoginCount { get; set; }
+	public sealed class Client : Session
+	{
+		public Account Account { get; private set; }
+		public byte WorldID { get; private set; }
+		public byte GameID { get; private set; }
+		public int RetryLoginCount { get; set; }
 
-        public Client(Socket socket) : base(socket)
-        {
-            this.RetryLoginCount = 0;
-        }
+		public Client(Socket socket) : base(socket)
+		{
+			this.RetryLoginCount = 0;
+		}
 
-        protected override void Register()
-        {
-            CharServer.Clients.Add(this);
-        }
+		protected override void Register()
+		{
+			CharServer.Clients.Add(this);
+		}
 
-        protected override void Unregister()
-        {
-            if (this.Account != null)
-            {
-                this.Account.LoggedIn = 0;
+		protected override void Unregister()
+		{
+			if (this.Account != null)
+			{
+				this.Account.LoggedIn = 0;
 
-                this.Account.Save();
-            }
+				this.Account.Save();
+			}
 
-            // TODO: Save character.
-            CharServer.Clients.Remove(this);
-        }
+			// TODO: Save character.
+			CharServer.Clients.Remove(this);
+		}
 
-        public bool IsServerAlive
-        {
-            get { return CharServer.IsAlive; }
-        }
+		public bool IsServerAlive
+		{
+			get { return CharServer.IsAlive; }
+		}
 
-        protected override void Dispatch(InPacket inPacket)
-        {
-            try
-            {
-                Log.Hex("<<< Received (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode, this.Title);
+		protected override void Dispatch(InPacket inPacket)
+		{
+			try
+			{
+				Log.Hex("<<< Received (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode, this.Title);
 
-                if (inPacket.OperationCode == (ushort)ClientOpcode.SERVER)
-                {
-                    short Header = inPacket.ReadShort(); // Read header
-                    inPacket.ReadInt(); // Original length + CRC
-                    inPacket.ReadInt();
+				if (inPacket.OperationCode == (ushort)ClientOpcode.SERVER)
+				{
+					short Header = inPacket.ReadShort(); // Read header
+					inPacket.ReadInt(); // Original length + CRC
+					inPacket.ReadInt();
 
-                    Log.Debug("^^^--- <<< Received opcode (0x{0:X}): ", Header);
+					Log.Debug("^^^--- <<< Received opcode (0x{0:X}): ", Header);
 
-                    switch ((ClientOpcode)Header)
-                    {
-                        case ClientOpcode.MYCHAR_INFO_REQ:
-                            Log.Debug("Send >> CharHandler.MyChar_Info_Req");
-                            CharHandler.MyChar_Info_Req(inPacket, this);
-                            break;
-                        case ClientOpcode.CREATE_MYCHAR_REQ:
-                            Log.Debug("Send >> CharHandler.Create_MyChar_Req");
-                            CharHandler.Create_MyChar_Req(inPacket, this);
-                            break;
-                        case ClientOpcode.CHECK_SAMENAME_REQ:
-                            Log.Debug("Send >> CharHandler.Check_SameName_Req");
-                            CharHandler.Check_SameName_Req(inPacket, this);
-                            break;
-                        case ClientOpcode.DELETE_MYCHAR_REQ:
-                            Log.Debug("Send >> CharHandler.Delete_MyChar_Req");
-                            CharHandler.Delete_MyChar_Req(inPacket, this);
-                            break;
-                        case ClientOpcode.CREATE_PREVIEW_REQ:
-                            Log.Debug("Send >> CharHandler.Create_Preview_Req");
-                            CharHandler.Create_Preview_Req(inPacket, this);
-                            break;
-                        case ClientOpcode.CHAR_PAGE2_REQ:
-                            Log.Debug("Send >> CharHandler.Char_page2_preview ");
-                            CharHandler.Char_page2_preview(inPacket, this);
-                            break;
-                    }
-                }
-            }
-            catch (HackException e)
-            {
-                Log.Warn("Hack from {0}: \n{1}", this.Account.Username, e.ToString());
-            }
-            catch (Exception e)
-            {
-                Log.Error("Unhandled exception from {0}: \n{1}", this.Title, e.ToString());
-            }
-        }
+					switch ((ClientOpcode)Header)
+					{
+						case ClientOpcode.MYCHAR_INFO_REQ:
+							Log.Debug("Send >> CharHandler.MyChar_Info_Req");
+							CharHandler.MyChar_Info_Req(inPacket, this);
+							break;
+						case ClientOpcode.CREATE_MYCHAR_REQ:
+							Log.Debug("Send >> CharHandler.Create_MyChar_Req");
+							CharHandler.Create_MyChar_Req(inPacket, this);
+							break;
+						case ClientOpcode.CHECK_SAMENAME_REQ:
+							Log.Debug("Send >> CharHandler.Check_SameName_Req");
+							CharHandler.Check_SameName_Req(inPacket, this);
+							break;
+						case ClientOpcode.DELETE_MYCHAR_REQ:
+							Log.Debug("Send >> CharHandler.Delete_MyChar_Req");
+							CharHandler.Delete_MyChar_Req(inPacket, this);
+							break;
+						case ClientOpcode.CREATE_PREVIEW_REQ:
+							Log.Debug("Send >> CharHandler.Create_Preview_Req");
+							CharHandler.Create_Preview_Req(inPacket, this);
+							break;
+						case ClientOpcode.CHAR_PAGE2_REQ:
+							Log.Debug("Send >> CharHandler.Char_page2_preview ");
+							CharHandler.Char_page2_preview(inPacket, this);
+							break;
+					}
+				}
+			}
+			catch (HackException e)
+			{
+				Log.Warn("Hack from {0}: \n{1}", this.Account.Username, e.ToString());
+			}
+			catch (Exception e)
+			{
+				Log.Error("Unhandled exception from {0}: \n{1}", this.Title, e.ToString());
+			}
+		}
 
-        public void SetAccount(Account Account)
-        {
-            this.Account = Account;
-        }
-    }
+		public void SetAccount(Account Account)
+		{
+			this.Account = Account;
+		}
+	}
 }

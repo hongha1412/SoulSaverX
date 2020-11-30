@@ -1,10 +1,10 @@
 ﻿namespace Server
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            LoginServer.ServerLoop();
-        }
-    }
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			LoginServer.ServerLoop();
+		}
+	}
 }
