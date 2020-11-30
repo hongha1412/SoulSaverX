@@ -15,13 +15,13 @@ Login server:
 
 Char server:
 - [x] Create character
-- [] Delete character
-- [] Move character
-- [] Sub Password
-- [] New Job Equipments
+- [ ] Delete character
+- [ ] Move character
+- [ ] Sub Password
+- [ ] New Job Equipments
 - [x] World selection
 
 World server:
-- [] all todo!
+- [ ] all todo!
 
 
