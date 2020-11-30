@@ -1,6 +1,7 @@
 ## SoulsaverX
 * This Project For Education Purpose Only. *DO NOT USE FOR COMMERCIAL* *
-Discord: https://discord.gg/dX5xHjr
+
+- Discord: https://discord.gg/dX5xHjr
 
 ## Features
 
