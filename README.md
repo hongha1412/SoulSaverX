@@ -26,3 +26,8 @@ World server:
 - [ ] all todo!
 
 
+
+Refactor:
+- [ ] Move to PostgresQL
+- [ ] Corrected CRC Table Password Encryption
+- [ ] CRC Packet Header
