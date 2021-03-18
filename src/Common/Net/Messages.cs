@@ -211,6 +211,7 @@ namespace Server.Common.Net
     public enum LoginServerOpcode : byte
     {
         // LoginServer
+		PATCH_ACK = 0x11,
         LOGIN_ACK = 0x31,
         SERVERLIST_ACK = 0x33,
         WORLD_ACK = 0x3C,

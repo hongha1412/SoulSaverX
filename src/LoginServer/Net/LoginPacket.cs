@@ -1,4 +1,4 @@
-using Server.Common.Constants;
+ using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
@@ -10,15 +10,13 @@ namespace Server.Ghost
     {
         public static void GameVersionInfoAck(Client c)
         {
-            using (var plew = new OutPacket())
+            using (var plew = new OutPacket(LoginServerOpcode.PATCH_ACK))
             {
-                plew.WriteHexString("AA 55 2F 00 11"); // Packet Header
-                plew.WriteInt(2020041902); // Patch Version YYYYMMDD VV Eg 2020031501
+                plew.WriteInt(2021031802); // Patch Version YYYYMMDD VV Eg 2020031501
                 plew.WriteHexString("00 00 00 00");
-                plew.WriteString("http://patch.ghostonline.xyz/");
-                plew.WriteString("test/");
-                plew.WriteHexString("55 AA"); //END Packet
-                c.SendCustom(plew);
+                plew.WriteString("http://127.0.0.1/");
+                plew.WriteString("real/");
+                c.Send(plew);
             }
         }
 
