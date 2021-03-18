@@ -3,42 +3,42 @@ using System.Collections.ObjectModel;
 
 namespace Server.Interoperability
 {
-    public sealed class Worlds : KeyedCollection<byte, World>
-    {
-        public Worlds() : base()
-        {
-        }
+	public sealed class Worlds : KeyedCollection<byte, World>
+	{
+		public Worlds() : base()
+		{
+		}
 
-        public World Next(ServerUtilities.ServerType serverType)
-        {
-            foreach (World world in this)
-            {
-                if (serverType == ServerUtilities.ServerType.Char && world.IsFull)
-                {
-                    continue;
-                }
-                else if (serverType == ServerUtilities.ServerType.Game && world.IsFull)
-                {
-                    continue;
-                }
-                else if (serverType == ServerUtilities.ServerType.Message && world.IsFull)
-                {
-                    continue;
-                }
-                else if (serverType == ServerUtilities.ServerType.Shop && world.ShopServer != null)
-                {
-                    continue;
-                }
+		public World Next(ServerUtilities.ServerType serverType)
+		{
+			foreach (World world in this)
+			{
+				if (serverType == ServerUtilities.ServerType.Char && world.IsFull)
+				{
+					continue;
+				}
+				else if (serverType == ServerUtilities.ServerType.Game && world.IsFull)
+				{
+					continue;
+				}
+				else if (serverType == ServerUtilities.ServerType.Message && world.IsFull)
+				{
+					continue;
+				}
+				else if (serverType == ServerUtilities.ServerType.Shop && world.ShopServer != null)
+				{
+					continue;
+				}
 
-                return world;
-            }
+				return world;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        protected override byte GetKeyForItem(World item)
-        {
-            return item.ID;
-        }
-    }
+		protected override byte GetKeyForItem(World item)
+		{
+			return item.ID;
+		}
+	}
 }

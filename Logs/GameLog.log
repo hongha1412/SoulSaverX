@@ -6725,3 +6725,207 @@ System.NullReferenceException: Object reference not set to an instance of an obj
    at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
    at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
 21/03/18 9:27:10 PM Warning: Server stopped.
+21/03/18 9:27:25 PM Game Server v.10.10
+21/03/18 9:27:25 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:27:25 PM Warning: Server stopped.
+21/03/18 9:27:40 PM Game Server v.10.10
+21/03/18 9:27:40 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:27:40 PM Warning: Server stopped.
+21/03/18 9:27:55 PM Game Server v.10.10
+21/03/18 9:27:55 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:27:55 PM Warning: Server stopped.
+21/03/18 9:28:10 PM Game Server v.10.10
+21/03/18 9:28:10 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:28:10 PM Warning: Server stopped.
+21/03/18 9:28:25 PM Game Server v.10.10
+21/03/18 9:28:25 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:28:25 PM Warning: Server stopped.
+21/03/18 9:28:40 PM Game Server v.10.10
+21/03/18 9:28:40 PM System.ArgumentException: An item with the same key has already been added.
+   at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
+   at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+   at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 131
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:28:40 PM Warning: Server stopped.
+21/03/18 9:28:55 PM Game Server v.10.10
+21/03/18 9:28:55 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:28:55 PM Warning: Server stopped.
+21/03/18 9:29:10 PM Game Server v.10.10
+21/03/18 9:29:10 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:29:10 PM Warning: Server stopped.
+21/03/18 9:29:25 PM Game Server v.10.10
+21/03/18 9:29:25 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:29:25 PM Warning: Server stopped.
+21/03/18 9:29:41 PM Game Server v.10.10
+21/03/18 9:29:41 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:29:41 PM Warning: Server stopped.
+21/03/18 9:29:56 PM Game Server v.10.10
+21/03/18 9:29:56 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:29:56 PM Warning: Server stopped.
+21/03/18 9:30:11 PM Game Server v.10.10
+21/03/18 9:30:11 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:30:11 PM Warning: Server stopped.
+21/03/18 9:30:26 PM Game Server v.10.10
+21/03/18 9:30:26 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:30:26 PM Warning: Server stopped.
+21/03/18 9:30:41 PM Game Server v.10.10
+21/03/18 9:30:41 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:30:41 PM Warning: Server stopped.
+21/03/18 9:30:56 PM Game Server v.10.10
+21/03/18 9:30:56 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:30:56 PM Warning: Server stopped.
+21/03/18 9:31:11 PM Game Server v.10.10
+21/03/18 9:31:11 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:31:11 PM Warning: Server stopped.
+21/03/18 9:31:26 PM Game Server v.10.10
+21/03/18 9:31:26 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:31:26 PM Warning: Server stopped.
+21/03/18 9:31:41 PM Game Server v.10.10
+21/03/18 9:31:41 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:31:41 PM Warning: Server stopped.
+21/03/18 9:31:56 PM Game Server v.10.10
+21/03/18 9:31:56 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:31:56 PM Warning: Server stopped.
+21/03/18 9:32:11 PM Game Server v.10.10
+21/03/18 9:32:11 PM System.ArgumentException: An item with the same key has already been added.
+   at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
+   at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+   at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 131
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:32:11 PM Warning: Server stopped.
+21/03/18 9:32:26 PM Game Server v.10.10
+21/03/18 9:32:27 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:32:27 PM Warning: Server stopped.
+21/03/18 9:32:42 PM Game Server v.10.10
+21/03/18 9:32:42 PM System.ArgumentException: An item with the same key has already been added.
+   at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)
+   at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+   at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 131
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:32:42 PM Warning: Server stopped.
+21/03/18 9:32:57 PM Game Server v.10.10
+21/03/18 9:32:57 PM System.IO.IOException: The process cannot access the file 'C:\Users\work\Documents\SoulsaverX\table\item.itm' because it is being used by another process.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   at System.IO.File.Open(String path, FileMode mode, FileAccess access)
+   at Server.Ghost.Provider.ItemFactory.Initialize() in C:\Users\work\Documents\SoulsaverX\src\GameServer\Ghost\Provider\ItemFactory.cs:line 92
+   at Server.GameServer.Main(String[] args) in C:\Users\work\Documents\SoulsaverX\src\GameServer\GameServer.cs:line 117
+21/03/18 9:32:57 PM Warning: Server stopped.

@@ -2,11 +2,11 @@
 
 namespace Server.Ghost.Characters
 {
-    public class InventoryFullException : Exception
-    {
-        public override string Message
-        {
-            get { return "Inventory full"; }
-        }
-    }
+	public class InventoryFullException : Exception
+	{
+		public override string Message
+		{
+			get { return "Inventory full"; }
+		}
+	}
 }
