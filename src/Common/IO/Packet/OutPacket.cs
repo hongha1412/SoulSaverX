@@ -6,275 +6,275 @@ using System.Text;
 
 namespace Server.Common.IO.Packet
 {
-	public class OutPacket : PacketBase, IDisposable
-	{
-		private const int DefaultBufferSize = 32; // 32
+    public class OutPacket : PacketBase, IDisposable
+    {
+        private const int DefaultBufferSize = 32; // 32
 
-		private MemoryStream _stream;
-		private bool _disposed;
+        private MemoryStream _stream;
+        private bool _disposed;
 
-		public ushort OperationCode { get; private set; }
+        public ushort OperationCode { get; private set; }
 
-		public override int Position
-		{
-			get { return (int)_stream.Position; }
-			set
-			{
-				if (value <= 0)
-				{
-					throw new PacketException("Position must be greater than 1.");
-				}
+        public override int Position
+        {
+            get { return (int)_stream.Position; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new PacketException("Position must be greater than 1.");
+                }
 
-				_stream.Position = value;
-			}
-		}
+                _stream.Position = value;
+            }
+        }
 
-		public override byte[] Content
-		{
-			get { return this._stream.ToArray(); }
-		}
+        public override byte[] Content
+        {
+            get { return this._stream.ToArray(); }
+        }
 
-		public bool Disposed
-		{
-			get { return _disposed; }
-		}
+        public bool Disposed
+        {
+            get { return _disposed; }
+        }
 
-		public OutPacket(int size = OutPacket.DefaultBufferSize)
-		{
-			this._stream = new MemoryStream(size);
-			this._disposed = false;
-		}
+        public OutPacket(int size = OutPacket.DefaultBufferSize)
+        {
+            this._stream = new MemoryStream(size);
+            this._disposed = false;
+        }
 
-		public OutPacket(byte operationCode, int size = OutPacket.DefaultBufferSize)
-			: this(size)
-		{
-			this.OperationCode = operationCode;
+        public OutPacket(byte operationCode, int size = OutPacket.DefaultBufferSize)
+            : this(size)
+        {
+            this.OperationCode = operationCode;
 
-			this.WriteByte(operationCode);
-		}
+            this.WriteByte(operationCode);
+        }
 
-		public OutPacket(ushort operationCode, int size = OutPacket.DefaultBufferSize)
-			: this(size)
-		{
-			this.OperationCode = operationCode;
+        public OutPacket(ushort operationCode, int size = OutPacket.DefaultBufferSize)
+            : this(size)
+        {
+            this.OperationCode = operationCode;
 
-			this.WriteUShort(operationCode);
-		}
+            this.WriteUShort(operationCode);
+        }
 
-		public OutPacket(ServerOpcode operationCode) : this((ushort)operationCode)
-		{
-		}
+        public OutPacket(ServerOpcode operationCode) : this((ushort)operationCode)
+        {
+        }
 
-		public OutPacket(LoginServerOpcode operationCode) : this((byte)operationCode)
-		{
-		}
+        public OutPacket(LoginServerOpcode operationCode) : this((byte)operationCode)
+        {
+        }
 
-		public OutPacket(MessengerServerOpcode operationCode) : this((ushort)operationCode)
-		{
-		}
+        public OutPacket(MessengerServerOpcode operationCode) : this((ushort)operationCode)
+        {
+        }
 
-		public OutPacket(InteroperabilityMessage operationCode) : this((ushort)operationCode)
-		{
-		}
+        public OutPacket(InteroperabilityMessage operationCode) : this((ushort)operationCode)
+        {
+        }
 
-		private void Append(long value, int count)
-		{
-			for (int i = 0; i < count; i++)
-			{
-				this._stream.WriteByte((byte)value);
+        private void Append(long value, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                this._stream.WriteByte((byte)value);
 
-				value >>= 8;
-			}
-		}
+                value >>= 8;
+            }
+        }
 
-		public void WriteBool(bool value = false)
-		{
-			this.ThrowIfDisposed();
+        public void WriteBool(bool value = false)
+        {
+            this.ThrowIfDisposed();
 
-			this.WriteByte(value ? (byte)1 : (byte)0);
-		}
+            this.WriteByte(value ? (byte)1 : (byte)0);
+        }
 
-		public void WriteByte(byte value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteByte(byte value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this._stream.WriteByte(value);
-		}
+            this._stream.WriteByte(value);
+        }
 
-		public void WriteByte(int value)
-		{
-			this.ThrowIfDisposed();
+        public void WriteByte(int value)
+        {
+            this.ThrowIfDisposed();
 
-			this._stream.WriteByte((byte)value);
-		}
+            this._stream.WriteByte((byte)value);
+        }
 
-		public void WriteBytes(params byte[] value)
-		{
-			this.ThrowIfDisposed();
+        public void WriteBytes(params byte[] value)
+        {
+            this.ThrowIfDisposed();
 
-			this._stream.Write(value, 0, value.Length);
-		}
+            this._stream.Write(value, 0, value.Length);
+        }
 
-		public void WriteShort(short value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteShort(short value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append(value, 2);
-		}
+            this.Append(value, 2);
+        }
 
-		public void WriteShort(int value)
-		{
-			this.ThrowIfDisposed();
+        public void WriteShort(int value)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append((short)value, 2);
-		}
+            this.Append((short)value, 2);
+        }
 
-		public void WriteUShort(ushort value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteUShort(ushort value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append(value, 2);
-		}
+            this.Append(value, 2);
+        }
 
-		public void WriteInt(int value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteInt(int value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append(value, 4);
-		}
+            this.Append(value, 4);
+        }
 
-		public void WriteUInt(uint value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteUInt(uint value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append(value, 4);
-		}
+            this.Append(value, 4);
+        }
 
-		public void WriteLong(long value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteLong(long value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			this.Append(value, 8);
-		}
+            this.Append(value, 8);
+        }
 
-		public void WriteFloat(float value = 0)
-		{
-			this.ThrowIfDisposed();
+        public void WriteFloat(float value = 0)
+        {
+            this.ThrowIfDisposed();
 
-			byte[] x = BitConverter.GetBytes(value);
-			this._stream.Write(x, 0, x.Length);
-		}
+            byte[] x = BitConverter.GetBytes(value);
+            this._stream.Write(x, 0, x.Length);
+        }
 
-		public void WriteString(string value)
-		{
-			this.ThrowIfDisposed();
+        public void WriteString(string value)
+        {
+            this.ThrowIfDisposed();
 
-			this.WriteShort((short)Encoding.GetEncoding("Big5").GetBytes(value).Length);
+            this.WriteShort((short)Encoding.GetEncoding("Big5").GetBytes(value).Length);
 
-			foreach (byte c in Encoding.GetEncoding("Big5").GetBytes(value))
-			{
-				this.WriteByte((byte)c);
-			}
-		}
+            foreach (byte c in Encoding.GetEncoding("Big5").GetBytes(value))
+            {
+                this.WriteByte((byte)c);
+            }
+        }
 
-		public void WriteString(string value, int length)
-		{
-			byte[] ret = Encoding.GetEncoding("Big5").GetBytes(value);
-			for (int i = 0; i < length; i++)
-			{
-				if (i < ret.Length)
-				{
-					this.WriteByte((byte)ret[i]);
-				}
-				else
-				{
-					this.WriteByte();
-				}
-			}
-		}
+        public void WriteString(string value, int length)
+        {
+            byte[] ret = Encoding.GetEncoding("Big5").GetBytes(value);
+            for (int i = 0; i < length; i++)
+            {
+                if (i < ret.Length)
+                {
+                    this.WriteByte((byte)ret[i]);
+                }
+                else
+                {
+                    this.WriteByte();
+                }
+            }
+        }
 
-		public void WriteHexString(string value)
-		{
-			value = value.Replace(" ", "");
+        public void WriteHexString(string value)
+        {
+            value = value.Replace(" ", "");
 
-			if (value.Length % 2 != 0)
-			{
-				throw new InvalidOperationException("Hex string size is not even.");
-			}
+            if (value.Length % 2 != 0)
+            {
+                throw new InvalidOperationException("Hex string size is not even.");
+            }
 
-			for (int i = 0; i < value.Length; i += 2)
-			{
-				this.WriteByte(byte.Parse(value.Substring(i, 2), NumberStyles.HexNumber));
-			}
-		}
+            for (int i = 0; i < value.Length; i += 2)
+            {
+                this.WriteByte(byte.Parse(value.Substring(i, 2), NumberStyles.HexNumber));
+            }
+        }
 
-		public void Skip(int count)
-		{
-			for (int i = 0; i < count; i++)
-			{
-				this.WriteByte();
-			}
-		}
+        public void Skip(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                this.WriteByte();
+            }
+        }
 
-		public void WriteIntDateTime(DateTime item)
-		{
-			int value;
-			string time = item.Year.ToString();
+        public void WriteIntDateTime(DateTime item)
+        {
+            int value;
+            string time = item.Year.ToString();
 
-			time += item.Month < 10 ? ("0" + item.Month.ToString()) : item.Month.ToString();
-			time += item.Day < 10 ? ("0" + item.Day.ToString()) : item.Day.ToString();
-			time += item.Hour < 10 ? ("0" + item.Hour.ToString()) : item.Hour.ToString();
+            time += item.Month < 10 ? ("0" + item.Month.ToString()) : item.Month.ToString();
+            time += item.Day < 10 ? ("0" + item.Day.ToString()) : item.Day.ToString();
+            time += item.Hour < 10 ? ("0" + item.Hour.ToString()) : item.Hour.ToString();
 
-			value = int.Parse(time);
+            value = int.Parse(time);
 
-			this.WriteInt(value);
-		}
+            this.WriteInt(value);
+        }
 
-		public void WriteLongDateTime(DateTime item)
-		{
-			long value = (long)((item.Ticks * 1000) + 116444592000000000L);
+        public void WriteLongDateTime(DateTime item)
+        {
+            long value = (long)((item.Ticks * 1000) + 116444592000000000L);
 
-			this.WriteLong(value);
-		}
+            this.WriteLong(value);
+        }
 
-		public void WriteReversedLong(long value = 0)
-		{
-			this.WriteByte((byte)((value >> 32) & 0xFF));
-			this.WriteByte((byte)((value >> 40) & 0xFF));
-			this.WriteByte((byte)((value >> 48) & 0xFF));
-			this.WriteByte((byte)((value >> 56) & 0xFF));
-			this.WriteByte((byte)((value & 0xFF)));
-			this.WriteByte((byte)((value >> 8) & 0xFF));
-			this.WriteByte((byte)((value >> 16) & 0xFF));
-			this.WriteByte((byte)((value >> 24) & 0xFF));
-		}
+        public void WriteReversedLong(long value = 0)
+        {
+            this.WriteByte((byte)((value >> 32) & 0xFF));
+            this.WriteByte((byte)((value >> 40) & 0xFF));
+            this.WriteByte((byte)((value >> 48) & 0xFF));
+            this.WriteByte((byte)((value >> 56) & 0xFF));
+            this.WriteByte((byte)((value & 0xFF)));
+            this.WriteByte((byte)((value >> 8) & 0xFF));
+            this.WriteByte((byte)((value >> 16) & 0xFF));
+            this.WriteByte((byte)((value >> 24) & 0xFF));
+        }
 
-		public void SetUInt(int position, uint value)
-		{
-			int temp = this.Position;
-			this.Position = position;
-			this.WriteUInt(value);
-			this.Position = temp;
-		}
+        public void SetUInt(int position, uint value)
+        {
+            int temp = this.Position;
+            this.Position = position;
+            this.WriteUInt(value);
+            this.Position = temp;
+        }
 
-		private void ThrowIfDisposed()
-		{
-			if (this._disposed)
-			{
-				throw new ObjectDisposedException(GetType().FullName);
-			}
-		}
+        private void ThrowIfDisposed()
+        {
+            if (this._disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
 
-		public void Dispose()
-		{
-			this._disposed = true;
+        public void Dispose()
+        {
+            this._disposed = true;
 
-			if (this._stream != null)
-			{
-				this._stream.Dispose();
-			}
+            if (this._stream != null)
+            {
+                this._stream.Dispose();
+            }
 
-			this._stream = null;
-		}
-	}
+            this._stream = null;
+        }
+    }
 }

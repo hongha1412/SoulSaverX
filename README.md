@@ -1,14 +1,12 @@
 ## SoulsaverX
-* This Project For Education Purpose Only. *DO NOT USE FOR COMMERCIAL* *
 
-- Discord: https://discord.gg/dX5xHjr
+Discord: https://discord.gg/dX5xHjr
 
 ## Features
 
 Login server:
 - [x] Login user
 - [ ] Password Encryption
-- [ ] Login Error Status
 - [x] Display world
 - [x] Display world status (e.g. overpopulated)
 - [x] Channel selection
@@ -16,18 +14,10 @@ Login server:
 
 Char server:
 - [x] Create character
-- [ ] Delete character
-- [ ] Move character
-- [ ] Sub Password
-- [ ] New Job Equipments
+- [] Delete character
 - [x] World selection
 
 World server:
-- [ ] all todo!
+- [] all todo!
 
 
-
-Refactor:
-- [ ] Move to PostgresQL
-- [ ] Corrected CRC Table Password Encryption
-- [ ] CRC Packet Header

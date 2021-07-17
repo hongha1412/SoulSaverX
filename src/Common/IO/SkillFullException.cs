@@ -2,11 +2,11 @@
 
 namespace Server.Ghost.Characters
 {
-	public class SkillFullException : Exception
-	{
-		public override string Message
-		{
-			get { return "Skill full"; }
-		}
-	}
+    public class SkillFullException : Exception
+    {
+        public override string Message
+        {
+            get { return "Skill full"; }
+        }
+    }
 }

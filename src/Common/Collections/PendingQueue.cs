@@ -4,35 +4,35 @@ using System.Threading;
 
 namespace Server.Common.Collections
 {
-	public class PendingQueue<TValue> : Queue<TValue>, IDisposable
-	{
-		private ManualResetEvent QueueDone = new ManualResetEvent(false);
+    public class PendingQueue<TValue> : Queue<TValue>, IDisposable
+    {
+        private ManualResetEvent QueueDone = new ManualResetEvent(false);
 
-		public PendingQueue() : base()
-		{
-		}
+        public PendingQueue() : base()
+        {
+        }
 
-		public new void Enqueue(TValue item)
-		{
-			base.Enqueue(item);
+        public new void Enqueue(TValue item)
+        {
+            base.Enqueue(item);
 
-			this.QueueDone.Set();
-		}
+            this.QueueDone.Set();
+        }
 
-		public new TValue Dequeue()
-		{
-			this.QueueDone.WaitOne();
+        public new TValue Dequeue()
+        {
+            this.QueueDone.WaitOne();
 
-			TValue result = base.Dequeue();
+            TValue result = base.Dequeue();
 
-			this.QueueDone.Reset();
+            this.QueueDone.Reset();
 
-			return result;
-		}
+            return result;
+        }
 
-		public void Dispose()
-		{
-			this.QueueDone.Dispose();
-		}
-	}
+        public void Dispose()
+        {
+            this.QueueDone.Dispose();
+        }
+    }
 }

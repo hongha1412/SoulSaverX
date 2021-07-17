@@ -7,81 +7,81 @@ using System.Threading;
 
 namespace Server.Interoperability
 {
-	public static class InteroperabilityServer
-	{
-		private static bool isAlive;
-		private static ManualResetEvent AcceptDone;
+    public static class InteroperabilityServer
+    {
+        private static bool isAlive;
+        private static ManualResetEvent AcceptDone;
 
-		public static string SecurityCode { get; private set; }
-		public static List<InteroperabilityClient> Servers { get; private set; }
+        public static string SecurityCode { get; private set; }
+        public static List<InteroperabilityClient> Servers { get; private set; }
 
-		public static bool IsAlive
-		{
-			get { return isAlive; }
-			set
-			{
-				isAlive = value;
+        public static bool IsAlive
+        {
+            get { return isAlive; }
+            set
+            {
+                isAlive = value;
 
-				if (!value)
-				{
-					AcceptDone.Set();
-				}
-			}
-		}
+                if (!value)
+                {
+                    AcceptDone.Set();
+                }
+            }
+        }
 
-		public static void ServerLoop()
-		{
-			AcceptDone = new ManualResetEvent(false);
-			Servers = new List<InteroperabilityClient>();
+        public static void ServerLoop()
+        {
+            AcceptDone = new ManualResetEvent(false);
+            Servers = new List<InteroperabilityClient>();
 
-			try
-			{
-				TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Interconnection"));
-				Listener.Start();
-				Log.Inform("Initialized interoperability listener on {0}.", Listener.LocalEndpoint);
+            try
+            {
+                TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Interconnection"));
+                Listener.Start();
+                Log.Inform("Initialized interoperability listener on {0}.", Listener.LocalEndpoint);
 
-				IsAlive = true;
-				Log.Success("Interoperability started on thread {0}.", Thread.CurrentThread.ManagedThreadId);
+                IsAlive = true;
+                Log.Success("Interoperability started on thread {0}.", Thread.CurrentThread.ManagedThreadId);
 
-				while (IsAlive)
-				{
-					AcceptDone.Reset();
+                while (IsAlive)
+                {
+                    AcceptDone.Reset();
 
-					Listener.BeginAcceptSocket((iar) =>
-					{
-						AcceptDone.Set();
+                    Listener.BeginAcceptSocket((iar) =>
+                    {
+                        AcceptDone.Set();
 
-						new InteroperabilityClient(Listener.EndAcceptSocket(iar));
-					}, null);
+                        new InteroperabilityClient(Listener.EndAcceptSocket(iar));
+                    }, null);
 
-					AcceptDone.WaitOne();
-				}
+                    AcceptDone.WaitOne();
+                }
 
-				InteroperabilityClient[] remainingServers = Servers.ToArray();
+                InteroperabilityClient[] remainingServers = Servers.ToArray();
 
-				foreach (InteroperabilityClient server in remainingServers)
-				{
-					server.Stop();
-				}
+                foreach (InteroperabilityClient server in remainingServers)
+                {
+                    server.Stop();
+                }
 
-				Listener.Stop();
+                Listener.Stop();
 
-				Log.Warn("Interoperability stopped.");
-			}
-			catch (Exception e)
-			{
-				Log.Error(e);
-				Log.Inform("Could not start interoperability because of errors.");
-			}
-			finally
-			{
-				Console.Read();
-			}
-		}
+                Log.Warn("Interoperability stopped.");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                Log.Inform("Could not start interoperability because of errors.");
+            }
+            finally
+            {
+                Console.Read();
+            }
+        }
 
-		public static void Stop()
-		{
-			InteroperabilityServer.IsAlive = false;
-		}
-	}
+        public static void Stop()
+        {
+            InteroperabilityServer.IsAlive = false;
+        }
+    }
 }
