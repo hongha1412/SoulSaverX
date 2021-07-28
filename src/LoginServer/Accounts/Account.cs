@@ -17,7 +17,7 @@ namespace Server.Accounts
 		public int LoggedIn { get; set; }
 		public int Banned { get; set; }
 		public int Master { get; set; }
-		public int TwoFA { get; set; }
+		public int isTwoFactor { get; set; }
 
 		public string TwoFactorPassword { get; set; }
 		public int GamePoints { get; set; }
@@ -54,7 +54,7 @@ namespace Server.Accounts
 			this.LoggedIn = datum.isLoggedIn;
 			this.Banned = datum.isBanned;
 			this.Master = datum.isMaster;
-			this.TwoFA = datum.isTwoFactor;
+			this.isTwoFactor = datum.isTwoFactor;
 			this.TwoFactorPassword = datum.TwoFactorPassword;
 			this.GamePoints = datum.gamePoints;
 			this.GiftPoints = datum.giftPoints;
@@ -72,7 +72,7 @@ namespace Server.Accounts
 			datum.isLoggedIn = this.LoggedIn;
 			datum.isBanned = this.Banned;
 			datum.isMaster = this.Master;
-			datum.isTwoFactor = this.TwoFA;
+			datum.isTwoFactor = this.isTwoFactor;
 			datum.TwoFactorPassword = this.TwoFactorPassword;
 			datum.gamePoints = this.GamePoints;
 			datum.giftPoints = this.GiftPoints;

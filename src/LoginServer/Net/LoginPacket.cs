@@ -35,7 +35,7 @@ namespace Server.Ghost
 #endif
 				plew.WriteByte(0);
 				plew.WriteByte(c.Account.Master);
-				plew.WriteByte(c.Account.TwoFA);
+				plew.WriteByte(c.Account.isTwoFactor);
 				plew.WriteBytes(new byte[]
 					{0x00,0x00,0x00,0x00,0x00,0x00,0x00, 0x00, 0x00, 0x00});
 				c.Send(plew);

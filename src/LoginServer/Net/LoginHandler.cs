@@ -142,35 +142,9 @@ namespace Server.Ghost
 
 		public static void ServerList_Req(InPacket lea, Client c)
 		{
-			switch (c.Account.Banned) // Check If player use WPE (Winsock Packet Edior) to Skip Error Msg
+			if (c.Account.Banned > 1)
 			{
-				case 1:
-					c.Dispose();
-					break;
-				case 7:
-					c.Dispose();
-					break;
-				case 8:
-					c.Dispose();
-					break;
-				case 9:
-					c.Dispose();
-					break;
-				case 10:
-					c.Dispose();
-					break;
-				case 11:
-					c.Dispose();
-					break;
-				case 12:
-					c.Dispose();
-					break;
-				case 13:
-					c.Dispose();
-					break;
-				case 29:
-					c.Dispose();
-					break;
+				c.Dispose();
 			}
 			LoginPacket.ServerList_Ack(c);
 		}
@@ -192,17 +166,28 @@ namespace Server.Ghost
 		public static void TWOFACTOR_REQ(InPacket lea, Client c)
 		{
 
-			int isSubPassword = c.Account.TwoFA;
+			int isSubPassword = c.Account.isTwoFactor;
+			string Password = lea.ReadString();
+			string ConfrimPassword = lea.ReadString();
 			if (isSubPassword == 0)
 			{
-				string Password = lea.ReadString();
-				string ConfrimPassword = lea.ReadString();
 				Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
-				LoginPacket.SubPassError(c);
+				if (Password != ConfrimPassword)
+				{
+					LoginPacket.SubPassError(c);
+				}
+				else
+				{
+					Account account = new Account(c);
+					account.isTwoFactor = 1;
+					account.TwoFactorPassword = Password;
+					account.Save();
+					LoginPacket.SubPassLoginOK(c);
+				}
+
 			}
 			if (isSubPassword == 1)
 			{
-				string Password = lea.ReadString();
 				string AccountSubPassword = c.Account.TwoFactorPassword;
 				if (AccountSubPassword == Password)
 				{
