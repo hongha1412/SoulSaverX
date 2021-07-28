@@ -48,56 +48,48 @@ namespace Server.Ghost
 					Log.Inform("Retry Count: {0}", c.RetryLoginCount);
 					c.RetryLoginCount += 1;
 				}
-				else if (c.Account.Banned == 1)
+				else if (c.Account.Banned > 1)
 				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED); //Account Lock
+					int LoginErrorCode = c.Account.Banned;
+					switch (LoginErrorCode)
+					{
+						case 1:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED); //Account Lock
+							break;
+						case 7:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK); // Hack Ban
+							break;
+						case 8:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK); // Billing Lock
+							break;
+						case 10:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK); //SPAM  LOCK
+							break;
+						case 11:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
+							break;
+						 case 12:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
+							break;
+						case 13:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+							break;
+						case 16:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
+							break;
+						case 17:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
+							break;
+						case 29:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
+							break;
+						case 31:
+							LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
+							break;
+						default:
+							return;
+					}
 				}
-
-
-
-				else if (c.Account.Banned == 7)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK); // Hack Ban
-				}
-				else if (c.Account.Banned == 8)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK); // Billing Lock
-				}
-				else if (c.Account.Banned == 10)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK); //SPAM  LOCK
-				}
-				else if (c.Account.Banned == 11)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
-				}
-				else if (c.Account.Banned == 12)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-				}
-				else if (c.Account.Banned == 13)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-				}
-				else if (c.Account.Banned == 16)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
-				}
-				else if (c.Account.Banned == 17)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
-				}
-				else if (c.Account.Banned == 29)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
-				}
-				else if (c.Account.Banned == 31)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
-				}
-
-
-				//LOGIN_FAILED
 				else
 				{
 					int isMaster = c.Account.Master;

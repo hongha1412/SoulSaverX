@@ -39,8 +39,6 @@ namespace Server.Ghost
 				plew.WriteByte(c.Account.TwoFA);
 				plew.WriteBytes(new byte[]
 					{0x00,0x00,0x00,0x00,0x00,0x00,0x00, 0x00, 0x00, 0x00});
-				//plew.WriteBool(netCafe);
-				//plew.WriteShort(encryptKey);
 				c.Send(plew);
 			}
 		}
