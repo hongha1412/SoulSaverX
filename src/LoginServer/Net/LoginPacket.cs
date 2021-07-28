@@ -10,11 +10,10 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.PATCH_ACK))
 			{
-				plew.WriteInt(2021031702); // Patch Version YYYYMMDD VV Eg 2020031501
+				plew.WriteInt(2021070701); // Patch Version from patch.dat
 				plew.WriteHexString("00 00 00 00");
-				plew.WriteString("https://file-cdn.ghostonline.xyz/");
+				plew.WriteString("http://127.0.0.1:8080/ghostsoul/");
 				plew.WriteString("test/");
-				//      plew.WriteHexString("55 AA"); //END Packet
 				c.Send(plew);
 			}
 		}
@@ -168,7 +167,14 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteHexString("00 00 00 00 00 00 00 00");
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
 				c.Send(plew);
 			}
 		}
@@ -177,7 +183,14 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteHexString("01 00 00 00 01 00 00 00");
+				plew.WriteByte(1);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(1);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
 				c.Send(plew);
 			}
 		}
@@ -185,7 +198,14 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteHexString("01 00 00 00 00 00 00 00");
+				plew.WriteByte(1);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
 				c.Send(plew);
 			}
 		}
@@ -193,7 +213,14 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteHexString("00 00 00 00 01 00 00 00");
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(1);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
 				c.Send(plew);
 			}
 		}
@@ -201,18 +228,11 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.WORLD_ACK))
 			{
-				try
-				{
-					plew.WriteString("127.0.0.1"); // 219.83.162.27
-					plew.WriteString("15010");
-					plew.WriteString("127.0.0.1"); // 219.83.162.27
-					plew.WriteString("15111");
-					//plew.WriteBytes(new byte[] { 0x00, 0x00, 0x00, 0xBB, 0x19, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-				}
-				catch
-				{
-				}
 
+				plew.WriteString("127.0.0.1"); // 219.83.162.27
+				plew.WriteString("15010");
+				plew.WriteString("127.0.0.1"); // 219.83.162.27
+				plew.WriteString("15111");
 				c.Send(plew);
 			}
 		}
