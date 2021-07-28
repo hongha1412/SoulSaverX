@@ -117,7 +117,7 @@ namespace Server.Ghost
 
 			// Hack Check
 			int DefaultCharacterLevel = 1;
-			if (job == 6 || job == 7 || job == 8 || job == 9)
+			if (job >= 6 && job < 12)
 			{
 				DefaultCharacterLevel = 60;
 			}
@@ -128,126 +128,14 @@ namespace Server.Ghost
 				account_id = 0;
 				gc.Dispose();
 			}
-			if (job == 3 && outfit != 8130011 && outfit != 8130012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 3 && weapon != 8060012 && weapon != 8050012)
 
-			{
-				weapon = 8060012;
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 1 && outfit != 8110011 && outfit != 8110012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 2 && outfit != 8120011 && outfit != 8120012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 4 && outfit != 8140011 && outfit != 8140012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 4 && outfit != 8140011 && outfit != 8140012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 5 && outfit != 8160011 && outfit != 8160012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 6 && outfit != 18110601 && outfit != 18110602)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 7 && outfit != 18120601 && outfit != 18120602)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 8 && outfit != 18130601 && outfit != 18130602)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 10 && outfit != 18160601 && outfit != 18160602)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 11 && outfit != 8150011 && outfit != 8150012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 1 && weapon != 8010012 && weapon != 8020012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 2 && weapon != 8030012 && weapon != 8040012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 4 && weapon != 8070012 && weapon != 8080012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 5 && weapon != 7930012 && weapon != 7940012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 6 && weapon != 18020601 && weapon != 18040601)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 7 && weapon != 18030601 && weapon != 18080601)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 8 && weapon != 18050601 && weapon != 18060601)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-
-			if (job == 10 && weapon != 17940601 && weapon != 18010601)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
-			if (job == 11 && weapon != 7910012)
-			{
-				account_id = 0;
-				gc.Dispose();
-			}
 
 			Character chr = new Character();
 
 			chr.AccountID = account_id;
 			chr.WorldID = gc.WorldID;
 			chr.Name = name;
-			chr.Title = "";
+			chr.Title = "Kanghoin";
 			chr.Level = (byte)DefaultCharacterLevel;
 			chr.Class = 0;
 			chr.ClassLevel = 0xFF;
