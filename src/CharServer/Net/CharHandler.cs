@@ -14,10 +14,11 @@ namespace Server.Ghost
 		public static void MyChar_Info_Req(InPacket lea, Client gc)
 		{
 			string[] data = lea.ReadString(lea.Available).Split(new[] { (char)0x20 }, StringSplitOptions.None);
+			
 			//int encryptKey = int.Parse(data[1]);
 			string username = data[2];
 			string password = data[4];
-
+		
 			gc.SetAccount(new Account(gc));
 
 
@@ -31,42 +32,20 @@ namespace Server.Ghost
 				string AccountPassword = gc.Account.Password;
 
 
-				if (!password.Equals(AccountPassword))
+#if DEBUG
+				Log.Debug("[LOG] Login Check has been bypass from DEBUG MODE");
+#else
+	if (!password.Equals(AccountPassword))
 				{
 					gc.Dispose();
 				}
 
-
-				switch (AccountStatus) // Check If player use WPE (Winsock Packet Edior) to Skip Error Msg
+				if(AccountStatus > 1)
 				{
-					case 1:
-						gc.Dispose();
-						break;
-					case 7:
-						gc.Dispose();
-						break;
-					case 8:
-						gc.Dispose();
-						break;
-					case 9:
-						gc.Dispose();
-						break;
-					case 10:
-						gc.Dispose();
-						break;
-					case 11:
-						gc.Dispose();
-						break;
-					case 12:
-						gc.Dispose();
-						break;
-					case 13:
-						gc.Dispose();
-						break;
-					case 29:
-						gc.Dispose();
-						break;
+					gc.Dispose();
 				}
+#endif
+
 
 
 				gc.Account.Characters = new List<Character>();

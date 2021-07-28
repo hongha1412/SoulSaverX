@@ -59,8 +59,8 @@ namespace Server.Ghost
 		{
 			OK = 0,
 			OTHER = 1,
-			CONNECTED_WAITE = 4,
-			YEARS_OLD = 28
+			CONNECTED_WAITE = 4, //This ID is already in use to connect to the game. Please try again after a while.
+			YEARS_OLD = 28 //This channel is age-limited. Please use a different channel.
 		}
 	}
 }
