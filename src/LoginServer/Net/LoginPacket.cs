@@ -1,92 +1,54 @@
- using Server.Common.Constants;
-using Server.Common.IO;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
-using Server.Interoperability;
 
 namespace Server.Ghost
 {
-    public static class LoginPacket
-    {
-        public static void GameVersionInfoAck(Client c)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.PATCH_ACK))
-            {
-                plew.WriteInt(2021031702); // Patch Version YYYYMMDD VV Eg 2020031501
-                plew.WriteHexString("00 00 00 00");
-                plew.WriteString("https://file-cdn.ghostonline.xyz/");
-                plew.WriteString("test/");
-          //      plew.WriteHexString("55 AA"); //END Packet
-                c.Send(plew);
-            }
-        }
+	public static class LoginPacket
+	{
+		public static void GameVersionInfoAck(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.PATCH_ACK))
+			{
+				plew.WriteInt(2021031702); // Patch Version YYYYMMDD VV Eg 2020031501
+				plew.WriteHexString("00 00 00 00");
+				plew.WriteString("https://file-cdn.ghostonline.xyz/");
+				plew.WriteString("test/");
+				//      plew.WriteHexString("55 AA"); //END Packet
+				c.Send(plew);
+			}
+		}
 
 
 
-        /* NetCafe
+		/* NetCafe
          * 會員於特約網咖連線
          */
-        public static void Login_Ack(Client c, ServerState.LoginState state, short encryptKey = 0, bool netCafe = false)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.LOGIN_ACK))
-            {
+		public static void Login_Ack(Client c, ServerState.LoginState state, short encryptKey = 0, bool netCafe = false)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.LOGIN_ACK))
+			{
 
-                int LoginCase;
-                if(c.Account.Master == 1 && c.Account.TwoFA == 1)
-                {
-                    LoginCase = 1;
-                }else if(c.Account.Master == 0 && c.Account.TwoFA == 1)
-                {
-                    LoginCase = 2;
-                }
-                else if (c.Account.Master == 1 && c.Account.TwoFA == 0)
-                {
-                    LoginCase = 3;
-                }
-                else if (c.Account.Master == 0 && c.Account.TwoFA == 0)
-                {
-                    LoginCase = 4;
-                }else
-                {
+#if DEBUG
+				plew.WriteByte(0); //bypass password check in debug mode
+#else
+					plew.WriteByte((byte)state);
+#endif
+				plew.WriteByte(0);
+				plew.WriteByte(c.Account.Master);
+				plew.WriteByte(c.Account.TwoFA);
+				plew.WriteBytes(new byte[]
+					{0x00,0x00,0x00,0x00,0x00,0x00,0x00, 0x00, 0x00, 0x00});
+				//plew.WriteBool(netCafe);
+				//plew.WriteShort(encryptKey);
+				c.Send(plew);
+			}
+		}
 
-                    LoginCase = 5;
-                }
+		public static void ServerList_Ack(Client c)
+		{
 
-                plew.WriteByte((byte)state);
-                plew.WriteHexString("00");
-                // plew.WriteInt(isGM); // Send GM Status
-                switch (LoginCase)
-                {
-                    case 1:
-                        plew.WriteHexString("01 01");
-                        break;
-                    case 2:
-                        plew.WriteHexString("00 01");
-                        break;
-                    case 3:
-                        plew.WriteHexString("01 00");
-                        break;
-                    case 4:
-                        plew.WriteHexString("00 00");
-                        break;
-                    case 5:
-                        plew.WriteHexString("00 00");
-                        break;
-                    default:
-                        break;
-                }
-                plew.WriteBytes(new byte[]
-                    {0x00,0x00,0x00,0x00,0x00,0x00,0x00, 0x00, 0x00, 0x00});
-                //plew.WriteBool(netCafe);
-                //plew.WriteShort(encryptKey);
-                c.Send(plew);
-            }
-        }
-
-        public static void ServerList_Ack(Client c)
-        {
-
-            using (var plew = new OutPacket(LoginServerOpcode.SERVERLIST_ACK))
+			using (var plew = new OutPacket(LoginServerOpcode.SERVERLIST_ACK))
 			{
 
 
@@ -188,73 +150,73 @@ namespace Server.Ghost
 				//}
 
 				c.Send(plew);
-			    }
+			}
 		}
 
 		public static void Game_Ack(Client c, ServerState.ChannelState state)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.GAME_ACK))
-            {
-                plew.WriteByte((byte)state);
-                plew.WriteString(ServerConstants.SERVER_IP);
-                plew.WriteInt(15101 + c.World.ID);
-                plew.WriteInt(ServerConstants.UDP_PORT);
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.GAME_ACK))
+			{
+				plew.WriteByte((byte)state);
+				plew.WriteString(ServerConstants.SERVER_IP);
+				plew.WriteInt(15101 + c.World.ID);
+				plew.WriteInt(ServerConstants.UDP_PORT);
 
-                c.Send(plew);
-            }
-        }
+				c.Send(plew);
+			}
+		}
 
-        public static void SubPassError(Client c)
-        {
-            using(var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
-            {
-                plew.WriteHexString("00 00 00 00 00 00 00 00");
-                c.Send(plew);
-            }
-        }
+		public static void SubPassError(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
+			{
+				plew.WriteHexString("00 00 00 00 00 00 00 00");
+				c.Send(plew);
+			}
+		}
 
-        public static void SubPassLoginOK(Client c)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
-            {
-                plew.WriteHexString("01 00 00 00 01 00 00 00");
-                c.Send(plew);
-            }
-        }
-        public static void SubPassLoginWrong(Client c)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
-            {
-                plew.WriteHexString("01 00 00 00 00 00 00 00");
-                c.Send(plew);
-            }
-        }
-        public static void SubPassAddOK(Client c)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
-            {
-                plew.WriteHexString("00 00 00 00 01 00 00 00");
-                c.Send(plew);
-            }
-        }
-        public static void World_Ack(Client c)
-        {
-            using (var plew = new OutPacket(LoginServerOpcode.WORLD_ACK))
-            {
-                try
-                {
-                    plew.WriteString("127.0.0.1"); // 219.83.162.27
-                    plew.WriteString("15010");
-                    plew.WriteString("127.0.0.1"); // 219.83.162.27
-                    plew.WriteString("15111");
-                    //plew.WriteBytes(new byte[] { 0x00, 0x00, 0x00, 0xBB, 0x19, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                }
-                catch
-                {
-                }
+		public static void SubPassLoginOK(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
+			{
+				plew.WriteHexString("01 00 00 00 01 00 00 00");
+				c.Send(plew);
+			}
+		}
+		public static void SubPassLoginWrong(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
+			{
+				plew.WriteHexString("01 00 00 00 00 00 00 00");
+				c.Send(plew);
+			}
+		}
+		public static void SubPassAddOK(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
+			{
+				plew.WriteHexString("00 00 00 00 01 00 00 00");
+				c.Send(plew);
+			}
+		}
+		public static void World_Ack(Client c)
+		{
+			using (var plew = new OutPacket(LoginServerOpcode.WORLD_ACK))
+			{
+				try
+				{
+					plew.WriteString("127.0.0.1"); // 219.83.162.27
+					plew.WriteString("15010");
+					plew.WriteString("127.0.0.1"); // 219.83.162.27
+					plew.WriteString("15111");
+					//plew.WriteBytes(new byte[] { 0x00, 0x00, 0x00, 0xBB, 0x19, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+				}
+				catch
+				{
+				}
 
-                c.Send(plew);
-            }
-        }
-    }
+				c.Send(plew);
+			}
+		}
+	}
 }
