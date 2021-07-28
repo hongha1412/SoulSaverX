@@ -167,14 +167,10 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
 				c.Send(plew);
 			}
 		}
@@ -183,14 +179,10 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteByte(1);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(1);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
+				plew.WriteShort(256);
+				plew.WriteShort(0);
+				plew.WriteShort(256);
+				plew.WriteShort(0);
 				c.Send(plew);
 			}
 		}
@@ -198,14 +190,10 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteByte(1);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
+				plew.WriteShort(256);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
 				c.Send(plew);
 			}
 		}
@@ -213,14 +201,12 @@ namespace Server.Ghost
 		{
 			using (var plew = new OutPacket(LoginServerOpcode.SubPasswordACK))
 			{
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(1);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(0);
+				plew.WriteShort(256);
+				plew.WriteShort(0);
 				c.Send(plew);
 			}
 		}
