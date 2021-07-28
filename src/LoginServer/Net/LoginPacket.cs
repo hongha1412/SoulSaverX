@@ -29,7 +29,7 @@ namespace Server.Ghost
 			{
 
 #if DEBUG
-				plew.WriteByte(0); //bypass password check in debug mode
+				plew.WriteByte((byte)state); //bypass password check in debug mode
 #else
 					plew.WriteByte((byte)state);
 #endif

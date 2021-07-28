@@ -19,92 +19,94 @@ namespace Server.Ghost
 				LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
 				return;
 			}
-
 			c.SetAccount(new Account(c));
 
 			try
 			{
-				c.Account.Load(username);
-
-				if (c.RetryLoginCount >= 3)
+				if (LoginServer.IsMaintenance)
 				{
-					c.Dispose();
-				}
+					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_SERVER_DEAD);
+					
+				} else {
+					c.Account.Load(username);
 
 
-
-
-
-				if (password.IsAlphaNumeric() == false)
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-					Log.Error("Login Fail!");
-					c.RetryLoginCount += 1;
-				}
-				if (!password.Equals(c.Account.Password))
-				{
-					LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-					Log.Error("Login Fail!");
-					Log.Inform("Retry Count: {0}", c.RetryLoginCount);
-					c.RetryLoginCount += 1;
-				}
-				else if (c.Account.Banned > 1)
-				{
-					int LoginErrorCode = c.Account.Banned;
-					switch (LoginErrorCode)
+					if (c.RetryLoginCount >= 3)
 					{
-						case 1:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED); //Account Lock
-							break;
-						case 7:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK); // Hack Ban
-							break;
-						case 8:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK); // Billing Lock
-							break;
-						case 10:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK); //SPAM  LOCK
-							break;
-						case 11:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
-							break;
-						case 12:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-							break;
-						case 13:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-							break;
-						case 16:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
-							break;
-						case 17:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
-							break;
-						case 29:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
-							break;
-						case 31:
-							LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
-							break;
-						default:
-							return;
+						c.Dispose();
 					}
-				}
-				else
-				{
-					int isMaster = c.Account.Master;
-					LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
+					if (password.IsAlphaNumeric() == false)
+					{
+						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
+						Log.Error("Login Fail!");
+						c.RetryLoginCount += 1;
+					}
+					if (!password.Equals(c.Account.Password))
+					{
+						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
+						Log.Error("Login Fail!");
+						Log.Inform("Retry Count: {0}", c.RetryLoginCount);
+						c.RetryLoginCount += 1;
+					}
+					else if (c.Account.Banned > 1)
+					{
+						int LoginErrorCode = c.Account.Banned;
+						switch (LoginErrorCode)
+						{
+							case 1:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_FAILED); //Account Lock
+								break;
+							case 7:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK); // Hack Ban
+								break;
+							case 8:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.BILLING_LOCK); // Billing Lock
+								break;
+							case 10:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.SPAM_LOCK); //SPAM  LOCK
+								break;
+							case 11:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
+								break;
+							case 12:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
+								break;
+							case 13:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+								break;
+							case 16:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.UNKNOWN_LOGIN_ERROR);
+								break;
+							case 17:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_BUGPLAY2);
+								break;
+							case 29:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.HACK_LOCK);
+								break;
+							case 31:
+								LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
+								break;
+							default:
+								return;
+						}
+					}
+					else
+					{
+						int isMaster = c.Account.Master;
+						LoginPacket.Login_Ack(c, ServerState.LoginState.OK);
 
-					c.Account.LoggedIn = 1;
+						c.Account.LoggedIn = 1;
 
-					Log.Success("Login Success! Username: {0}", username);
+						Log.Success("Login Success! Username: {0}", username);
+					}
+					Log.Debug("Password Key : {0}", passwordKey);
+					Log.Debug("Password = {0}", password);
 				}
-				Log.Debug("Password Key : {0}", passwordKey);
-				Log.Debug("Password = {0}", password);
+			
 			}
 			catch (NoAccountException)
 			{
-				switch (2)
+				switch (1)
 				{
 					case 1:
 						LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
@@ -165,13 +167,13 @@ namespace Server.Ghost
 		}
 		public static void TWOFACTOR_REQ(InPacket lea, Client c)
 		{
-
-			int isSubPassword = c.Account.isTwoFactor;
 			string Password = lea.ReadString();
 			string ConfrimPassword = lea.ReadString();
+			Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
+			int isSubPassword = c.Account.isTwoFactor;
 			if (isSubPassword == 0)
 			{
-				Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
+			
 				if (Password != ConfrimPassword)
 				{
 					LoginPacket.SubPassError(c);
