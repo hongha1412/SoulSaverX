@@ -40,7 +40,7 @@ namespace Server.Packet
 				//plew.WriteHexString("B8 16 22 C3");
 				//plew.WriteLong(c.SessionID);
 
-				plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 54 99 08 05 01 14 00 28 00 41 01 00 20 00 00 2E 20 03 17 F7 52 0A 0C 5F 3B 00 00 3D 33 34 01 B8 16 10 CE 02 F8 63 80 C6 58 F2 85 ");
+				plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 54 99 08 05 01 14 00 28 00 41 01 00 20 00 00 2E 20 03 17 C1 E8 0B 0C 5F 3B 00 00 3D 33 34 01 B8 16 10 CE 02 F8 63 80 C6 58 F2 85");
 
 
 				c.SendCustom(plew);
