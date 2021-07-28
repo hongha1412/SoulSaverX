@@ -71,6 +71,10 @@ namespace Server.Common.Net
 		CHAT_REQ = 0x17,
 		GAMELOG_REQ = 0x18,
 		LOAD_DATA_REQ = 0x720,
+
+
+
+
 		// 2019-08-31 15:53 [GMT+7]
 		GAME_ISACTIVE = 0x15,
 		CHARACTER_INFO_REQ = 0x76,
@@ -234,11 +238,14 @@ namespace Server.Common.Net
 		CHAR_PAGE2_ACK = 0x407,
 		// GameServer
 		NOTICE = 0x12,
+		SERVER_TIME = 0x160,
 
 
 
 		// 0x13
 		GAMELOG = 0x14, // 14
+
+
 
 		USER_INFO = 0x16,
 		CHAT = 0x17,

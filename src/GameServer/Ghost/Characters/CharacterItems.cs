@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.Data;
 using Server.Ghost.Provider;
 using System;

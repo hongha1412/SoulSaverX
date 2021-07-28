@@ -2,6 +2,7 @@ using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost.Characters;
 using Server.Net;
+using System;
 
 namespace Server.Packet
 {
@@ -65,27 +66,21 @@ namespace Server.Packet
 				c.SendCustom(plew);
 			}
 		}
+
 		public static void Game_ServerTime(Client c)
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.SERVER_TIME))
 			{
-				int CurrentServerYear = System.DateTime.Now.Year;
-				int CurrentServerMonth = System.DateTime.Now.Month;
-				int CurrentServerDay = System.DateTime.Now.Day;
-				int CurrentServerHour = System.DateTime.Now.Hour;
-				int CurrentServerMinute = System.DateTime.Now.Minute;
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
+				plew.WriteInt(DateTime.Now.Year);
+				plew.WriteInt(DateTime.Now.Month);
+				plew.WriteInt(0);
+				plew.WriteInt(DateTime.Now.Day);
+				plew.WriteInt(DateTime.Now.Hour);
+				plew.WriteInt(DateTime.Now.Minute);
 
-				plew.WriteHexString("05 01 60 01");
-				plew.WriteHexString("24 00 89 02");
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteInt(CurrentServerYear);
-				plew.WriteInt(CurrentServerMonth);
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteInt(CurrentServerDay);
-				plew.WriteInt(CurrentServerHour);
-				plew.WriteInt(CurrentServerMinute);
-
-				c.SendCustom(plew);
+				c.Send(plew);
 			}
 		}
 
@@ -199,7 +194,7 @@ namespace Server.Packet
 		{
 			using (OutPacket plew = new OutPacket())
 			{
-				//	plew.WriteHexString("9C 01 81 00 D2 00 EF 02 78 1F EC EA 08 05 01 1E 00 9C 01 BF 02 00 20 00 00 2B 20 03 05 79 72 74 74 30 30 20 08 E0 02 00 05 BD AD BA FE C8 CB E0 02 10 20 00 00 01 20 01 07 D2 00 95 06 01 01 0B FF 60 00 20 13 06 00 00 EC EA D1 18 8A 20 07 E0 01 00 06 DD A1 8B 00 FB 5B 7C 60 10 02 7C B2 78 60 07 E0 07 00 02 45 54 89 E0 07 12 80 00 02 21 EC EA 80 08 E0 01 00 40 6B E0 01 0D E0 02 00 02 CC 41 08 C0 0D 05 98 CC 41 00 00 01 A0 00 00 CC 40 15 09 B8 16 10 CE A9 FE 24 B3 1F 40 40 27 E0 07 43 00 FF E0 0D 51 E0 07 00 E0 04 37 00 01 C0 9B 03 79 34 08 01 20 29 E0 07 53 80 00 E0 01 BF 02 01 01 82 A0 9F 00 2E A0 07 60 00 00 F6 E0 03 37 40 0B 40 4B 02 00 53 82 20 6B 01 FF FF 98 13 81 00 46 00 5F 14 00 00 00 00 08 05 01 4F 00 98 13 EC 14 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 F4 00 01 00 00 08 0A 81 00 33 00 BC 0A 00 00 00 00 08 05 01 42 00 08 0A 4F 0B 00 E0 FF 00 E0 22 00 00 FF E0 5A 00 E0 22 8E E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FA 00 01 00 00 ");
+				plew.WriteHexString("9C 01 81 00 D2 00 EF 02 78 1F EC EA 08 05 01 1E 00 9C 01 BF 02 00 20 00 00 2B 20 03 05 79 72 74 74 30 30 20 08 E0 02 00 05 BD AD BA FE C8 CB E0 02 10 20 00 00 01 20 01 07 D2 00 95 06 01 01 0B FF 60 00 20 13 06 00 00 EC EA D1 18 8A 20 07 E0 01 00 06 DD A1 8B 00 FB 5B 7C 60 10 02 7C B2 78 60 07 E0 07 00 02 45 54 89 E0 07 12 80 00 02 21 EC EA 80 08 E0 01 00 40 6B E0 01 0D E0 02 00 02 CC 41 08 C0 0D 05 98 CC 41 00 00 01 A0 00 00 CC 40 15 09 B8 16 10 CE A9 FE 24 B3 1F 40 40 27 E0 07 43 00 FF E0 0D 51 E0 07 00 E0 04 37 00 01 C0 9B 03 79 34 08 01 20 29 E0 07 53 80 00 E0 01 BF 02 01 01 82 A0 9F 00 2E A0 07 60 00 00 F6 E0 03 37 40 0B 40 4B 02 00 53 82 20 6B 01 FF FF 98 13 81 00 46 00 5F 14 00 00 00 00 08 05 01 4F 00 98 13 EC 14 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 F4 00 01 00 00 08 0A 81 00 33 00 BC 0A 00 00 00 00 08 05 01 42 00 08 0A 4F 0B 00 E0 FF 00 E0 22 00 00 FF E0 5A 00 E0 22 8E E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FA 00 01 00 00 ");
 
 				c.SendCustom(plew);
 			}
