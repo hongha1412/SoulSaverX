@@ -1,6 +1,6 @@
 ﻿namespace Server.Ghost.Provider
 {
-    public static class PetFactory
-    {
-    }
+	public static class PetFactory
+	{
+	}
 }

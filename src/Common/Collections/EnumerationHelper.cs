@@ -4,63 +4,63 @@ using System.Collections.Generic;
 
 namespace Server.Common.Collections
 {
-    public abstract class EnumerationHelper<TKey, TValue> : IEnumerable<TValue>
-    {
-        public EnumerationHelper()
-        {
-        }
+	public abstract class EnumerationHelper<TKey, TValue> : IEnumerable<TValue>
+	{
+		public EnumerationHelper()
+		{
+		}
 
-        public abstract TKey GetKeyForObject(TValue item);
+		public abstract TKey GetKeyForObject(TValue item);
 
-        public TValue this[TKey key]
-        {
-            get
-            {
-                foreach (TValue item in this)
-                {
-                    if (EqualityComparer<TKey>.Default.Equals(key, this.GetKeyForObject(item)))
-                    {
-                        return item;
-                    }
-                }
+		public TValue this[TKey key]
+		{
+			get
+			{
+				foreach (TValue item in this)
+				{
+					if (EqualityComparer<TKey>.Default.Equals(key, this.GetKeyForObject(item)))
+					{
+						return item;
+					}
+				}
 
-                return default(TValue);
-            }
-        }
+				return default(TValue);
+			}
+		}
 
-        public bool Contains(TKey key)
-        {
-            foreach (TValue item in this)
-            {
-                if (EqualityComparer<TKey>.Default.Equals(key, this.GetKeyForObject(item)))
-                {
-                    return true;
-                }
-            }
+		public bool Contains(TKey key)
+		{
+			foreach (TValue item in this)
+			{
+				if (EqualityComparer<TKey>.Default.Equals(key, this.GetKeyForObject(item)))
+				{
+					return true;
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public abstract IEnumerator<TValue> GetEnumerator();
+		public abstract IEnumerator<TValue> GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-        public int Count
-        {
-            get
-            {
-                int count = 0;
+		public int Count
+		{
+			get
+			{
+				int count = 0;
 
-                foreach (TValue item in this)
-                {
-                    count++;
-                }
+				foreach (TValue item in this)
+				{
+					count++;
+				}
 
-                return count;
-            }
-        }
-    }
+				return count;
+			}
+		}
+	}
 }
