@@ -239,11 +239,7 @@ namespace Server.Common.Net
 		// GameServer
 		NOTICE = 0x12,
 		SERVER_TIME = 0x160,
-
-
-
-		// 0x13
-		GAMELOG = 0x14, // 14
+		GAMELOG = 0x14,
 
 
 

@@ -122,7 +122,7 @@ namespace Server.Ghost
 				DefaultCharacterLevel = 60;
 			}
 
-			if (job != 1 && job != 2 && job != 3 && job != 4 && job != 5 && job != 6 & job != 7 && job != 8 && job != 9 && job != 10 && job != 11)
+			if (job < 1 || job > 11)
 			{
 				job = 0;
 				account_id = 0;

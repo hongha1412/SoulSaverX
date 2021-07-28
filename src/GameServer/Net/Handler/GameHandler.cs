@@ -10,6 +10,7 @@ using Server.Net;
 using Server.Packet;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Server.Handler
 {
@@ -21,38 +22,18 @@ namespace Server.Handler
 		{
 
 			string[] data = lea.ReadString(0x100).Split(new[] { (char)0x20 }, StringSplitOptions.None);
-
-			string[] data1 = lea.ReadString(50).Split(new[] { (char)0x20 }, StringSplitOptions.None);
-
-
-			//    string character_req = BitConverter.ToString(req_hex);
-			//int re = SearchBytes(lea.Content, new byte[] { 0x5B });
-			//GamePacket.Game_login_Ack(gc);
-			//System.Threading.Thread.Sleep(250);
-			//GamePacket.Game_login1_Ack(gc);
-			//System.Threading.Thread.Sleep(250);
-			//GamePacket.Game_login2_ack(gc);
-			//System.Threading.Thread.Sleep(250);
-			//GamePacket.Game_login3_Ack(gc);
-			//System.Threading.Thread.Sleep(250);
-			//GamePacket.Game_login4_Ack(gc);
-			//System.Threading.Thread.Sleep(250);
 			int encryptKey = int.Parse(data[1]);
 
 
 			string username = data[2];
 			string password = data[4];
 			int selectCharacter = lea.ReadByte();
-			System.Net.IPAddress hostid = lea.ReadIPAddress();
+			IPAddress hostid = lea.ReadIPAddress();
 			Log.Debug(" Username : {0} ", username);
 			Log.Debug(" Password : {0} ", password);
 			Log.Debug(" selectCharacter : {0} ", selectCharacter);
 			Log.Debug(" hostid : {0} ", hostid);
 
-
-			//   string CharacterReqName = data1[0] + data1[1];
-			// Log.Debug("Request Character Name : {0}", CharacterReqName);
-			//    Log.Debug("Request Character POS : {0}", poschr);
 
 
 
@@ -63,8 +44,6 @@ namespace Server.Handler
 			{
 				gc.Account.Load(username);
 				var pe = new Common.Security.PasswordEncrypt(encryptKey);
-				//  string encryptPassword = ServerConstants.PASSWORD_DECODE ? pe.encrypt(gc.Account.Password, gc.RetryLoginCount > 0 ? password.ToCharArray() : null) : gc.Account.Password;
-
 				if (!password.Equals(password))  //default encyptPassword
 				{
 					gc.Dispose();
@@ -86,8 +65,6 @@ namespace Server.Handler
 
 				}
 				Log.Inform("Password = {0}", password);
-				//Log.Inform("encryptKey = {0}", encryptKey);
-				//Log.Inform("encryptPassword = {0}", encryptPassword);
 			}
 			catch (NoAccountException)
 			{
