@@ -14,11 +14,11 @@ namespace Server.Ghost
 		public static void MyChar_Info_Req(InPacket lea, Client gc)
 		{
 			string[] data = lea.ReadString(lea.Available).Split(new[] { (char)0x20 }, StringSplitOptions.None);
-			
+
 			//int encryptKey = int.Parse(data[1]);
 			string username = data[2];
 			string password = data[4];
-		
+
 			gc.SetAccount(new Account(gc));
 
 

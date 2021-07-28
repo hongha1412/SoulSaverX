@@ -68,7 +68,7 @@ namespace Server.Ghost
 						case 11:
 							LoginPacket.Login_Ack(c, ServerState.LoginState.BUG_LOCK);  //Temp Banned
 							break;
-						 case 12:
+						case 12:
 							LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
 							break;
 						case 13:
