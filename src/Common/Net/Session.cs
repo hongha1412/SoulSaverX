@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using System;
@@ -208,9 +208,9 @@ namespace Server.Common.Net
 
 				byte[] packet = outPacket.Content;
 				//byte[] final = new byte[packet.Length + 4];
-
+				var port = m_socket.LocalEndPoint.ToString().Split(':')[1];
 				var ret = new byte[packet.Length + 2];
-				if (m_socket.LocalEndPoint.ToString().Split(':')[1] == "15004")
+				if (port == "15001" || port == "15004")
 				{
 					ret = new byte[packet.Length + 6];
 					var header = new byte[4]
@@ -238,13 +238,6 @@ namespace Server.Common.Net
 					Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
 					Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret    
 				}
-
-				//MapleAes.GetHeader(final, m_siv, Constants.Version.Major);
-				//MapleAes.Transform(packet, m_siv);
-
-				//Buffer.BlockCopy(packet, 0, final, 4, packet.Length);
-				//Log.Hex("Send Packet::", ret);
-
 				SendRaw(ret);
 			}
 		}
