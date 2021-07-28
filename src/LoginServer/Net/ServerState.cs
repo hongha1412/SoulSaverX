@@ -27,6 +27,7 @@ namespace Server.Ghost
 		{
 			OK = 0,
 			LOGIN_FAILED = 1, // Login Failed
+			PASSWORD_ERROR = 2,
 			BUG_LOCK = 7,
 			LOCK_5 = 5,
 			LOCK_6 = 6,
@@ -40,12 +41,13 @@ namespace Server.Ghost
 			PASSWORD_ERR2 = 15,
 			UNKNOWN_LOGIN_ERROR = 16,
 			ID_BLOCK_BUGPLAY2 = 17,
+			BLOCK_BUGPLAY2 = 23,
+			HACK_LOCK = 29,
 			LOGIN_SERVER_DEAD = 30,
 			ID_BLOCK_NONE_ACTIVATION = 31,
 			LOGIN_FAIL33 = 33,
-			PASSWORD_ERROR = 2,
-			HACK_LOCK = 29,
-
+			COUNTRY_RESTRICT = 37, //Country not Allowed.
+			VPN_NOT_ALLOWED = 38 //VPN not Allowed.
 		}
 
 		/* state
