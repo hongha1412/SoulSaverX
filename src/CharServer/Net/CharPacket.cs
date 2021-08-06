@@ -375,13 +375,11 @@ namespace Server.Ghost
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.CREATE_PREVIEW_ACK))
 			{
-				// [Original]: 05 01 0B 00 14 00 24 01 01 00 00 00 01 00 58 03 01 00 00 00
-
+				// [Original]: 05 01 0B 00 14 00 24 01/ 01 00 00 00 01 00 58 03 01 00 00 00
+				//             05 01 0B 00 14 00 24 01 /01 00 00 00 01 00 95 75 01 00 00 00 
 				plew.WriteInt(0); // length + CRC
 				plew.WriteInt(0);
-				plew.WriteShort(256);
-				plew.WriteHexString("58 03 01 00");
-				plew.WriteShort(0);
+				plew.WriteHexString("01 00 58 03 01 00 00 00");
 				gc.Send(plew);
 			}
 		}

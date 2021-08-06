@@ -26,8 +26,10 @@ namespace Server.Ghost
 				if (LoginServer.IsMaintenance)
 				{
 					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_SERVER_DEAD);
-					
-				} else {
+
+				}
+				else
+				{
 					c.Account.Load(username);
 
 
@@ -102,7 +104,7 @@ namespace Server.Ghost
 					Log.Debug("Password Key : {0}", passwordKey);
 					Log.Debug("Password = {0}", password);
 				}
-			
+
 			}
 			catch (NoAccountException)
 			{
@@ -122,7 +124,7 @@ namespace Server.Ghost
 				//    if (username.Length < 5 || password.Length < 5)
 				//        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
 
-				Account account = new Account(c);
+
 				//    //account.Username = username.ToLower();
 				//    //account.Password = password;
 				//    //account.Creation = DateTime.Now;
@@ -133,7 +135,7 @@ namespace Server.Ghost
 				//    //account.GiftPoints = 0;
 				//    //account.BonusPoints = 0;
 
-				account.Save();
+				c.Account.Save();
 				//    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
 				//    return;
 				//}
@@ -167,23 +169,24 @@ namespace Server.Ghost
 		}
 		public static void TWOFACTOR_REQ(InPacket lea, Client c)
 		{
+			lea.ReadInt();
 			string Password = lea.ReadString();
 			string ConfrimPassword = lea.ReadString();
-			Log.Debug("2FA Request From Client: Password: {0}  ConfrimPassword: {1}", Password, ConfrimPassword);
+			Log.Debug("SubPassowrd Request Password: {0} Confrim : {1} ", Password, ConfrimPassword);
 			int isSubPassword = c.Account.isTwoFactor;
 			if (isSubPassword == 0)
 			{
-			
+
 				if (Password != ConfrimPassword)
 				{
 					LoginPacket.SubPassError(c);
 				}
 				else
 				{
-					Account account = new Account(c);
-					account.isTwoFactor = 1;
-					account.TwoFactorPassword = Password;
-					account.Save();
+					c.SetAccount(new Account(c));
+					c.Account.isTwoFactor = 1;
+					c.Account.TwoFactorPassword = Password;
+					c.Account.Save();
 					LoginPacket.SubPassLoginOK(c);
 				}
 
