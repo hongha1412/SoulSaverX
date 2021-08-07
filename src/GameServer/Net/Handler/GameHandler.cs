@@ -11,6 +11,7 @@ using Server.Packet;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 
 namespace Server.Handler
 {
@@ -21,7 +22,7 @@ namespace Server.Handler
 		public static void Game_Log_Req(InPacket lea, Client gc)
 		{
 
-			string[] data = lea.ReadString(0x100).Split(new[] { (char)0x20 }, StringSplitOptions.None);
+			string[] data = lea.ReadString(50).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 			int encryptKey = int.Parse(data[1]);
 
 
@@ -40,37 +41,40 @@ namespace Server.Handler
 
 			gc.SetAccount(new Account(gc));
 
+
 			try
 			{
 				gc.Account.Load(username);
-				var pe = new Common.Security.PasswordEncrypt(encryptKey);
-				if (!password.Equals(password))  //default encyptPassword
+
+				if (!password.Equals(password))
 				{
 					gc.Dispose();
 					Log.Error("Login Fail!");
 				}
 				else
 				{
+					Log.Debug("ID ---> {0}", gc.Account.ID);
 					gc.Account.Characters = new List<Character>();
-
-					foreach (dynamic datum in new Datums("characters").PopulateWith("id", "accountId = '{0}' ORDER BY position ASC", gc.Account.ID))
+					foreach (dynamic datum in new Datums("Characters").PopulateWith("id", "accountId = '{0}' ORDER BY position ASC", gc.Account.ID))
 					{
-						Log.Debug("Character ID: {0}", datum.id);
 						Character character = new Character(datum.id, gc);
 						character.Load(false);
 						character.IP = hostid;
 						gc.Account.Characters.Add(character);
 					}
+					//	Log.Debug("Character List : {0}", gc.Account.Characters.IF);
 					gc.SetCharacter(gc.Account.Characters[selectCharacter]);
-
 				}
 				Log.Inform("Password = {0}", password);
+				//Log.Inform("encryptKey = {0}", encryptKey);
+				//Log.Inform("encryptPassword = {0}", encryptPassword);
 			}
 			catch (NoAccountException)
 			{
 				gc.Dispose();
 				Log.Error("Login Fail!");
 			}
+
 
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
@@ -170,9 +174,12 @@ namespace Server.Handler
 			GamePacket.Game_LOAD_6(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Game_LOAD_7(gc);
+			GamePacket.GreenNotice(gc, "hello welcome have room have condom have KY good takecare do everything");
 		}
 		public static void Command_Req(InPacket lea, Client gc)
 		{
+	
+
 			string[] cmd = lea.ReadString(60).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 
 			if (gc.Account.Master == 0 || cmd.Length < 1)
@@ -304,7 +311,25 @@ namespace Server.Handler
 					//GameServer.IsAlive = false;
 					break;
 				case "//skillhack":
+					break;
+				case "//serverinfo":
+					break;
 				case "//come":
+
+				case "//oxstate":
+					break;
+				case "//now":
+					string nowtime = string.Format("Server Time Now : {0}", 1);
+					GamePacket.GreenNotice(gc, nowtime);
+					break;
+				case "//user":
+					break;
+
+
+				case "//serverdown":
+
+					break;
+
 
 				case "//選擇正派":
 					Quest Quest = new Quest(60);
@@ -452,11 +477,6 @@ namespace Server.Handler
 		{
 			lea.ReadInt();
 			var PlayerClientVersion = lea.ReadInt();
-
-			if (PlayerClientVersion != ServerConstants.CLIENT_VERSION)
-			{
-				gc.Dispose();
-			}
 		}
 
 		//private static int SearchBytes(byte[] haystack, byte[] needle)

@@ -237,10 +237,15 @@ namespace Server.Common.Net
 		CREATE_PREVIEW_ACK = 0x0B,
 		CHAR_PAGE2_ACK = 0x407,
 		// GameServer
+
+
+
 		NOTICE = 0x12,
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
 
+
+		GREEN_NOTICE = 0x11,
 
 
 		USER_INFO = 0x16,

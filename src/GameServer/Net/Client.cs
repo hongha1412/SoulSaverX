@@ -1,4 +1,4 @@
-﻿using Server.Common.IO;
+using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Common.Security;
@@ -93,7 +93,7 @@ namespace Server.Net
 					}
 
 					this.Account.Save();
-					this.Character.Save();
+				//	this.Character.Save();
 				}
 
 				GameServer.Clients.Remove(this);
