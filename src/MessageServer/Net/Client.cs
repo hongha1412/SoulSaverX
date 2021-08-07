@@ -46,7 +46,7 @@ namespace Server.Net
 				PacketCrypt pd = new PacketCrypt(0);
 
 				byte[] ii;
-				if (inPacket.Array[0] == 0x4D && inPacket.Array[1] == 0x0)
+				if (inPacket.Array[0] == 0xAA && inPacket.Array[1] == 0x55)
 				{
 					ii = inPacket.Array;
 				}
