@@ -3,7 +3,7 @@ namespace Server.Common.Constants
 	public class ServerConstants
 	{
 
-		public static readonly int CLIENT_VERSION = 202107228;
+		public static readonly int CLIENT_VERSION = 202108081;
 
 		public static readonly string SERVER_IP = "127.0.0.1";
 		public static readonly bool AUTO_REGISTRATION = false;

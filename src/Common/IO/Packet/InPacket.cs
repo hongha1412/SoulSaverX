@@ -195,7 +195,7 @@ namespace Server.Common.IO.Packet
 			var nullIndex = System.Array.IndexOf(value, (byte)0);
 			nullIndex = (nullIndex == -1) ? value.Length : nullIndex;
 
-			return Encoding.GetEncoding("Big5").GetString(value, 0, nullIndex);
+			return Encoding.GetEncoding("EUC-KR").GetString(value, 0, nullIndex);
 		}
 
 		public IPAddress ReadIPAddress()
