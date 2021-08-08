@@ -79,7 +79,7 @@ namespace Server.Handler
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			GamePacket.Game_LoginStatus(gc);
-			GamePacket.Game_LOAD_2(gc);
+			GamePacket.FW_MANAGER(gc);
 			GamePacket.Game_ServerTime(gc);
 			GamePacket.Game_LOAD_3(gc);
 			System.Threading.Thread.Sleep(250);
@@ -174,7 +174,9 @@ namespace Server.Handler
 			GamePacket.Game_LOAD_6(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Game_LOAD_7(gc);
-			GamePacket.GreenNotice(gc, "hello welcome have room have condom have KY good takecare do everything");
+#if DEBUG
+			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
+#endif
 		}
 		public static void Command_Req(InPacket lea, Client gc)
 		{
@@ -189,8 +191,6 @@ namespace Server.Handler
 
 			switch (cmd[0])
 			{
-				case "//1":
-				case "//公告":
 				case "//notice":
 					if (cmd.Length != 2)
 						break;
@@ -313,38 +313,42 @@ namespace Server.Handler
 				case "//skillhack":
 					break;
 				case "//serverinfo":
+					GamePacket.NormalNotice(gc, 1, "I: P:15101 U:1 E:1.00 D:1.00 M:1.00 G:1.00");
 					break;
 				case "//come":
 
 				case "//oxstate":
 					break;
 				case "//now":
-					string nowtime = string.Format("Server Time Now : {0}", 1);
-					GamePacket.GreenNotice(gc, nowtime);
+					DateTime now = DateTime.Now;
+					string nowtime = string.Format("Server Time Now : {0}-{1}-{2} {3}:{4}:{5}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+					GamePacket.NormalNotice(gc,4, nowtime);
 					break;
 				case "//user":
 					break;
-
-
 				case "//serverdown":
-
+					break;
+				case "//test":
+					GamePacket.getNotice(gc,4,"Tes000t");
 					break;
 
-
-				case "//選擇正派":
-					Quest Quest = new Quest(60);
-					Quest.QuestState = 0x31;
-					chr.Quests.Add(Quest);
-					QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-					chr.Items.Add(new Item(8990019, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				case "//expbuff":
+					GamePacket.getNotice(gc, 1, "!@ExpEvent2@!");
 					break;
-				case "//選擇邪派":
-					Quest = new Quest(64);
-					Quest.QuestState = 0x31;
-					chr.Quests.Add(Quest);
-					QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-					chr.Items.Add(new Item(8990020, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
-					break;
+				////case "//選擇正派":
+				////	Quest Quest = new Quest(60);
+				////	Quest.QuestState = 0x31;
+				////	chr.Quests.Add(Quest);
+				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+				////	chr.Items.Add(new Item(8990019, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				////	break;
+				////case "//選擇邪派":
+				////	Quest = new Quest(64);
+				////	Quest.QuestState = 0x31;
+				////	chr.Quests.Add(Quest);
+				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+				////	chr.Items.Add(new Item(8990020, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				////	break;
 				//case "//test":
 				//    PartyPacket.PartyInvite(gc);
 				//    break;

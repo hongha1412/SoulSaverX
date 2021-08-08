@@ -240,12 +240,14 @@ namespace Server.Common.Net
 
 
 
+		//2021-08-08 14:50 [GMT+8]
+		GREEN_NOTICE = 0x11,
 		NOTICE = 0x12,
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
 
 
-		GREEN_NOTICE = 0x11,
+
 
 
 		USER_INFO = 0x16,

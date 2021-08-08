@@ -101,9 +101,8 @@ namespace Server.Packet
 				plew.WriteInt(0); // length + CRC
 				plew.WriteInt(0);
 				plew.WriteByte(type);
-				plew.WriteString(message, 60);
-				plew.WriteHexString("00 00 00 00 00 00 00");
-
+				plew.WriteString(message, 63);
+				//plew.WriteHexString("00 00 00 00 00 00 00");
 				c.Send(plew);
 			}
 		}
@@ -139,17 +138,22 @@ namespace Server.Packet
 			}
 		}
 
-		public static void Game_LOAD_2(Client c)
+		public static void FW_MANAGER(Client c)
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.FW_MANAGER))
 			{
 				//Opcode = 5F
-				plew.WriteHexString("05 01 5F 01");
-				plew.WriteHexString("14 00 78 02");
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteHexString("FF FF FF FF");
-				c.SendCustom(plew);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(-1);
+				plew.WriteInt(8454260);
+				plew.WriteInt(19595318);
+				plew.WriteInt(0);
+				plew.WriteInt(8);
+				c.Send(plew);
 
 			}
 		}
@@ -423,20 +427,35 @@ namespace Server.Packet
 		
 
 
-		public static void GreenNotice(Client c, String Message) // ข้อความแจ้งเตือนสีเขียว กลางจอบน
+		public static void NormalNotice(Client c, byte Type , String Message) // ข้อความแจ้งเตือนสีเขียว กลางจอบน
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.GREEN_NOTICE))
 			{
 				plew.WriteInt(0);
-				plew.WriteInt(0);
-				//plew.WriteInt(0);
-				//plew.WriteByte(1);
-				plew.WriteString(Message);
-				for(int i = Message.Length - 1; i < 64; i++)
-				{
-					plew.WriteByte(0);
+				plew.WriteInt(0); //162004C 
 
+				switch (Type)
+				{
+					case 1:
+						plew.WriteByte(1);
+						plew.WriteString(Message,60);//!@TRAININGINFO1@!
+						break;
+					case 4:
+						plew.WriteByte(4);
+						plew.WriteString(Message,60);
+						break;
+					case 5:
+						plew.WriteByte(5);
+						plew.WriteString(Message,60);
+						break;
+					case 6:			//TODO:
+						break; 
+					case 0x64:		//TODO:
+						break; 
 				}
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
 				c.Send(plew);
 			}
 		}

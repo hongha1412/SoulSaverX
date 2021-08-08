@@ -225,7 +225,10 @@ namespace Server.Common.Net
 					int a = 0x05;
 					int b = (packet[0]) + (packet[1] << 8);
 					int c = ret.Length;
+#if DEBUG
 					Log.Debug(">> Send opcode:: 0x{0:X} | Send Packet Length:: {1}", b, c);
+
+#endif
 					int crc = a + b + c + 0x100;
 
 					var header = new byte[8]
