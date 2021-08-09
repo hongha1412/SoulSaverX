@@ -11,6 +11,7 @@ jobs:
     steps: 
       - 
         uses: actions/checkout@v2
+	ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - 
         name: "Setup MSBuild Path"
         uses: warrenbuckley/Setup-MSBuild@v1
