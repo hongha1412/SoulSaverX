@@ -237,9 +237,16 @@ namespace Server.Common.Net
 		CREATE_PREVIEW_ACK = 0x0B,
 		CHAR_PAGE2_ACK = 0x407,
 		// GameServer
+
+
+
+		//2021-08-08 14:50 [GMT+8]
+		GREEN_NOTICE = 0x11,
 		NOTICE = 0x12,
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
+
+
 
 
 

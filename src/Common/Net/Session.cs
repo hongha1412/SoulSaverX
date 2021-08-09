@@ -225,14 +225,17 @@ namespace Server.Common.Net
 					int a = 0x05;
 					int b = (packet[0]) + (packet[1] << 8);
 					int c = ret.Length;
+#if DEBUG
 					Log.Debug(">> Send opcode:: 0x{0:X} | Send Packet Length:: {1}", b, c);
+
+#endif
 					int crc = a + b + c + 0x100;
 
 					var header = new byte[8]
 					{
 						0x05, 0x01,
 						packet[0], packet[1], // correct
-                        (byte) (ret.Length & 0xFF), (byte) ((ret.Length >> 8) & 0xFF),
+                        		(byte) (ret.Length & 0xFF), (byte) ((ret.Length >> 8) & 0xFF),
 						(byte) (crc & 0xFF), (byte) ((crc >> 8) & 0xFF)
 					};
 					Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
@@ -253,8 +256,6 @@ namespace Server.Common.Net
 					return;
 
 				byte[] packet = outPacket.Content;
-				//byte[] final = new byte[packet.Length + 4];
-
 				SendRaw(packet);
 			}
 		}
@@ -332,10 +333,6 @@ namespace Server.Common.Net
 
 				m_buffer = null;
 				m_offset = 0;
-
-				//m_siv = null;
-				//m_riv = null;
-
 				Unregister();
 			}
 		}

@@ -1823,7 +1823,7 @@ namespace Server.Ghost.Provider
 
 		public static void InitializeMonsterDrop()
 		{
-			using (Log.Load("Loading Drops"))
+			using (Log.Load("Loading Monster Drops"))
 			{
 				foreach (dynamic datum in new Datums("drop_data").Populate())
 				{

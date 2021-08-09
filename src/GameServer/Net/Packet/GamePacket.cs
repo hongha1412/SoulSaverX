@@ -1,3 +1,4 @@
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost.Characters;
@@ -40,8 +41,14 @@ namespace Server.Packet
 				//plew.WriteHexString("83 C6 30 03");
 				//plew.WriteHexString("B8 16 22 C3");
 				//plew.WriteLong(c.SessionID);
-
-				plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 54 99 08 05 01 14 00 28 00 41 01 00 20 00 00 2E 20 03 17 5C E9 0B 0C 5F 3B 00 00 3D 33 34 01 B8 16 10 CE 02 F8 63 80 C6 58 F2 85");
+				plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 54 99 08");
+				plew.WriteHexString("05 01 14 00");
+				plew.WriteHexString("28 00 41 01");
+				plew.WriteHexString("00 20 00 00");
+				plew.WriteHexString("2E 20 03 17");
+				plew.WriteInt(202108081);
+				plew.WriteInt(ServerConstants.UDP_PORT);
+				plew.WriteHexString("3D 33 34 01 B8 16 10 CE 02 F8 63 80 C6 58 F2 85");
 
 
 				c.SendCustom(plew);
@@ -51,6 +58,7 @@ namespace Server.Packet
 		{
 			using (OutPacket plew = new OutPacket())
 			{
+				//HP DOWN
 				plew.WriteHexString("18 00 81 00"); //CRC
 				plew.WriteHexString("10 00 A9 00"); //CRC
 				plew.WriteHexString("D8 EC 68 E9 08"); //CRC
@@ -59,7 +67,7 @@ namespace Server.Packet
 				plew.WriteHexString("00 E0 04 00"); //
 				plew.WriteHexString("00 E0 04 00"); //
 				plew.WriteHexString("01 00 00"); //
-
+			   //18 00 81 00 10 00 A9 00 E8 0C 74 EA 08 05 01 51 00 18 00 6E 01 00 E0 04 00 01 00 00 
 
 
 
@@ -93,9 +101,8 @@ namespace Server.Packet
 				plew.WriteInt(0); // length + CRC
 				plew.WriteInt(0);
 				plew.WriteByte(type);
-				plew.WriteString(message, 60);
-				plew.WriteHexString("00 00 00 00 00 00 00");
-
+				plew.WriteString(message, 63);
+				//plew.WriteHexString("00 00 00 00 00 00 00");
 				c.Send(plew);
 			}
 		}
@@ -131,17 +138,22 @@ namespace Server.Packet
 			}
 		}
 
-		public static void Game_LOAD_2(Client c)
+		public static void FW_MANAGER(Client c)
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.FW_MANAGER))
 			{
 				//Opcode = 5F
-				plew.WriteHexString("05 01 5F 01");
-				plew.WriteHexString("14 00 78 02");
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteHexString("00 00 00 00");
-				plew.WriteHexString("FF FF FF FF");
-				c.SendCustom(plew);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(-1);
+				plew.WriteInt(8454260);
+				plew.WriteInt(19595318);
+				plew.WriteInt(0);
+				plew.WriteInt(8);
+				c.Send(plew);
 
 			}
 		}
@@ -412,15 +424,41 @@ namespace Server.Packet
 			}
 		}
 
-		public static void NoticeWelcome(Client c)
+		
+
+
+		public static void NormalNotice(Client c, byte Type , String Message) // ข้อความแจ้งเตือนสีเขียว กลางจอบน
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.GREEN_NOTICE))
 			{
-				c.SendRawLock(ConvertToHexString(
-					"05 01 11 00 4C 00 62 01 00 00 00 00 01 5B 20 53 56 52 5F 53 54 44 20 5D 20 50 72 69 76 61 74 65 20 53 65 72 76 65 72 20 49 73 20 57 6F 72 6B 69 6E 67 20 20 53 56 65 72 20 32 30 32 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00"));
+				plew.WriteInt(0);
+				plew.WriteInt(0); //162004C 
+
+				switch (Type)
+				{
+					case 1:
+						plew.WriteByte(1);
+						plew.WriteString(Message,60);//!@TRAININGINFO1@!
+						break;
+					case 4:
+						plew.WriteByte(4);
+						plew.WriteString(Message,60);
+						break;
+					case 5:
+						plew.WriteByte(5);
+						plew.WriteString(Message,60);
+						break;
+					case 6:			//TODO:
+						break; 
+					case 0x64:		//TODO:
+						break; 
+				}
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteByte(0);
+				c.Send(plew);
 			}
 		}
 
-		//
 	}
 }

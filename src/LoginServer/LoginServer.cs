@@ -24,7 +24,6 @@ namespace Server
 		public static string SecurityCode { get; private set; }
 		public static bool RequireStaffIP { get; set; }
 		public static bool IsMaintenance { get; set; }
-
 		public static int PatchVer { get; set; }
 		public static bool IsAlive
 		{
@@ -61,7 +60,7 @@ namespace Server
 
 				RequireStaffIP = Settings.GetBool("RequireStaffIP", "Login");
 				IsMaintenance = Settings.GetBool("isMaintenance", "Login");
-				Log.Inform("Staff will{0}be required to connect through a staff IP.",
+				Log.Inform("Staff will {0} be required to connect through a staff IP.",
 					LoginServer.RequireStaffIP ? " " : " not ");
 				Log.Debug("IsMaintenance: {0}", IsMaintenance);
 				TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Login"));

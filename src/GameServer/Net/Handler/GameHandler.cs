@@ -11,6 +11,7 @@ using Server.Packet;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 
 namespace Server.Handler
 {
@@ -21,7 +22,7 @@ namespace Server.Handler
 		public static void Game_Log_Req(InPacket lea, Client gc)
 		{
 
-			string[] data = lea.ReadString(0x100).Split(new[] { (char)0x20 }, StringSplitOptions.None);
+			string[] data = lea.ReadString(50).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 			int encryptKey = int.Parse(data[1]);
 
 
@@ -40,31 +41,33 @@ namespace Server.Handler
 
 			gc.SetAccount(new Account(gc));
 
+
 			try
 			{
 				gc.Account.Load(username);
-				var pe = new Common.Security.PasswordEncrypt(encryptKey);
-				if (!password.Equals(password))  //default encyptPassword
+
+				if (!password.Equals(password))
 				{
 					gc.Dispose();
 					Log.Error("Login Fail!");
 				}
 				else
 				{
+					Log.Debug("ID ---> {0}", gc.Account.ID);
 					gc.Account.Characters = new List<Character>();
-
-					foreach (dynamic datum in new Datums("characters").PopulateWith("id", "accountId = '{0}' ORDER BY position ASC", gc.Account.ID))
+					foreach (dynamic datum in new Datums("Characters").PopulateWith("id", "accountId = '{0}' ORDER BY position ASC", gc.Account.ID))
 					{
-						Log.Debug("Character ID: {0}", datum.id);
 						Character character = new Character(datum.id, gc);
 						character.Load(false);
 						character.IP = hostid;
 						gc.Account.Characters.Add(character);
 					}
+					//	Log.Debug("Character List : {0}", gc.Account.Characters.IF);
 					gc.SetCharacter(gc.Account.Characters[selectCharacter]);
-
 				}
 				Log.Inform("Password = {0}", password);
+				//Log.Inform("encryptKey = {0}", encryptKey);
+				//Log.Inform("encryptPassword = {0}", encryptPassword);
 			}
 			catch (NoAccountException)
 			{
@@ -72,10 +75,11 @@ namespace Server.Handler
 				Log.Error("Login Fail!");
 			}
 
+
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			GamePacket.Game_LoginStatus(gc);
-			GamePacket.Game_LOAD_2(gc);
+			GamePacket.FW_MANAGER(gc);
 			GamePacket.Game_ServerTime(gc);
 			GamePacket.Game_LOAD_3(gc);
 			System.Threading.Thread.Sleep(250);
@@ -170,9 +174,14 @@ namespace Server.Handler
 			GamePacket.Game_LOAD_6(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Game_LOAD_7(gc);
+#if DEBUG
+			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
+#endif
 		}
 		public static void Command_Req(InPacket lea, Client gc)
 		{
+	
+
 			string[] cmd = lea.ReadString(60).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 
 			if (gc.Account.Master == 0 || cmd.Length < 1)
@@ -182,8 +191,6 @@ namespace Server.Handler
 
 			switch (cmd[0])
 			{
-				case "//1":
-				case "//公告":
 				case "//notice":
 					if (cmd.Length != 2)
 						break;
@@ -304,22 +311,44 @@ namespace Server.Handler
 					//GameServer.IsAlive = false;
 					break;
 				case "//skillhack":
+					break;
+				case "//serverinfo":
+					GamePacket.NormalNotice(gc, 1, "I: P:15101 U:1 E:1.00 D:1.00 M:1.00 G:1.00");
+					break;
 				case "//come":
 
-				case "//選擇正派":
-					Quest Quest = new Quest(60);
-					Quest.QuestState = 0x31;
-					chr.Quests.Add(Quest);
-					QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-					chr.Items.Add(new Item(8990019, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				case "//oxstate":
 					break;
-				case "//選擇邪派":
-					Quest = new Quest(64);
-					Quest.QuestState = 0x31;
-					chr.Quests.Add(Quest);
-					QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-					chr.Items.Add(new Item(8990020, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				case "//now":
+					DateTime now = DateTime.Now;
+					string nowtime = string.Format("Server Time Now : {0}-{1}-{2} {3}:{4}:{5}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+					GamePacket.NormalNotice(gc,4, nowtime);
 					break;
+				case "//user":
+					break;
+				case "//serverdown":
+					break;
+				case "//test":
+					GamePacket.getNotice(gc,4,"Tes000t");
+					break;
+
+				case "//expbuff":
+					GamePacket.getNotice(gc, 1, "!@ExpEvent2@!");
+					break;
+				////case "//選擇正派":
+				////	Quest Quest = new Quest(60);
+				////	Quest.QuestState = 0x31;
+				////	chr.Quests.Add(Quest);
+				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+				////	chr.Items.Add(new Item(8990019, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				////	break;
+				////case "//選擇邪派":
+				////	Quest = new Quest(64);
+				////	Quest.QuestState = 0x31;
+				////	chr.Quests.Add(Quest);
+				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+				////	chr.Items.Add(new Item(8990020, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
+				////	break;
 				//case "//test":
 				//    PartyPacket.PartyInvite(gc);
 				//    break;
@@ -452,11 +481,6 @@ namespace Server.Handler
 		{
 			lea.ReadInt();
 			var PlayerClientVersion = lea.ReadInt();
-
-			if (PlayerClientVersion != ServerConstants.CLIENT_VERSION)
-			{
-				gc.Dispose();
-			}
 		}
 
 		//private static int SearchBytes(byte[] haystack, byte[] needle)
