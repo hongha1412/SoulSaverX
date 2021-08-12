@@ -111,7 +111,7 @@ namespace Server
 				Database.Analyze(false);
 
 				GameServer.RemoteEndPoint =
-					new IPEndPoint(IPAddress.Parse(ServerConstants.SERVER_IP), port); // TODO: Get actual host.
+					new IPEndPoint(IPAddress.Parse(ServerConstants.LISTENER_SERVER_IP), port); // TODO: Get actual host.
 
 				Log.Load("Items Initialize");
 				ItemFactory.Initialize();

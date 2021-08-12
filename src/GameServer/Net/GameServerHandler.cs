@@ -12,10 +12,10 @@ namespace Server.Net
 			var Header = ip.ReadShort(); // Read header
 			ip.ReadInt(); // Original length + CRC
 			ip.ReadInt();
-
+#if DEBUG
 			Log.Hex("Received {0}({1}) packet from {2}: ", ip.Array, ((ClientOpcode)Header).ToString(), Header,
 				gc.Title);
-
+#endif
 			switch ((ClientOpcode)Header)
 			{
 				// Game

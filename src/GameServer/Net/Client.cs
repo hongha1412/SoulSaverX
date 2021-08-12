@@ -93,7 +93,7 @@ namespace Server.Net
 					}
 
 					this.Account.Save();
-				//	this.Character.Save();
+					//	this.Character.Save();
 				}
 
 				GameServer.Clients.Remove(this);

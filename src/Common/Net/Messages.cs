@@ -245,8 +245,8 @@ namespace Server.Common.Net
 		NOTICE = 0x12,
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
-
-
+		PROCESSLIST = 0x2C2,
+		GAMEINFO = 0x1D6,
 
 
 
