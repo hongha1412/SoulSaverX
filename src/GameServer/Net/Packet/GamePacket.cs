@@ -67,7 +67,7 @@ namespace Server.Packet
 				plew.WriteHexString("00 E0 04 00"); //
 				plew.WriteHexString("00 E0 04 00"); //
 				plew.WriteHexString("01 00 00"); //
-			   //18 00 81 00 10 00 A9 00 E8 0C 74 EA 08 05 01 51 00 18 00 6E 01 00 E0 04 00 01 00 00 
+												 //18 00 81 00 10 00 A9 00 E8 0C 74 EA 08 05 01 51 00 18 00 6E 01 00 E0 04 00 01 00 00 
 
 
 
@@ -170,7 +170,8 @@ namespace Server.Packet
                  *  1B 00 01 00 00 68 03 81 00 19 00 02 
                  *  04 00 00 00 00 08 
                  */
-				plew.WriteHexString("05 01 65 02 80 00 EA 03 00 00 00 00 FF 01 00 00 00 00 00 00 00 00 00 00 00 00 32 F6 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ");
+				plew.WriteHexString("05 01 65 02 80 00 EA 03 00 00 00 00 FF 01 00 0" +
+					"0 00 00 00 00 00 00 00 00 00 00 32 F6 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ");
 				c.SendCustom(plew);
 			}
 		}
@@ -424,10 +425,10 @@ namespace Server.Packet
 			}
 		}
 
-		
 
 
-		public static void NormalNotice(Client c, byte Type , String Message) // ข้อความแจ้งเตือนสีเขียว กลางจอบน
+
+		public static void NormalNotice(Client c, byte Type, String Message) // ข้อความแจ้งเตือนสีเขียว กลางจอบน
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.GREEN_NOTICE))
 			{
@@ -438,24 +439,65 @@ namespace Server.Packet
 				{
 					case 1:
 						plew.WriteByte(1);
-						plew.WriteString(Message,60);//!@TRAININGINFO1@!
+						plew.WriteString(Message, 60);//!@TRAININGINFO1@!
 						break;
 					case 4:
 						plew.WriteByte(4);
-						plew.WriteString(Message,60);
+						plew.WriteString(Message, 60);
 						break;
 					case 5:
 						plew.WriteByte(5);
-						plew.WriteString(Message,60);
+						plew.WriteString(Message, 60);
 						break;
-					case 6:			//TODO:
-						break; 
-					case 0x64:		//TODO:
-						break; 
+					case 6:         //TODO:
+						break;
+					case 0x64:      //TODO:
+						break;
 				}
 				plew.WriteByte(0);
 				plew.WriteByte(0);
 				plew.WriteByte(0);
+				c.Send(plew);
+			}
+		}
+
+		public static void GmProcessList(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.PROCESSLIST))
+			{
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+
+
+				c.Send(plew);
+			}
+		}
+
+
+		public static void GmGameInfo(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.GAMEINFO))
+			{
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+
+				plew.WriteInt(0);
+			
+
+
 				c.Send(plew);
 			}
 		}

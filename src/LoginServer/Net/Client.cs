@@ -68,8 +68,9 @@ namespace Server.Ghost
 					inPacket.ReadUShort(); // 原始長度
 					var Header = inPacket.ReadByte(); // Read header
 
+#if DEBUG
 					Log.Hex("Received (0x{0:X2}) packet from {1}: ", inPacket.Content, Header, this.Title);
-
+#endif
 					switch ((LoginClientOpcode)Header)
 					{
 						case LoginClientOpcode.LOGIN_REQ:

@@ -1,4 +1,4 @@
-﻿using Server.Accounts;
+using Server.Accounts;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
@@ -46,15 +46,18 @@ namespace Server.Ghost
 		{
 			try
 			{
+#if DEBUG
 				Log.Hex("<<< Received (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode, this.Title);
+#endif
 
 				if (inPacket.OperationCode == (ushort)ClientOpcode.SERVER)
 				{
 					short Header = inPacket.ReadShort(); // Read header
 					inPacket.ReadInt(); // Original length + CRC
 					inPacket.ReadInt();
-
+#if DEBUG
 					Log.Debug("^^^--- <<< Received opcode (0x{0:X}): ", Header);
+#endif
 
 					switch ((ClientOpcode)Header)
 					{

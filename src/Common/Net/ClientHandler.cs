@@ -1,4 +1,4 @@
-﻿using Server.Common.IO;
+using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Security;
 using System;
@@ -84,8 +84,11 @@ namespace Server.Common.Net
 			}
 			else
 			{
-				Log.Hex("Received unknown (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode,
+#if DEBUG
+					Log.Hex("Received unknown (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode,
 					this.Title);
+#endif
+
 			}
 
 			if (fromCommand)

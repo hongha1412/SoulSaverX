@@ -25,6 +25,7 @@ namespace Server
 		public static bool RequireStaffIP { get; set; }
 		public static bool IsMaintenance { get; set; }
 		public static int PatchVer { get; set; }
+		public static string PatchDownloadUrl { get; set; }
 		public static bool IsAlive
 		{
 			get { return isAlive; }
@@ -60,6 +61,9 @@ namespace Server
 
 				RequireStaffIP = Settings.GetBool("RequireStaffIP", "Login");
 				IsMaintenance = Settings.GetBool("isMaintenance", "Login");
+				PatchVer = Settings.GetInt("PatchVersion", "Login");
+				PatchDownloadUrl = Settings.GetString("PatchDownloadUrl", "Login");
+
 				Log.Inform("Staff will {0} be required to connect through a staff IP.",
 					LoginServer.RequireStaffIP ? " " : " not ");
 				Log.Debug("IsMaintenance: {0}", IsMaintenance);

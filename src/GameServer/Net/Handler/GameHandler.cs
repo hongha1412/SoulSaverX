@@ -11,7 +11,6 @@ using Server.Packet;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Server.Handler
 {
@@ -87,73 +86,22 @@ namespace Server.Handler
 			GamePacket.Game_LOAD_4(gc);
 			GamePacket.Game_LOAD_5(gc);
 
-			/*  GamePacket.Game_ServerTime(gc);
-			  GamePacket.Game_FristLoad_ACK(gc);
-			  GamePacket.Game_LOAD_2(gc);
-			  GamePacket.Game_LOAD_3(gc);
-			  GamePacket.Game_LOAD_4(gc);
-			  GamePacket.Game_LOAD_5(gc);
-			  GamePacket.Game_AvartarJarItem(gc);
-			  GamePacket.Game_LOAD_7(gc);
-			  //     StatusPacket.getStatusInfo(gc);
-			  GamePacket.Game_CHARALL(gc);
-			  GamePacket.Game_FURY(gc);
-			  GamePacket.Game_LOAD_471(gc);
-			  GamePacket.Game_LOAD_471(gc);
-			  for (int i = 1; i < 7; i++)
-			  {
-
-				  for (int j = 0; j < 2; j++)
-				  {
-					  GamePacket.Game_LOAD_431(gc, i, j);
-				  }
-			  }
-
-			  GamePacket.Game_LOAD_420(gc);
-			  GamePacket.Game_LOAD_421(gc);
-			  GamePacket.Game_LOAD_461(gc);
-			  GamePacket.Game_LOAD_462(gc);
-			  GamePacket.getQuickSlot(gc, chr.Keymap);
-			  GamePacket.Game_LOAD_26(gc);
-			  GamePacket.Game_LOAD_8D(gc);
-			  GamePacket.Game_LOAD_50(gc);
-			  GamePacket.Game_LOAD_63(gc);
-			  GamePacket.Game_LOAD_64(gc);
-			  GamePacket.Game_LOAD_73(gc);
-			  GamePacket.Game_LOAD_02(gc);
-			  GamePacket.Game_LOAD_DB(gc);
-			  GamePacket.Game_LOAD_42(gc);
-			  GamePacket.Game_LOAD_79(gc);
-			  GamePacket.getQuickSlot(gc, chr.Keymap);
-			  StoragePacket.getStoreInfo(gc);
-			  // StoragePacket.getStoreMoney(gc);
-			  GamePacket.Game_LOAD_AB(gc);
-			  GamePacket.Game_LOAD_1C(gc);
-			  InventoryPacket.getInvenCash(gc);
-			  GamePacket.Game_LOAD_81(gc);
-			  GamePacket.Game_LOAD_E7(gc);
-			  GamePacket.Game_LOAD_F2(gc);
-			  GamePacket.Game_LOAD_A5(gc);
-			  GamePacket.Game_LOAD_1B(gc);
-			  GamePacket.Game_LOAD_6D(gc);
-			  */
-
 			//Game_AvartarJarItem
 			//    GamePacket.Game_login2_ack(gc);
 
-			//  MapFactory.AllCharacters.Add(chr);
-			// StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
-			//   GamePacket.FW_DISCOUNTFACTION(gc);
-			//    StatusPacket.getStatusInfo(gc);
-			//    InventoryPacket.getCharacterEquip(gc);
+			//MapFactory.AllCharacters.Add(chr);
+			//StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
+			//GamePacket.FW_DISCOUNTFACTION(gc);
+			//StatusPacket.getStatusInfo(gc);
+			//InventoryPacket.getCharacterEquip(gc);
 			//SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
 			//QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-			//GamePacket.getQuickSlot(gc, chr.Keymap);
-			//StoragePacket.getStoreInfo(gc);
-			//StoragePacket.getStoreMoney(gc);
-			//MapPacket.enterMapStart(gc);
-			//InventoryPacket.getInvenCash(gc);
-			//CashShopPacket.MgameCash(gc);
+			//GamePacket.getQuickSlot(gc, chr.Keymap);   //TODO :
+			//StoragePacket.getStoreInfo(gc);			 //TODO :
+			//StoragePacket.getStoreMoney(gc);			 //TODO :	
+			//MapPacket.enterMapStart(gc);				 //TODO :	
+			//InventoryPacket.getInvenCash(gc);			//TODO :
+			//CashShopPacket.MgameCash(gc);					
 			//CashShopPacket.GuiHonCash(gc);
 			//InventoryPacket.getInvenEquip(gc);
 			//InventoryPacket.getInvenEquip1(gc);
@@ -180,7 +128,7 @@ namespace Server.Handler
 		}
 		public static void Command_Req(InPacket lea, Client gc)
 		{
-	
+
 
 			string[] cmd = lea.ReadString(60).Split(new[] { (char)0x20 }, StringSplitOptions.None);
 
@@ -234,7 +182,7 @@ namespace Server.Handler
 				case "//gogo":
 					if (cmd.Length != 3)
 						break;
-					MapPacket.warpToMapAuth(gc, true, short.Parse(cmd[1]), short.Parse(cmd[2]), -1, -1);
+					MapPacket.warpToMapAuth(gc, true, short.Parse(cmd[1]), short.Parse(cmd[2]), short.Parse(cmd[3]), short.Parse(cmd[4]));
 					break;
 				case "//hp":
 					if (cmd.Length != 2)
@@ -321,43 +269,29 @@ namespace Server.Handler
 					break;
 				case "//now":
 					DateTime now = DateTime.Now;
-					string nowtime = string.Format("Server Time Now : {0}-{1}-{2} {3}:{4}:{5}", now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-					GamePacket.NormalNotice(gc,4, nowtime);
+					string nowtime = string.Format("Server Time Now : [{0}-{1}-{2} {3}:{4}:{5}]", now.Year, now.Month, now.Day.ToString("00.##"), now.Hour.ToString("00.##"), now.Minute.ToString("00.##"), now.Second.ToString("00.##"));
+					GamePacket.NormalNotice(gc, 4, nowtime);
 					break;
 				case "//user":
 					break;
 				case "//serverdown":
 					break;
 				case "//test":
-					GamePacket.getNotice(gc,4,"Tes000t");
+					GamePacket.getNotice(gc, 4, "Tes000t");
 					break;
 
 				case "//expbuff":
 					GamePacket.getNotice(gc, 1, "!@ExpEvent2@!");
 					break;
-				////case "//選擇正派":
-				////	Quest Quest = new Quest(60);
-				////	Quest.QuestState = 0x31;
-				////	chr.Quests.Add(Quest);
-				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-				////	chr.Items.Add(new Item(8990019, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
-				////	break;
-				////case "//選擇邪派":
-				////	Quest = new Quest(64);
-				////	Quest.QuestState = 0x31;
-				////	chr.Quests.Add(Quest);
-				////	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-				////	chr.Items.Add(new Item(8990020, 4, chr.Items.GetNextFreeSlot(InventoryType.ItemType.Other4)));
-				////	break;
-				//case "//test":
-				//    PartyPacket.PartyInvite(gc);
-				//    break;
-				//case "//test2":
-				//    PartyPacket.PartyInvite(gc, 1, 1);
-				//    break;
-				//case "//test3":
-				//    PartyPacket.PartyInvite(gc, 1 , 0);
-				//    break;
+				case "//processlist":
+					GamePacket.GmProcessList(gc);
+					GamePacket.NormalNotice(gc, 4, "[GM] Process File has saved in game folder.");
+					break;
+				case "//gameinfo":
+					GamePacket.GmGameInfo(gc);
+					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
+					break;
+					
 				default:
 					break;
 			}

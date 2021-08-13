@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Net;
@@ -15,7 +15,7 @@ namespace Server.Packet
 				plew.WriteInt(0); // length + CRC
 				plew.WriteInt(0);
 				plew.WriteInt(0);
-				for (byte i = 0; i < 40; i++)
+				for (byte i = 0; i < 46; i++)
 				{
 					plew.WriteInt(chr.Storages.ItemID(InventoryType.ItemType.Equip, i));
 					plew.WriteByte(chr.Storages.Fusion(InventoryType.ItemType.Equip, i));

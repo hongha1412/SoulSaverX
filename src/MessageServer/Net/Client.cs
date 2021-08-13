@@ -1,4 +1,4 @@
-﻿using Server.Common.IO;
+using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Common.Security;
@@ -60,9 +60,9 @@ namespace Server.Net
 				if (ip.OperationCode == (ushort)ClientOpcode.SERVER)
 				{
 					var Header = ip.ReadShort();
-
+#if DEBUG
 					Log.Hex("Received (0x{0:X2}) packet from {1}: ", ip.Content, Header, this.Title);
-
+#endif
 					switch (Header)
 					{
 						case 0x0C:

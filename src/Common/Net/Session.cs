@@ -284,8 +284,9 @@ namespace Server.Common.Net
 					}
 
 					offset += sent;
-
+#if DEUG
 					Log.Hex(">>> Send RAW Packet:: ", final);
+#endif
 				}
 
 				return true;
@@ -309,7 +310,9 @@ namespace Server.Common.Net
 
 				offset += sent;
 
-				Log.Hex(">>> Send RAW Packet:: ", final);
+#if DEUG
+					Log.Hex(">>> Send RAW Packet:: ", final);
+#endif
 			}
 
 			return true;
