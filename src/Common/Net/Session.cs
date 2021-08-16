@@ -260,6 +260,7 @@ namespace Server.Common.Net
 			}
 		}
 
+
 		public bool SendRawLock(byte[] final)
 		{
 			if (m_disposed)

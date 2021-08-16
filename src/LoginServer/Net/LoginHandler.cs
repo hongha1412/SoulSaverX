@@ -1,7 +1,9 @@
 using Server.Accounts;
 using Server.Common;
+using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
+using System;
 
 namespace Server.Ghost
 {
@@ -23,6 +25,7 @@ namespace Server.Ghost
 
 			try
 			{
+				c.Account.Load(username.ToLower());
 				if (LoginServer.IsMaintenance)
 				{
 					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_SERVER_DEAD);
@@ -30,7 +33,7 @@ namespace Server.Ghost
 				}
 				else
 				{
-					c.Account.Load(username);
+					
 
 
 					if (c.RetryLoginCount >= 3)
@@ -108,39 +111,7 @@ namespace Server.Ghost
 			}
 			catch (NoAccountException)
 			{
-				switch (1)
-				{
-					case 1:
-						LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-						break;
-					case 2:
-						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-						break;
-				}
-
-
-				//if (ServerConstants.AUTO_REGISTRATION == true)
-				//{
-				//    if (username.Length < 5 || password.Length < 5)
-				//        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-
-
-				//    //account.Username = username.ToLower();
-				//    //account.Password = password;
-				//    //account.Creation = DateTime.Now;
-				//    //account.LoggedIn = 0;
-				//    //account.Banned = 0;
-				//    //account.Master = 0;
-				//    //account.GamePoints = 0;
-				//    //account.GiftPoints = 0;
-				//    //account.BonusPoints = 0;
-
-				c.Account.Save();
-				//    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
-				//    return;
-				//}
-
-
+				LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
 			}
 		}
 

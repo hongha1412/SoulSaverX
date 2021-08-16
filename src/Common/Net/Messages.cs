@@ -247,6 +247,7 @@ namespace Server.Common.Net
 		GAMELOG = 0x14,
 		PROCESSLIST = 0x2C2,
 		GAMEINFO = 0x1D6,
+		GAMEUIINFO = 0x32E,
 
 
 
