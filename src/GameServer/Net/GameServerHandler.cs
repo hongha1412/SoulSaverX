@@ -258,6 +258,9 @@ namespace Server.Net
 				case ClientOpcode.LOAD_EAC:
 					GameHandler.GameLoadEac_Ack(ip, gc);
 					break;
+				case ClientOpcode.COME_EVENT_REQ:
+					GameHandler.ComeBackEvent_Ack(ip, gc);
+					break;
 			}
 		}
 	}

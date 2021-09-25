@@ -77,6 +77,7 @@ namespace Server.Handler
 
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
+			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
 			GamePacket.Cus1(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Cus2(gc);
@@ -88,7 +89,7 @@ namespace Server.Handler
 			//    GamePacket.Game_login2_ack(gc);
 
 			//MapFactory.AllCharacters.Add(chr);
-			//StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
+			
 			//GamePacket.FW_DISCOUNTFACTION(gc);
 			//StatusPacket.getStatusInfo(gc);
 			//InventoryPacket.getCharacterEquip(gc);
@@ -429,21 +430,10 @@ namespace Server.Handler
 			GamePacket.SendEAC(gc);
 		}
 
-
-		//private static int SearchBytes(byte[] haystack, byte[] needle)
-		//{
-		//    var len = needle.Length;
-		//    var limit = haystack.Length - len;
-		//    for (var i = 0; i <= limit; i++)
-		//    {
-		//        var k = 0;
-		//        for (; k < len; k++)
-		//        {
-		//            if (needle[k] != haystack[i + k]) break;
-		//        }
-		//        if (k == len) return i;
-		//    }
-		//    return -1;
-		//}
+		public static void ComeBackEvent_Ack(InPacket lea, Client gc)
+		{
+			GamePacket.ComeBackEvent(gc);
+		}
+		
 	}
 }

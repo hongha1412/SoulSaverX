@@ -206,6 +206,12 @@ namespace Server.Common.Net
 		SP_SKILL_C = 0x191,
 		SP_SPELL_C = 0x192,
 		SP_WARP_C = 0x193,
+
+		// 2021-09-25
+
+		COME_EVENT_REQ = 0x3BC
+
+
 	}
 
 	/*
@@ -248,9 +254,8 @@ namespace Server.Common.Net
 		GAMELOG = 0x14,
 		PROCESSLIST = 0x2C2,
 		GAMEINFO = 0x1D6,
-<<<<<<< Updated upstream
+
 		GAMEUIINFO = 0x32E,
-=======
 		SERVER_STATUS = 0x51,
 
 
@@ -258,7 +263,6 @@ namespace Server.Common.Net
 
 
 
->>>>>>> Stashed changes
 
 
 
@@ -641,7 +645,7 @@ namespace Server.Common.Net
 
 		GAME_UI_SETTING = 0x32E,
 
-		DAY_MISSION = 0x3BD,
+		COME_EVENT_ACK = 0x3BD,
 
 
 

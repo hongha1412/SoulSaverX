@@ -74,7 +74,7 @@ namespace Server.Handler
 				foreach (Character All in Map.Characters)
 					MapPacket.warpToMap(All.Client, chr, CharacterID, MapX, MapY, PositionX, PositionY);
 
-				MapPacket.createUser(gc, Map);
+				//MapPacket.createUser(gc, Map);
 			}
 
 			Map.Characters.Add(chr);

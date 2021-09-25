@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost.Characters;
@@ -35,7 +35,8 @@ namespace Server.Packet
 				plew.WriteInt(chr.Exp);
 				plew.WriteInt(0);
 				plew.WriteShort(chr.Rank);
-				plew.WriteShort(chr.MaxFury); // 憤怒值(Max)
+				plew.WriteShort(chr.
+					 MaxFury); // 憤怒值(Max)
 				plew.WriteShort(chr.Fury); // 憤怒值
 				plew.WriteByte(3);
 				plew.WriteByte(chr.JumpHeight); // 跳躍高度

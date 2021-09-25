@@ -112,9 +112,8 @@ namespace Server.Ghost
 			}
 			catch (NoAccountException)
 			{
-<<<<<<< Updated upstream
+
 				LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
-=======
 				switch (1)
 				{
 					case 1:
@@ -148,7 +147,7 @@ namespace Server.Ghost
 				//}
 
 
->>>>>>> Stashed changes
+
 			}
 		}
 
