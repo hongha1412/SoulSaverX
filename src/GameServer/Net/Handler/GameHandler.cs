@@ -77,14 +77,12 @@ namespace Server.Handler
 
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
-			GamePacket.Game_LoginStatus(gc);
-			GamePacket.FW_MANAGER(gc);
-			GamePacket.Game_ServerTime(gc);
-			GamePacket.Game_LOAD_3(gc);
-			System.Threading.Thread.Sleep(250);
+			GamePacket.Cus1(gc);
+			System.Threading.Thread.Sleep(1500);
+			GamePacket.Cus2(gc);
+			GamePacket.Cus3(gc);
+			
 
-			GamePacket.Game_LOAD_4(gc);
-			GamePacket.Game_LOAD_5(gc);
 
 			//Game_AvartarJarItem
 			//    GamePacket.Game_login2_ack(gc);
@@ -119,13 +117,22 @@ namespace Server.Handler
 		public static void Character_Info_Req(InPacket lea, Client gc)
 		{
 
-			GamePacket.Game_LOAD_6(gc);
+			GamePacket.Cus4(gc);
 			System.Threading.Thread.Sleep(1500);
-			GamePacket.Game_LOAD_7(gc);
+			GamePacket.Cus5(gc);
+
+			//GamePacket.Cus6(gc);
+			//	System.Threading.Thread.Sleep(1500);
+			//GamePacket.Cus7(gc);
+
+
 #if DEBUG
 			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
 #endif
 		}
+
+
+
 		public static void Command_Req(InPacket lea, Client gc)
 		{
 
@@ -269,7 +276,7 @@ namespace Server.Handler
 					break;
 				case "//now":
 					DateTime now = DateTime.Now;
-					string nowtime = string.Format("Server Time Now : [{0}-{1}-{2} {3}:{4}:{5}]", now.Year, now.Month, now.Day.ToString("00.##"), now.Hour.ToString("00.##"), now.Minute.ToString("00.##"), now.Second.ToString("00.##"));
+					string nowtime = string.Format("Server Time Now : [{0}-{1}-{2} {3}:{4}:{5}]", now.Year, now.Month.ToString("00.##"), now.Day.ToString("00.##"), now.Hour.ToString("00.##"), now.Minute.ToString("00.##"), now.Second.ToString("00.##"));
 					GamePacket.NormalNotice(gc, 4, nowtime);
 					break;
 				case "//user":
@@ -291,7 +298,7 @@ namespace Server.Handler
 					GamePacket.GmGameInfo(gc);
 					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
 					break;
-					
+
 				default:
 					break;
 			}
@@ -416,6 +423,12 @@ namespace Server.Handler
 			lea.ReadInt();
 			var PlayerClientVersion = lea.ReadInt();
 		}
+
+		public static void GameLoadEac_Ack(InPacket lea, Client gc)
+		{
+			GamePacket.SendEAC(gc);
+		}
+
 
 		//private static int SearchBytes(byte[] haystack, byte[] needle)
 		//{

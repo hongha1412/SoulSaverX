@@ -143,9 +143,9 @@ namespace Server.Ghost
 			using (var plew = new OutPacket(LoginServerOpcode.WORLD_ACK))
 			{
 
-				plew.WriteString("10.7.0.10"); //Character Server
-				plew.WriteString("15015");
-				plew.WriteString("10.7.0.10"); //Messenger Server
+				plew.WriteString("127.0.0.1"); //Character Server
+				plew.WriteString("15010");
+				plew.WriteString("127.0.0.1"); //Messenger Server
 				plew.WriteString("15111");
 				c.Send(plew);
 			}

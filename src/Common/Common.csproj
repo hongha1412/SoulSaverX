@@ -120,10 +120,11 @@
     <Compile Include="Security\Cryptograph.cs" />
     <Compile Include="Security\CryptographyException.cs" />
     <Compile Include="Security\HashGenerator.cs" />
-    <Compile Include="Security\PacketCrypt.cs.cs" />
+    <Compile Include="Security\PacketCrypt.cs" />
     <Compile Include="Security\PasswordEncrypt.cs" />
     <Compile Include="Security\ShaCryptograph.cs" />
     <Compile Include="Threading\Delay.cs" />
+    <Compile Include="Utilities\CLZF2.cs" />
     <Compile Include="Utilities\Randomizer.cs" />
     <Compile Include="Utilities\TimerPlus.cs">
       <SubType>Component</SubType>

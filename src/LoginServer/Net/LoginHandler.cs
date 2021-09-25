@@ -16,6 +16,8 @@ namespace Server.Ghost
 
 			string password = lea.ReadString();
 			short passwordKey = lea.ReadShort();
+			Log.Debug("Password Key : {0}", passwordKey);
+			Log.Debug("Password = {0}", password);
 			if (username.IsAlphaNumeric() == false)
 			{
 				LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
@@ -104,14 +106,49 @@ namespace Server.Ghost
 
 						Log.Success("Login Success! Username: {0}", username);
 					}
-					Log.Debug("Password Key : {0}", passwordKey);
-					Log.Debug("Password = {0}", password);
+
 				}
 
 			}
 			catch (NoAccountException)
 			{
+<<<<<<< Updated upstream
 				LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
+=======
+				switch (1)
+				{
+					case 1:
+						LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+						break;
+					case 2:
+						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
+						break;
+				}
+
+
+				//if (ServerConstants.AUTO_REGISTRATION == true)
+				//{
+				//    if (username.Length < 5 || password.Length < 5)
+				//        LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
+
+
+				//    //account.Username = username.ToLower();
+				//    //account.Password = password;
+				//    //account.Creation = DateTime.Now;
+				//    //account.LoggedIn = 0;
+				//    //account.Banned = 0;
+				//    //account.Master = 0;
+				//    //account.GamePoints = 0;
+				//    //account.GiftPoints = 0;
+				//    //account.BonusPoints = 0;
+
+				//c.Account.Save();
+				//    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
+				//    return;
+				//}
+
+
+>>>>>>> Stashed changes
 			}
 		}
 

@@ -34,7 +34,7 @@ namespace Server.Net
 			{
 				if (!CharacterID_List.Contains(i))
 				{
-					this.CharacterID = i + 386080769;
+					this.CharacterID = i;
 					CharacterID_List.Add(this.CharacterID);
 					break;
 				}

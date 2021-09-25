@@ -255,6 +255,9 @@ namespace Server.Net
 				case ClientOpcode.EVENTITEM_ACK:
 					TradeHandler.TradeEventItem(ip, gc);
 					break;
+				case ClientOpcode.LOAD_EAC:
+					GameHandler.GameLoadEac_Ack(ip, gc);
+					break;
 			}
 		}
 	}

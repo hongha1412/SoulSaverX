@@ -72,6 +72,7 @@ namespace Server.Common.Net
 		GAMELOG_REQ = 0x18,
 		LOAD_DATA_REQ = 0x720,
 
+		LOAD_EAC = 0x76C,
 
 
 
@@ -247,7 +248,17 @@ namespace Server.Common.Net
 		GAMELOG = 0x14,
 		PROCESSLIST = 0x2C2,
 		GAMEINFO = 0x1D6,
+<<<<<<< Updated upstream
 		GAMEUIINFO = 0x32E,
+=======
+		SERVER_STATUS = 0x51,
+
+
+
+
+
+
+>>>>>>> Stashed changes
 
 
 
@@ -626,6 +637,16 @@ namespace Server.Common.Net
 		SOULSTACKWAR_RANKING_ACK = 0x20C,
 
 		SOULSTACKWAR_READY = 0x212,
+
+
+		GAME_UI_SETTING = 0x32E,
+
+		DAY_MISSION = 0x3BD,
+
+
+
+		SEND_EAC = 0x76D,
+
 	}
 
 	/*
