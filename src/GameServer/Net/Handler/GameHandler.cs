@@ -78,7 +78,6 @@ namespace Server.Handler
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
-			GamePacket.Cus1(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
