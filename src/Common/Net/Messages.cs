@@ -253,7 +253,7 @@ namespace Server.Common.Net
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
 		PROCESSLIST = 0x2C2,
-		GAMEINFO = 0x1D6,
+
 
 		GAMEUIINFO = 0x32E,
 		SERVER_STATUS = 0x51,
@@ -588,6 +588,8 @@ namespace Server.Common.Net
 		OXSYSTEM_ANSWER = 0x1D2,
 		OXSYSTEM_RESULT = 0x1D3,
 
+		USER_BUFF_USING = 0x1D4,
+		GAMEINFO = 0x1D6,
 		// 0x1D6
 		CHAR_SKILL_餌熱 = 0x1D7,
 		// 0x1D9

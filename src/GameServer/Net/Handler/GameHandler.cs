@@ -80,12 +80,11 @@ namespace Server.Handler
 			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
-
-			GamePacket.Cus4(gc);
 			System.Threading.Thread.Sleep(1500);
+			GamePacket.Cus4(gc);
 			GamePacket.Cus5(gc);
 #if DEBUG
-			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
+			GamePacket.NormalNotice(gc, 4, "[GM] คำเตือน : เซิร์ฟเวอร์กำลังรันในโหมด Debug");
 #endif
 			//Game_AvartarJarItem
 			//    GamePacket.Game_login2_ack(gc);
@@ -132,7 +131,7 @@ namespace Server.Handler
 						break;
 					foreach (Character all in MapFactory.AllCharacters)
 					{
-						GamePacket.getNotice(all.Client, 3, cmd[1]);
+						GamePacket.getNotice(all.Client, 1, cmd[1]);
 					}
 					break;
 				case "//item":
@@ -279,7 +278,11 @@ namespace Server.Handler
 					GamePacket.GmGameInfo(gc);
 					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
 					break;
-
+				case "//maxlevel":
+					GamePacket.getNotice(gc, 3, "!@MaxLevel1@!,undsv");
+					System.Threading.Thread.Sleep(1000);
+					GamePacket.getNotice(gc, 3, "!@MaxLevel2@!,undsv");
+					break;
 				default:
 					break;
 			}
@@ -414,6 +417,6 @@ namespace Server.Handler
 		{
 			GamePacket.ComeBackEvent(gc);
 		}
-		
+
 	}
 }

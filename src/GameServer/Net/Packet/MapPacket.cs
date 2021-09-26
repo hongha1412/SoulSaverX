@@ -67,7 +67,7 @@ namespace Server.Packet
 				plew.WriteInt(0);
 
 				plew.WriteInt(CharacterID); // 角色編號
-		
+
 				plew.WriteString(chr.Name, 20);
 				plew.WriteString(chr.Title, 20);
 				plew.WriteShort(MapX);
@@ -139,13 +139,13 @@ namespace Server.Packet
 				plew.WriteByte(chr.IP.GetAddressBytes()[1]);
 				plew.WriteByte(chr.IP.GetAddressBytes()[2]);
 				plew.WriteByte(chr.IP.GetAddressBytes()[3]);
-				
+
 				plew.WriteHexString("1F 40"); // Port
 				plew.WriteShort(0); // (byte)
 				plew.WriteShort(0);
 				plew.WriteHexString("FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 64 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6C EC 00 00 00 00 00 00 00 00 01 01 ED F5 00 00 00 00 00 00 6E EC 00 00 00 00 00 00 00 00 00 00 00 EC FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 00 1A 03 FF FF FF FF");
 
-			
+
 				c.Send(plew);
 
 			}

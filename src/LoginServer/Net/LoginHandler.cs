@@ -1,9 +1,7 @@
 using Server.Accounts;
 using Server.Common;
-using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
-using System;
 
 namespace Server.Ghost
 {
@@ -35,7 +33,7 @@ namespace Server.Ghost
 				}
 				else
 				{
-					
+
 
 
 					if (c.RetryLoginCount >= 3)

@@ -82,7 +82,7 @@ namespace Server.Net
 					break;
 				case ClientOpcode.USE_SKILL_REQ:
 					SkillHandler.UseSkill_Req(ip, gc);
-				    break;
+					break;
 				// Quest
 				case ClientOpcode.QUEST_ALL_REQ:
 					QuestHandler.Quest_All_Req(ip, gc);

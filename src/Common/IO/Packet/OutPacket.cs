@@ -1,4 +1,4 @@
-﻿using Server.Common.Net;
+using Server.Common.Net;
 using System;
 using System.Globalization;
 using System.IO;
@@ -169,9 +169,9 @@ namespace Server.Common.IO.Packet
 		{
 			this.ThrowIfDisposed();
 
-			this.WriteShort((short)Encoding.GetEncoding("EUC-KR").GetBytes(value).Length);
+			this.WriteShort((short)Encoding.GetEncoding("windows-874").GetBytes(value).Length);
 
-			foreach (byte c in Encoding.GetEncoding("EUC-KR").GetBytes(value))
+			foreach (byte c in Encoding.GetEncoding("windows-874").GetBytes(value))
 			{
 				this.WriteByte((byte)c);
 			}
@@ -179,7 +179,7 @@ namespace Server.Common.IO.Packet
 
 		public void WriteString(string value, int length)
 		{
-			byte[] ret = Encoding.GetEncoding("EUC-KR").GetBytes(value);
+			byte[] ret = Encoding.GetEncoding("windows-874").GetBytes(value);
 			for (int i = 0; i < length; i++)
 			{
 				if (i < ret.Length)

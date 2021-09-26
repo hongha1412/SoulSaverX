@@ -116,7 +116,7 @@ namespace Server.Common.Security
 				result = Decrypt2(result, len);
 
 			}
-			catch 
+			catch
 			{
 				Log.Error("Failed to decrypt packet (Invalid Public Key)");
 			}
