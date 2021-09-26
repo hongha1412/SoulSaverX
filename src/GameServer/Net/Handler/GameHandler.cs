@@ -78,17 +78,20 @@ namespace Server.Handler
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
-			System.Threading.Thread.Sleep(1500);
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
-			
 
-
+			GamePacket.Cus4(gc);
+			System.Threading.Thread.Sleep(1500);
+			GamePacket.Cus5(gc);
+#if DEBUG
+			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
+#endif
 			//Game_AvartarJarItem
 			//    GamePacket.Game_login2_ack(gc);
 
 			//MapFactory.AllCharacters.Add(chr);
-			
+
 			//GamePacket.FW_DISCOUNTFACTION(gc);
 			//StatusPacket.getStatusInfo(gc);
 			//InventoryPacket.getCharacterEquip(gc);
@@ -107,28 +110,6 @@ namespace Server.Handler
 			//InventoryPacket.getInvenSpend3(gc);
 			//InventoryPacket.getInvenOther4(gc);
 			//InventoryPacket.getInvenPet5(gc);
-		}
-
-		private static int SearchBytes(byte[] content, byte[] v)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void Character_Info_Req(InPacket lea, Client gc)
-		{
-
-			GamePacket.Cus4(gc);
-			System.Threading.Thread.Sleep(1500);
-			GamePacket.Cus5(gc);
-
-			//GamePacket.Cus6(gc);
-			//	System.Threading.Thread.Sleep(1500);
-			//GamePacket.Cus7(gc);
-
-
-#if DEBUG
-			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
-#endif
 		}
 
 

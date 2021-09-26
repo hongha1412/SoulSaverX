@@ -119,9 +119,6 @@ namespace Server.Ghost
 					case 1:
 						LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
 						break;
-					case 2:
-						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
-						break;
 				}
 
 

@@ -24,21 +24,28 @@ namespace Server.Packet
 				plew.WriteByte(chr.Level);
 				plew.WriteByte(chr.Class);
 				plew.WriteByte(chr.ClassLevel);
+				plew.WriteByte(255);
+				plew.WriteByte(255);
+				plew.WriteByte(2);
+				plew.WriteByte(1);
+				plew.WriteByte(255);
 				plew.WriteByte(chr.Guild);
 				plew.WriteByte(0);
+				plew.WriteByte(0);
+				plew.WriteInt(9000005);
+
 				plew.WriteShort(chr.MaxHp);
 				plew.WriteShort(chr.Hp);
 				plew.WriteShort(chr.MaxMp);
 				plew.WriteInt(chr.Mp);
-				plew.WriteInt(GameConstants.getExpNeededForLevel(chr.Level));
-				plew.WriteInt(0);
-				plew.WriteInt(chr.Exp);
-				plew.WriteInt(0);
+				plew.WriteLong(GameConstants.getExpNeededForLevel(chr.Level));
+				plew.WriteLong(chr.Exp);
+				plew.WriteShort(0);//ชื่อเสียง
 				plew.WriteShort(chr.Rank);
 				plew.WriteShort(chr.
 					 MaxFury); // 憤怒值(Max)
 				plew.WriteShort(chr.Fury); // 憤怒值
-				plew.WriteByte(3);
+				plew.WriteByte(chr.JumpHeight);
 				plew.WriteByte(chr.JumpHeight); // 跳躍高度
 				plew.WriteShort(chr.Str); // 力量
 				plew.WriteShort(chr.Dex); // 精力
@@ -55,18 +62,26 @@ namespace Server.Packet
 				plew.WriteByte(equip.ContainsKey(InventoryType.EquipType.Weapon)
 					? ItemFactory.weaponData[equip[InventoryType.EquipType.Weapon]].AttackRange
 					: 0); // 攻擊距離
-				plew.WriteShort(chr.Avoid); // 迴避率
-				plew.WriteShort(chr.AbilityBonus); // 能力上升值
-				plew.WriteShort(chr.SkillBonus); // 技能上升值
-				plew.WriteShort(chr.UpgradeStr); // 力量+
-				plew.WriteShort(chr.UpgradeDex); // 敏捷+
-				plew.WriteShort(chr.UpgradeVit); // 氣力+
-				plew.WriteShort(chr.UpgradeInt); // 智力+
-				plew.WriteShort(chr.UpgradeAttack); // 攻擊力+
-				plew.WriteShort(chr.UpgradeMagic); // 魔攻力+
-				plew.WriteShort(chr.UpgradeDefense); // 防禦力+
-				plew.WriteShort(0);
-				plew.WriteShort(0); // Not read
+						  //plew.WriteShort(chr.Avoid); // 迴避率
+						  //plew.WriteShort(chr.AbilityBonus); // 能力上升值
+						  //plew.WriteShort(chr.SkillBonus); // 技能上升值
+						  //plew.WriteShort(chr.UpgradeStr); // 力量+
+						  //plew.WriteShort(chr.UpgradeDex); // 敏捷+
+						  //plew.WriteShort(chr.UpgradeVit); // 氣力+
+						  //plew.WriteShort(chr.UpgradeInt); // 智力+
+						  //plew.WriteShort(chr.UpgradeAttack); // 攻擊力+
+						  //plew.WriteShort(chr.UpgradeMagic); // 魔攻力+
+						  //plew.WriteShort(chr.UpgradeDefense); // 防禦力+
+						  //plew.WriteShort(0);
+						  //plew.WriteShort(0); // Not read
+				plew.WriteHexString("00 00 00 00 81 00 00 00 00 00 00 00 05 E6 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+				plew.WriteShort(1000);
+				plew.WriteHexString("00 00 0A 00 00 00 00 00 00 00");
+				plew.WriteHexString("00 00 00 00");
+				plew.WriteHexString("00 00 00 00");
+				plew.WriteHexString("00 00 00 00");
+				plew.WriteHexString("FF FF FF FF");
+
 				c.Send(plew);
 			}
 		}

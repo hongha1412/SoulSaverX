@@ -78,7 +78,7 @@ namespace Server.Common.Net
 
 		// 2019-08-31 15:53 [GMT+7]
 		GAME_ISACTIVE = 0x15,
-		CHARACTER_INFO_REQ = 0x76,
+		//CHARACTER_INFO_REQ = 0x76,
 
 		ENTER_WARP_ACK_REQ = 0x1D,
 		NPC_SHOP_BUY_REQ = 0x22,

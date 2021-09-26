@@ -34,7 +34,7 @@ namespace Server.Packet
 		public static void warpToMap(Client c, Character chr, int CharacterID, short MapX, short MapY, short PositionX,
 			short PositionY)
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.ENTER_WARP_ACK))
 			{
 				Dictionary<InventoryType.EquipType, int> equip = InventoryPacket.getEquip(chr);
 
