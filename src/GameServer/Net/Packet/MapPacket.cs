@@ -22,12 +22,19 @@ namespace Server.Packet
 				plew.WriteShort(chr.PlayerX);
 				plew.WriteShort(chr.PlayerY);
 
-				plew.WriteShort(chr.MapX);
-				plew.WriteShort(chr.MapY);
-				plew.WriteShort(chr.PlayerX);
-				plew.WriteShort(chr.PlayerY);
-
+				
 				c.Send(plew);
+
+				/*
+				05 01 1C 00
+				14 00 35 01
+				00 00 00 00
+				01 00
+				62 00
+				A5 08
+				D5 02
+				 */
+
 			}
 		}
 
@@ -70,80 +77,82 @@ namespace Server.Packet
 
 				plew.WriteString(chr.Name, 20);
 				plew.WriteString(chr.Title, 20);
+
 				plew.WriteShort(MapX);
 				plew.WriteShort(MapY);
 				plew.WriteShort(PositionX);
 				plew.WriteShort(PositionY);
-				plew.WriteByte(chr.Gender);
-				plew.WriteByte(chr.Level);
-				plew.WriteByte(chr.Class);
-				plew.WriteByte(chr.ClassLevel);
-				plew.WriteByte(255);
-				plew.WriteByte(255);
-				plew.WriteByte(2);
-				plew.WriteByte(1);
-				plew.WriteByte(255);
-				plew.WriteByte(0);
-				plew.WriteByte(0);
-				plew.WriteByte(chr.Guild);
-				plew.WriteByte(0); // 光圈
-				plew.WriteByte(chr.IsHiding == false ? 0 : 1);
-				plew.WriteByte(chr.IsFuring == false ? 0 : chr.FuringType);
-				plew.WriteInt(0); // (byte)
-				plew.WriteInt(chr.Hair); // 頭髮
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face)
-					? equip[InventoryType.EquipType.Face]
-					: 0); // Face
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face2)
-					? equip[InventoryType.EquipType.Face2]
-					: 0); // Face 2
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Hat)
-					? equip[InventoryType.EquipType.Hat]
-					: 0); // Hat
-				plew.WriteInt(chr.Eyes); // 眼睛
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Outfit)
-					? equip[InventoryType.EquipType.Outfit]
-					: 0); // Eye
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Dress)
-					? equip[InventoryType.EquipType.Dress]
-					: 0); // Dress
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Weapon)
-					? equip[InventoryType.EquipType.Weapon]
-					: 0); // Weapon
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Mantle)
-					? equip[InventoryType.EquipType.Mantle]
-					: 0); // Mantle
-				plew.WriteInt(0);
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Pet)
-					? equip[InventoryType.EquipType.Pet]
-					: 0); // 靈物
-				plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Toy)
-					? equip[InventoryType.EquipType.Toy]
-					: 0); // 玩物
-						  // 寵物
-				plew.WriteInt(0); //Weapon AC
-				plew.WriteInt(9000005); //Skin
-				plew.WriteString(chr.Pets.Name((byte)InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Pet),
-					20); // PetName
-				plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF");
-				plew.WriteString("", 20); // ToyName
-				plew.WriteHexString("01 00 00 00 00 00 00 00 DC BF F5 05 00 00 00 00 00 01 01 01 01 01 01 01");
-				plew.WriteShort(0); // (byte)
-				plew.WriteShort(WeaponUpgradeAttack); // 武器 Glow ++
-				plew.WriteShort(0);
-				plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[0]));
-				plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[1]));
-				plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[2]));
-				plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[3]));
-				plew.WriteByte(chr.IP.GetAddressBytes()[0]);
-				plew.WriteByte(chr.IP.GetAddressBytes()[1]);
-				plew.WriteByte(chr.IP.GetAddressBytes()[2]);
-				plew.WriteByte(chr.IP.GetAddressBytes()[3]);
+				plew.WriteHexString("01 03 02 FF FF FF FF FF FF 00 00 00 00 00 FF FF D1 18 8A 00 00 00 00 00 00 00 00 00 00 00 00 00 DD A1 8B 00 CB E6 7B 00 00 00 00 00 3C 87 7A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 45 54 89 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 32 20 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 34 33 65 00 00 00 00 00 00 00 00 35 39 37 32 00 01 01 01 01 01 01 01 01 00 00 00 00 00 BC A6 B5 A1 A9 FE B0 3F 1F 40 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 64 A2 56 01 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 91 2A 00 00 00 00 00 00 00 00 01 01 00 00 00 00 00 00 00 00 3F 01 00 00 00 00 00 00 00 00 00 00 00 56 FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 03 00 00 FF FF FF FF");
+				//plew.WriteByte(chr.Gender);
+				//plew.WriteByte(chr.Level);
+				//plew.WriteByte(chr.Class);
+				//plew.WriteByte(chr.ClassLevel);
+				//plew.WriteByte(255);
+				//plew.WriteByte(255);
+				//plew.WriteByte(2);
+				//plew.WriteByte(1);
+				//plew.WriteByte(255);
+				//plew.WriteByte(0);
+				//plew.WriteByte(0);
+				//plew.WriteByte(chr.Guild);
+				//plew.WriteByte(0); // 光圈
+				//plew.WriteByte(chr.IsHiding == false ? 0 : 1);
+				//plew.WriteByte(chr.IsFuring == false ? 0 : chr.FuringType);
+				//plew.WriteInt(0); // (byte)
+				//plew.WriteInt(chr.Hair); // 頭髮
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face)
+				//	? equip[InventoryType.EquipType.Face]
+				//	: 0); // Face
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face2)
+				//	? equip[InventoryType.EquipType.Face2]
+				//	: 0); // Face 2
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Hat)
+				//	? equip[InventoryType.EquipType.Hat]
+				//	: 0); // Hat
+				//plew.WriteInt(chr.Eyes); // 眼睛
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Outfit)
+				//	? equip[InventoryType.EquipType.Outfit]
+				//	: 0); // Eye
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Dress)
+				//	? equip[InventoryType.EquipType.Dress]
+				//	: 0); // Dress
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Weapon)
+				//	? equip[InventoryType.EquipType.Weapon]
+				//	: 0); // Weapon
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Mantle)
+				//	? equip[InventoryType.EquipType.Mantle]
+				//	: 0); // Mantle
+				//plew.WriteInt(0);
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Pet)
+				//	? equip[InventoryType.EquipType.Pet]
+				//	: 0); // 靈物
+				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Toy)
+				//	? equip[InventoryType.EquipType.Toy]
+				//	: 0); // 玩物
+				//		  // 寵物
+				//plew.WriteInt(0); //Weapon AC
+				//plew.WriteInt(9000005); //Skin
+				//plew.WriteString(chr.Pets.Name((byte)InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Pet),
+				//	20); // PetName
+				//plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF");
+				//plew.WriteString("", 20); // ToyName
+				//plew.WriteHexString("01 00 00 00 00 00 00 00 DC BF F5 05 00 00 00 00 00 01 01 01 01 01 01 01");
+				//plew.WriteShort(0); // (byte)
+				//plew.WriteShort(WeaponUpgradeAttack); // 武器 Glow ++
+				//plew.WriteShort(0);
+				//plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[0]));
+				//plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[1]));
+				//plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[2]));
+				//plew.WriteByte(int.Parse(chr.Client.Title.Split('.')[3]));
+				//plew.WriteByte(chr.IP.GetAddressBytes()[0]);
+				//plew.WriteByte(chr.IP.GetAddressBytes()[1]);
+				//plew.WriteByte(chr.IP.GetAddressBytes()[2]);
+				//plew.WriteByte(chr.IP.GetAddressBytes()[3]);
 
-				plew.WriteHexString("1F 40"); // Port
-				plew.WriteShort(0); // (byte)
-				plew.WriteShort(0);
-				plew.WriteHexString("FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 64 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6C EC 00 00 00 00 00 00 00 00 01 01 ED F5 00 00 00 00 00 00 6E EC 00 00 00 00 00 00 00 00 00 00 00 EC FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 00 1A 03 FF FF FF FF");
+				//plew.WriteHexString("1F 40"); // Port
+				//plew.WriteShort(0); // (byte)
+				//plew.WriteShort(0);
+				//plew.WriteHexString("FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 64 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6C EC 00 00 00 00 00 00 00 00 01 01 ED F5 00 00 00 00 00 00 6E EC 00 00 00 00 00 00 00 00 00 00 00 EC FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 00 1A 03 FF FF FF FF");
 
 
 				c.Send(plew);

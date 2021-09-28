@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost;
@@ -646,7 +646,7 @@ namespace Server.Packet
 			}
 		}
 
-		public static void getInvenMoney(Client c, int money, int pickup)
+		public static void getInvenMoney(Client c, long money, int pickup)
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.INVEN_MONEY))
 			{

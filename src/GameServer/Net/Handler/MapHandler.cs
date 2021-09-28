@@ -74,7 +74,7 @@ namespace Server.Handler
 				foreach (Character All in Map.Characters)
 					MapPacket.warpToMap(All.Client, chr, CharacterID, MapX, MapY, PositionX, PositionY);
 
-				//MapPacket.createUser(gc, Map);
+				MapPacket.createUser(gc, Map);
 			}
 
 			Map.Characters.Add(chr);
@@ -88,17 +88,17 @@ namespace Server.Handler
 			//    Map.Monster.Add(Monster);
 			//}
 
-			//MonsterPacket.createAllMonster(gc, Map, Map.Monster);
+			MonsterPacket.createAllMonster(gc, Map, Map.Monster);
 
-			//int j = 0;
+			int j = 0;
 
-			//for (int i = 0; i < 50; i++)
-			//{
-			//    if (Map.Monster[i] != null)
-			//    {
-			//        j++;
-			//    }
-			//}
+			for (int i = 0; i < 50; i++)
+			{
+				if (Map.Monster[i] != null)
+				{
+					j++;
+				}
+			}
 
 			//for (int i = 0; i < j; i++)
 			//{
@@ -111,7 +111,7 @@ namespace Server.Handler
 
 			//if (map.GetMapCharactersTotal() < 1)
 			//{
-			//  Map.ControlMonster(gc, j);
+			Map.ControlMonster(gc, j);
 			//}
 
 			//if (chr.IsFuring == true)
