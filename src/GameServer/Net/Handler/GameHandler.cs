@@ -78,37 +78,56 @@ namespace Server.Handler
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
+
+			GamePacket.ServerInfoEvent(gc);
+			GamePacket.ServerBuffEventStatus(gc);
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
 			System.Threading.Thread.Sleep(1500);
 			GamePacket.Cus4(gc);
+
 			GamePacket.Cus5(gc);
+
 #if DEBUG
 			GamePacket.NormalNotice(gc, 4, "[GM] คำเตือน : เซิร์ฟเวอร์กำลังรันในโหมด Debug");
 #endif
-			//Game_AvartarJarItem
+
+			//	GamePacket.FW_MANAGER(gc);
+			//	GamePacket.PK_32E(gc);
+			//	StatusPacket.MarkState(gc);
+			//	StatusPacket.getStatusInfo(gc);
+			//	StatusPacket.GuihonmanItem(gc);
+			//		GamePacket.ServerInfoEvent(gc);
+			//	GamePacket.Cus2(gc);
+			//	GamePacket.Cus3(gc);
+			//	System.Threading.Thread.Sleep(1500);
+			//	GamePacket.Cus4(gc);
+			//	GamePacket.Cus5(gc);
+			//Game_AvartarJarItem 
 			//    GamePacket.Game_login2_ack(gc);
 
 			//MapFactory.AllCharacters.Add(chr);
 
 			//GamePacket.FW_DISCOUNTFACTION(gc);
 			//StatusPacket.getStatusInfo(gc);
-			//InventoryPacket.getCharacterEquip(gc);
-			//SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
-			//QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-			//GamePacket.getQuickSlot(gc, chr.Keymap);   //TODO :
+			//	InventoryPacket.getCharacterEquip(gc);
+			//	SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
+			//	QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
+			//	GamePacket.getQuickSlot(gc, chr.Keymap);   //TODO :
 			//StoragePacket.getStoreInfo(gc);			 //TODO :
 			//StoragePacket.getStoreMoney(gc);			 //TODO :	
-			//MapPacket.enterMapStart(gc);				 //TODO :	
-			//InventoryPacket.getInvenCash(gc);			//TODO :
-			//CashShopPacket.MgameCash(gc);					
-			//CashShopPacket.GuiHonCash(gc);
+			//	MapPacket.enterMapStart(gc);				 //TODO :	
+			//	//InventoryPacket.getInvenCash(gc);			//TODO :
+			//	CashShopPacket.MgameCash(gc);					
+			////	CashShopPacket.GuiHonCash(gc);
 			//InventoryPacket.getInvenEquip(gc);
 			//InventoryPacket.getInvenEquip1(gc);
 			//InventoryPacket.getInvenEquip2(gc);
 			//InventoryPacket.getInvenSpend3(gc);
 			//InventoryPacket.getInvenOther4(gc);
 			//InventoryPacket.getInvenPet5(gc);
+
+
 		}
 
 

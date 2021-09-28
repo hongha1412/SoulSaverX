@@ -56,12 +56,8 @@ namespace Server.Packet
 				plew.WriteShort(chr.MaxMagic); // 魔攻力(Max)
 				plew.WriteShort(chr.Magic); // 魔攻力(Min)
 				plew.WriteShort(chr.Defense); // 防禦力
-				plew.WriteByte(equip.ContainsKey(InventoryType.EquipType.Weapon)
-					? ItemFactory.weaponData[equip[InventoryType.EquipType.Weapon]].Speed
-					: 0); // 攻擊速度 [Speed]
-				plew.WriteByte(equip.ContainsKey(InventoryType.EquipType.Weapon)
-					? ItemFactory.weaponData[equip[InventoryType.EquipType.Weapon]].AttackRange
-					: 0); // 攻擊距離
+				plew.WriteByte(0); // 攻擊速度 [Speed]
+				plew.WriteByte(0); // 攻擊距離
 						  //plew.WriteShort(chr.Avoid); // 迴避率
 						  //plew.WriteShort(chr.AbilityBonus); // 能力上升值
 						  //plew.WriteShort(chr.SkillBonus); // 技能上升值
@@ -202,5 +198,32 @@ namespace Server.Packet
 				c.Send(plew);
 			}
 		}
+
+
+		public static void MarkState(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.MARK_STATE))
+			{
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
+
+				plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 71 56");
+				c.Send(plew);
+			}
+		}
+
+
+		public static void GuihonmanItem(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.AVATAR_ITEM))
+			{
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
+
+				plew.WriteHexString("FF 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0E 41 0A");
+				c.Send(plew);
+			}
+		}
+
 	}
 }
