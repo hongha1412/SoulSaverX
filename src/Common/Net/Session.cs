@@ -265,16 +265,7 @@ namespace Server.Common.Net
 					//byte[] final = new byte[packet.Length + 4];
 					var port = m_socket.LocalEndPoint.ToString().Split(':')[1];
 					var ret = new byte[packet.Length + 2];
-					if (port == "15001" || port == "15004")
-					{
-						ret = new byte[packet.Length + 6];
-						var header = new byte[4]
-							{0xAA, 0x55, (byte) (packet.Length & 0xFF), (byte) ((packet.Length >> 8) & 0xFF)};
-						Buffer.BlockCopy(header, 0, ret, 0, 4); // copy header to ret
-						Buffer.BlockCopy(packet, 0, ret, 4, packet.Length); // copy packet to ret
-						Buffer.BlockCopy(new byte[2] { 0x55, 0xAA }, 0, ret, packet.Length + 4, 2); // copy end to ret
-					}
-					else
+					if (port == "15101" || port == "15102")
 					{
 						ret = new byte[packet.Length + 2];
 						int a = 0x05;
@@ -294,35 +285,28 @@ namespace Server.Common.Net
 						(byte) (crc & 0xFF), (byte) ((crc >> 8) & 0xFF)
 						};
 						Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
-						Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret    
-					}
+						Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret
 
-
-					byte[] LZFCompress = CLZF2.Compress(ret,ret.Length);
-					byte[] CompressedPacked = new byte[LZFCompress.Length + 12];
-
-					
-					var PacketLength = System.BitConverter.GetBytes((short)ret.Length);
-					var PacketCheck = System.BitConverter.GetBytes((short)129);
-					var LZFLength = BitConverter.GetBytes((short)LZFCompress.Length);
-					int crclen = ret.Length + LZFCompress.Length + 129;
-					var CRCCheck = BitConverter.GetBytes(crclen);
+						byte[] LZFCompress = CLZF2.Compress(ret, ret.Length);
+						byte[] CompressedPacked = new byte[LZFCompress.Length + 12];
 
 
 
-					
-					
-					Buffer.BlockCopy(PacketLength, 0, CompressedPacked, 0, 2);
-					Buffer.BlockCopy(PacketCheck, 0, CompressedPacked, 2, 2);
-					Buffer.BlockCopy(LZFLength, 0, CompressedPacked, 4, 2);
-					Buffer.BlockCopy(CRCCheck, 0, CompressedPacked, 6, 2);
-					Buffer.BlockCopy(LZFCompress, 0, CompressedPacked, 12, LZFCompress.Length);
+						// Convert Packet Data to bytes
+						var PacketLength = System.BitConverter.GetBytes((short)ret.Length);
+						var PacketCheck = System.BitConverter.GetBytes((short)129);
+						var LZFLength = BitConverter.GetBytes((short)LZFCompress.Length);
+						int crclen = ret.Length + LZFCompress.Length + 129;
+						var CRCCheck = BitConverter.GetBytes(crclen);
 
-					//Log.Debug("ret-length : {0}  lzf-length : {1}", ret.Length.ToString(), LZFCompress.Length.ToString());
-				    //Log.Hex(">>> Send RAW Packet:: ", ret);
-					//Log.Hex(">>> Pack:: ", CompressedPacked);
 
-					SendRaw(CompressedPacked);
+						Buffer.BlockCopy(PacketLength, 0, CompressedPacked, 0, 2);
+						Buffer.BlockCopy(PacketCheck, 0, CompressedPacked, 2, 2);
+						Buffer.BlockCopy(LZFLength, 0, CompressedPacked, 4, 2);
+						Buffer.BlockCopy(CRCCheck, 0, CompressedPacked, 6, 2);
+						Buffer.BlockCopy(LZFCompress, 0, CompressedPacked, 12, LZFCompress.Length);
+						SendRaw(CompressedPacked);
+					}	
 				}
 			}
 			catch(Exception e)

@@ -37,7 +37,7 @@ namespace Server.Packet
 				plew.WriteInt(characterID); //characterID
 				plew.WriteInt(ServerConstants.CLIENT_VERSION);
 				plew.WriteInt(ServerConstants.UDP_PORT);
-				plew.WriteInt(53509341); // Time Login
+				plew.WriteInt(Randomizer.Next()); // Time Login
 				plew.WriteByte(byte.Parse(c.Title.Split('.')[0])); //IP
 				plew.WriteByte(byte.Parse(c.Title.Split('.')[1])); //IP
 				plew.WriteByte(byte.Parse(c.Title.Split('.')[2])); //IP
