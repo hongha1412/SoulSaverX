@@ -1,4 +1,4 @@
-﻿using Server.Common;
+using Server.Common;
 using Server.Ghost.Characters;
 using System;
 using System.Collections.Generic;
@@ -702,7 +702,7 @@ namespace Server.Ghost.Provider
 						}
 					}
 
-					//=========================================(2)
+					//=========================================(2) Position
 					strCount = reader.ReadInt32();
 					if (strCount > 0)
 					{

@@ -84,6 +84,8 @@ namespace Server.Handler
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
 			MapPacket.enterMapStart(gc);
+			CashShopPacket.MgameCash(gc);
+			CashShopPacket.GuiHonCash(gc);
 			GamePacket.Cus31(gc);
 
 			System.Threading.Thread.Sleep(1500);

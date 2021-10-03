@@ -1,4 +1,4 @@
-﻿using Server.Common.IO.Packet;
+using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost;
 using Server.Net;
@@ -145,15 +145,16 @@ namespace Server.Packet
 				plew.WriteShort(0);
 				plew.WriteShort(0);
 				plew.WriteByte(0);
-				plew.WriteHexString("00 00 00");
-				plew.WriteInt(0);
-				plew.WriteInt(CharacterID);
-				plew.WriteShort(Damage);
-				plew.WriteShort(Monster.Effect); // 怪物受到的效果(0: 無、1: 無法移動、2: 中毒、3: 黑暗、4: 未知、5: 冰凍)
-				plew.WriteInt(0);
-				plew.WriteInt(Monster.HP);
-				plew.WriteShort(HitX);
-				plew.WriteShort(HitY);
+				//plew.WriteHexString("00 00 00");
+				//plew.WriteInt(0);
+				//plew.WriteInt(CharacterID);
+				//plew.WriteShort(Damage);
+				//plew.WriteShort(Monster.Effect); // The effect the monster receives (0: None, 1: Unable to move, 2: Poisoned, 3: Dark, 4: Unknown, 5: Frozen)
+				//plew.WriteInt(0);
+				//plew.WriteInt(Monster.HP);
+				//plew.WriteShort(HitX);
+				//plew.WriteShort(HitY);
+				plew.WriteHexString("00 7F 03 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 CB 1B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 00 00 00");
 				c.Send(plew);
 			}
 		}
@@ -180,8 +181,7 @@ namespace Server.Packet
 				plew.WriteShort(Monster.CrashAttack);
 				plew.WriteShort(Monster.Defense);
 				plew.WriteShort(Monster.AttackType); // Byte
-				plew.WriteShort(0x630);
-				plew.WriteShort(0);
+				plew.WriteHexString("25 0F 00 01 00 00");
 				c.Send(plew);
 			}
 		}

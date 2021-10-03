@@ -3,9 +3,11 @@ using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Utilities;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows;
 
 namespace Server.Common.Net
 {
@@ -249,61 +251,85 @@ namespace Server.Common.Net
 
 		public void SendCrypto(OutPacket outPacket)
 		{
-			if (m_disposed)
-				return;
-
-			lock (m_sendSync)
+			try
 			{
 				if (m_disposed)
 					return;
 
-				byte[] packet = outPacket.Content;
-				//byte[] final = new byte[packet.Length + 4];
-				var port = m_socket.LocalEndPoint.ToString().Split(':')[1];
-				var ret = new byte[packet.Length + 2];
-				if (port == "15001" || port == "15004")
+				lock (m_sendSync)
 				{
-					ret = new byte[packet.Length + 6];
-					var header = new byte[4]
-						{0xAA, 0x55, (byte) (packet.Length & 0xFF), (byte) ((packet.Length >> 8) & 0xFF)};
-					Buffer.BlockCopy(header, 0, ret, 0, 4); // copy header to ret
-					Buffer.BlockCopy(packet, 0, ret, 4, packet.Length); // copy packet to ret
-					Buffer.BlockCopy(new byte[2] { 0x55, 0xAA }, 0, ret, packet.Length + 4, 2); // copy end to ret
-				}
-				else
-				{
-					ret = new byte[packet.Length + 2];
-					int a = 0x05;
-					int b = (packet[0]) + (packet[1] << 8);
-					int c = ret.Length;
+					if (m_disposed)
+						return;
+
+					byte[] packet = outPacket.Content;
+					//byte[] final = new byte[packet.Length + 4];
+					var port = m_socket.LocalEndPoint.ToString().Split(':')[1];
+					var ret = new byte[packet.Length + 2];
+					if (port == "15001" || port == "15004")
+					{
+						ret = new byte[packet.Length + 6];
+						var header = new byte[4]
+							{0xAA, 0x55, (byte) (packet.Length & 0xFF), (byte) ((packet.Length >> 8) & 0xFF)};
+						Buffer.BlockCopy(header, 0, ret, 0, 4); // copy header to ret
+						Buffer.BlockCopy(packet, 0, ret, 4, packet.Length); // copy packet to ret
+						Buffer.BlockCopy(new byte[2] { 0x55, 0xAA }, 0, ret, packet.Length + 4, 2); // copy end to ret
+					}
+					else
+					{
+						ret = new byte[packet.Length + 2];
+						int a = 0x05;
+						int b = (packet[0]) + (packet[1] << 8);
+						int c = ret.Length;
 #if DEBUG
-					Log.Debug(">> Send opcode:: 0x{0:X} | Send Packet Length:: {1}", b, c);
+						Log.Debug(">> Send opcode:: 0x{0:X} | Send Packet Length:: {1}", b, c);
 
 #endif
-					int crc = a + b + c + 0x100;
+						int crc = a + b + c + 0x100;
 
-					var header = new byte[8]
-					{
+						var header = new byte[8]
+						{
 						0x05, 0x01,
 						packet[0], packet[1], // correct
                         		(byte) (ret.Length & 0xFF), (byte) ((ret.Length >> 8) & 0xFF),
 						(byte) (crc & 0xFF), (byte) ((crc >> 8) & 0xFF)
-					};
-					Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
-					Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret    
+						};
+						Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
+						Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret    
+					}
+
+
+					byte[] LZFCompress = CLZF2.Compress(ret,ret.Length);
+					byte[] CompressedPacked = new byte[LZFCompress.Length + 12];
+
+					
+					var PacketLength = System.BitConverter.GetBytes((short)ret.Length);
+					var PacketCheck = System.BitConverter.GetBytes((short)129);
+					var LZFLength = BitConverter.GetBytes((short)LZFCompress.Length);
+					int crclen = ret.Length + LZFCompress.Length + 129;
+					var CRCCheck = BitConverter.GetBytes(crclen);
+
+
+
+					
+					
+					Buffer.BlockCopy(PacketLength, 0, CompressedPacked, 0, 2);
+					Buffer.BlockCopy(PacketCheck, 0, CompressedPacked, 2, 2);
+					Buffer.BlockCopy(LZFLength, 0, CompressedPacked, 4, 2);
+					Buffer.BlockCopy(CRCCheck, 0, CompressedPacked, 6, 2);
+					Buffer.BlockCopy(LZFCompress, 0, CompressedPacked, 12, LZFCompress.Length);
+
+					//Log.Debug("ret-length : {0}  lzf-length : {1}", ret.Length.ToString(), LZFCompress.Length.ToString());
+				    //Log.Hex(">>> Send RAW Packet:: ", ret);
+					//Log.Hex(">>> Pack:: ", CompressedPacked);
+
+					SendRaw(CompressedPacked);
 				}
-				var headerx = new byte[12]
-					{
-						0x28 ,0x00 ,0x81 ,0x00 ,0x29 ,0x00 ,0xD2 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
-					};
-
-				var lzf_pack = CLZF2.Compress(ret);
-				byte[] Lzf_header = new byte[lzf_pack.Length + 12];
-				Buffer.BlockCopy(headerx, 0, Lzf_header, 0, 12);
-				Buffer.BlockCopy(lzf_pack, 0, Lzf_header, 12, lzf_pack.Length);
-
-				SendRaw(Lzf_header);
 			}
+			catch(Exception e)
+			{
+				Log.Error(e.ToString());
+			}
+			
 		}
 
 
