@@ -29,29 +29,20 @@ namespace Server.Packet
 
 		public static void Game_VersionCheck(Client c, int characterID)
 		{
-			using (OutPacket plew = new OutPacket())
+			using(OutPacket plew = new OutPacket(ServerOpcode.GAMELOG))
 			{
-				//plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 51 99 08");
-				//plew.WriteHexString("05 01 14 00");
-				//plew.WriteHexString("28 00 41 01");
-				//plew.WriteHexString("00 20 00 00");
-				//plew.WriteInt(characterID);
-				//plew.WriteInt(ServerConstants.CLIENT_VERSION);
-				//plew.WriteInt(ServerConstants.UDP_PORT);
-				//plew.WriteHexString("83 C6 30 03");
-				//plew.WriteHexString("B8 16 22 C3");
-				//plew.WriteLong(c.SessionID);
-				plew.WriteHexString("28 00 81 00 29 00 D2 00 FC A0 54 99 08");
-				plew.WriteHexString("05 01 14 00");
-				plew.WriteHexString("28 00 41 01");
-				plew.WriteHexString("00 20 00 00");
-				plew.WriteHexString("2E 20 03 17");
-				plew.WriteInt(202108081);
+				plew.WriteInt(0);
+				plew.WriteInt(0);
+				plew.WriteInt(characterID); //characterID
+				plew.WriteInt(ServerConstants.CLIENT_VERSION);
 				plew.WriteInt(ServerConstants.UDP_PORT);
-				plew.WriteHexString("3D 33 34 01 B8 16 10 CE 02 F8 63 80 C6 58 F2 85");
-
-
-				c.SendCustom(plew);
+				plew.WriteInt(1234567); // Time Login
+				plew.WriteByte(byte.Parse(c.Title.Split('.')[0])); //IP
+				plew.WriteByte(byte.Parse(c.Title.Split('.')[1])); //IP
+				plew.WriteByte(byte.Parse(c.Title.Split('.')[2])); //IP
+				plew.WriteByte(byte.Parse(c.Title.Split('.')[3])); //IP
+				plew.WriteLong(c.SessionID); // Key
+				c.Send(plew);
 			}
 		}
 		public static void Game_LoginStatus(Client c)
