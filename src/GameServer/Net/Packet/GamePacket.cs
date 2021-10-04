@@ -42,7 +42,7 @@ namespace Server.Packet
 				plew.WriteByte(byte.Parse(c.Title.Split('.')[2])); //IP
 				plew.WriteByte(byte.Parse(c.Title.Split('.')[3])); //IP
 				plew.WriteLong(c.SessionID); // Key
-				c.Send(plew);
+				c.SendCrypto(plew);
 			}
 		}
 		public static void Game_LoginStatus(Client c)

@@ -123,6 +123,7 @@
     <Compile Include="Security\PasswordEncrypt.cs" />
     <Compile Include="Security\ShaCryptograph.cs" />
     <Compile Include="Threading\Delay.cs" />
+    <Compile Include="Utilities\CLZF2.cs" />
     <Compile Include="Utilities\Randomizer.cs" />
     <Compile Include="Utilities\TimerPlus.cs">
       <SubType>Component</SubType>

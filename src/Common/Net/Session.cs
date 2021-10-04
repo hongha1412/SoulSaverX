@@ -1,10 +1,13 @@
 using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
+using Server.Common.Utilities;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows;
 
 namespace Server.Common.Net
 {
@@ -245,6 +248,70 @@ namespace Server.Common.Net
 			}
 		}
 
+		//Use Send Crypto for larger packet or important packet
+		public void SendCrypto(OutPacket outPacket)
+		{
+			try
+			{
+				if (m_disposed)
+					return;
+
+				lock (m_sendSync)
+				{
+					if (m_disposed)
+						return;
+
+					byte[] packet = outPacket.Content;
+					//byte[] final = new byte[packet.Length + 4];
+					var port = m_socket.LocalEndPoint.ToString().Split(':')[1];
+					var ret = new byte[packet.Length + 2];
+					if (port == "15101" || port == "15102")
+					{
+						ret = new byte[packet.Length + 2];
+						int a = 0x05;
+						int b = (packet[0]) + (packet[1] << 8);
+						int c = ret.Length;
+						int crc = a + b + c + 0x100;
+						var header = new byte[8]
+						{
+						0x05, 0x01,
+						packet[0], packet[1], // correct
+                        		(byte) (ret.Length & 0xFF), (byte) ((ret.Length >> 8) & 0xFF),
+						(byte) (crc & 0xFF), (byte) ((crc >> 8) & 0xFF)
+						};
+						Buffer.BlockCopy(header, 0, ret, 0, 8); // copy header to ret
+						Buffer.BlockCopy(packet, 6, ret, 8, packet.Length - 6); // copy packet to ret
+
+						byte[] LZFCompress = CLZF2.Compress(ret, ret.Length);
+						byte[] CompressedPacked = new byte[LZFCompress.Length + 12];
+
+
+
+						// Convert Packet Data to bytes
+						var PacketLength = System.BitConverter.GetBytes((short)ret.Length);
+						var PacketCheck = System.BitConverter.GetBytes((short)129);
+						var LZFLength = BitConverter.GetBytes((short)LZFCompress.Length);
+						int crclen = ret.Length + LZFCompress.Length + 129;
+						var CRCCheck = BitConverter.GetBytes(crclen);
+
+
+						Buffer.BlockCopy(PacketLength, 0, CompressedPacked, 0, 2);
+						Buffer.BlockCopy(PacketCheck, 0, CompressedPacked, 2, 2);
+						Buffer.BlockCopy(LZFLength, 0, CompressedPacked, 4, 2);
+						Buffer.BlockCopy(CRCCheck, 0, CompressedPacked, 6, 2);
+						Buffer.BlockCopy(LZFCompress, 0, CompressedPacked, 12, LZFCompress.Length);
+						SendRaw(CompressedPacked);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Log.Error(e.ToString());
+			}
+
+		}
+
+
 		public void SendCustom(OutPacket outPacket)
 		{
 			if (m_disposed)
@@ -259,6 +326,7 @@ namespace Server.Common.Net
 				SendRaw(packet);
 			}
 		}
+
 
 		public bool SendRawLock(byte[] final)
 		{
