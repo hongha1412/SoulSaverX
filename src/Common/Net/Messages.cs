@@ -72,12 +72,13 @@ namespace Server.Common.Net
 		GAMELOG_REQ = 0x18,
 		LOAD_DATA_REQ = 0x720,
 
+		LOAD_EAC = 0x76C,
 
 
 
 		// 2019-08-31 15:53 [GMT+7]
 		GAME_ISACTIVE = 0x15,
-		CHARACTER_INFO_REQ = 0x76,
+		//CHARACTER_INFO_REQ = 0x76,
 
 		ENTER_WARP_ACK_REQ = 0x1D,
 		NPC_SHOP_BUY_REQ = 0x22,
@@ -205,6 +206,12 @@ namespace Server.Common.Net
 		SP_SKILL_C = 0x191,
 		SP_SPELL_C = 0x192,
 		SP_WARP_C = 0x193,
+
+		// 2021-09-25
+
+		COME_EVENT_REQ = 0x3BC
+
+
 	}
 
 	/*
@@ -246,7 +253,16 @@ namespace Server.Common.Net
 		SERVER_TIME = 0x160,
 		GAMELOG = 0x14,
 		PROCESSLIST = 0x2C2,
-		GAMEINFO = 0x1D6,
+
+
+		GAMEUIINFO = 0x32E,
+		SERVER_STATUS = 0x51,
+
+
+
+
+
+
 
 
 
@@ -477,7 +493,7 @@ namespace Server.Common.Net
 
 		ENTER_FW_ACK = 0x15E,
 		FW_MANAGER = 0x15F,
-		FW_START = 0x160,
+		FW_START = 0x160, //server time
 		FW_END = 0x161,
 		FW_POINTUP = 0x162,
 		FW_RESULT = 0x163,
@@ -515,6 +531,8 @@ namespace Server.Common.Net
 		// 0x186
 		// 0x187
 		// 0x188
+
+		FREE_WARP = 0x189,
 
 		CHAR_GOD = 0x18B,
 		CHAR_HEALING = 0x18C,
@@ -572,6 +590,8 @@ namespace Server.Common.Net
 		OXSYSTEM_ANSWER = 0x1D2,
 		OXSYSTEM_RESULT = 0x1D3,
 
+		USER_BUFF_USING = 0x1D4,
+		GAMEINFO = 0x1D6,
 		// 0x1D6
 		CHAR_SKILL_餌熱 = 0x1D7,
 		// 0x1D9
@@ -625,6 +645,30 @@ namespace Server.Common.Net
 		SOULSTACKWAR_RANKING_ACK = 0x20C,
 
 		SOULSTACKWAR_READY = 0x212,
+		MINION_CARD = 0x242,
+		MINION_CARD_INUSE = 0x243,
+		MINION_CARD_SPRIT_USE = 0x244,
+		MINION_CARD_SPRIT_ALBUM = 0x246,
+		MINION_CARD_STATE = 0x247,
+		MINION_CARD_DATA = 0x248,
+
+		AVATAR_DURATION = 0x263,
+		AVATAR_ITEM = 0x265,
+		MARK_STATE = 0x270,
+
+		PLAYER_BAG_ETC_FEATURE = 0x2E7,
+		PLAYER_BEGINNER_MAP = 0x2F6,
+
+		GAME_UI_SETTING = 0x32E,
+		SERVER_INFO_RATE = 0x39B,
+		SERVER_GUILD_WAR_ACK = 0x3A3,
+		COME_EVENT_ACK = 0x3BD,
+
+
+
+		SEND_EAC = 0x76D,
+		QUEST_UIHAENG = 0x7EE,
+
 	}
 
 	/*

@@ -1,4 +1,3 @@
-using Server.Common.IO;
 using System;
 
 namespace Server.Common.Security
@@ -111,7 +110,7 @@ namespace Server.Common.Security
 				}
 			}
 
-		//	Log.Hex("[ENC]Received packet from : ", result);
+			//	Log.Hex("[ENC]Received packet from : ", result);
 			result = Decrypt2(result, len);
 			return result;
 		}

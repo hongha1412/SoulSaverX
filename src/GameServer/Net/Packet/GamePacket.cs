@@ -29,7 +29,7 @@ namespace Server.Packet
 
 		public static void Game_VersionCheck(Client c, int characterID)
 		{
-			using(OutPacket plew = new OutPacket(ServerOpcode.GAMELOG))
+			using (OutPacket plew = new OutPacket(ServerOpcode.GAMELOG))
 			{
 				plew.WriteInt(0);
 				plew.WriteInt(0);
@@ -486,7 +486,7 @@ namespace Server.Packet
 				plew.WriteInt(0);
 
 				plew.WriteInt(0);
-			
+
 
 
 				c.Send(plew);

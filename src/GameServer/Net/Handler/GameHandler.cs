@@ -291,7 +291,7 @@ namespace Server.Handler
 					GamePacket.GmGameInfo(gc);
 					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
 					break;
-					
+
 				default:
 					break;
 			}
