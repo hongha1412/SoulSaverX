@@ -1,4 +1,4 @@
-﻿using Server.Common.Data;
+using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost.Provider;
 using Server.Net;
@@ -33,7 +33,7 @@ namespace Server.Ghost.Characters
 		public short MaxFury { get; set; }
 		public int Exp { get; set; }
 		public int Rank { get; set; }
-		public int Money { get; set; }
+		public long Money { get; set; }
 		public short MapX { get; set; }
 		public short MapY { get; set; }
 		public short PlayerX { get; set; }

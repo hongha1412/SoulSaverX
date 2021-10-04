@@ -22,19 +22,16 @@ namespace Server.Packet
 				plew.WriteShort(chr.PlayerX);
 				plew.WriteShort(chr.PlayerY);
 
-				plew.WriteShort(chr.MapX);
-				plew.WriteShort(chr.MapY);
-				plew.WriteShort(chr.PlayerX);
-				plew.WriteShort(chr.PlayerY);
 
 				c.Send(plew);
+
 			}
 		}
 
 		public static void warpToMap(Client c, Character chr, int CharacterID, short MapX, short MapY, short PositionX,
 			short PositionY)
 		{
-			using (OutPacket plew = new OutPacket())
+			using (OutPacket plew = new OutPacket(ServerOpcode.ENTER_WARP_ACK))
 			{
 				Dictionary<InventoryType.EquipType, int> equip = InventoryPacket.getEquip(chr);
 
@@ -63,21 +60,30 @@ namespace Server.Packet
 						chr.Items[InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Weapon].Level10 * 1;
 				}
 
-				//plew.WriteInt(0); // length + CRC
-				//	plew.WriteInt(0);
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
 
-				//plew.WriteInt(CharacterID); // 角色編號
-				//plew.WriteHexString("9C 01 81 00 D2 00 EF 02 78 6F 6C ED 08 05 01 1E 00 9C 01 BF 02 00 20 00 00 19 20 03 05");
-				//plew.WriteString(chr.Name, 20);
-				//plew.WriteString(chr.Title, 20);
-				//plew.WriteShort(MapX);
-				//plew.WriteShort(MapY);
-				//plew.WriteShort(PositionX);
-				//plew.WriteShort(PositionY);
+				plew.WriteInt(CharacterID); // 角色編號
+
+				plew.WriteString(chr.Name, 20);
+				plew.WriteString(chr.Title, 20);
+
+				plew.WriteShort(MapX);
+				plew.WriteShort(MapY);
+				plew.WriteShort(PositionX);
+				plew.WriteShort(PositionY);
+				plew.WriteHexString("01 03 02 FF FF FF FF FF FF 00 00 00 00 00 FF FF D1 18 8A 00 00 00 00 00 00 00 00 00 00 00 00 00 DD A1 8B 00 CB E6 7B 00 00 00 00 00 3C 87 7A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 45 54 89 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 32 20 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 34 33 65 00 00 00 00 00 00 00 00 35 39 37 32 00 01 01 01 01 01 01 01 01 00 00 00 00 00 BC A6 B5 A1 A9 FE B0 3F 1F 40 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 64 A2 56 01 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 91 2A 00 00 00 00 00 00 00 00 01 01 00 00 00 00 00 00 00 00 3F 01 00 00 00 00 00 00 00 00 00 00 00 56 FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 03 00 00 FF FF FF FF");
 				//plew.WriteByte(chr.Gender);
 				//plew.WriteByte(chr.Level);
 				//plew.WriteByte(chr.Class);
 				//plew.WriteByte(chr.ClassLevel);
+				//plew.WriteByte(255);
+				//plew.WriteByte(255);
+				//plew.WriteByte(2);
+				//plew.WriteByte(1);
+				//plew.WriteByte(255);
+				//plew.WriteByte(0);
+				//plew.WriteByte(0);
 				//plew.WriteByte(chr.Guild);
 				//plew.WriteByte(0); // 光圈
 				//plew.WriteByte(chr.IsHiding == false ? 0 : 1);
@@ -86,26 +92,27 @@ namespace Server.Packet
 				//plew.WriteInt(chr.Hair); // 頭髮
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face)
 				//	? equip[InventoryType.EquipType.Face]
-				//	: 0); // 臉上
+				//	: 0); // Face
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Face2)
 				//	? equip[InventoryType.EquipType.Face2]
-				//	: 0); // 臉下
+				//	: 0); // Face 2
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Hat)
 				//	? equip[InventoryType.EquipType.Hat]
-				//	: 0); // 帽子
+				//	: 0); // Hat
 				//plew.WriteInt(chr.Eyes); // 眼睛
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Outfit)
 				//	? equip[InventoryType.EquipType.Outfit]
-				//	: 0); // 衣服
+				//	: 0); // Eye
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Dress)
 				//	? equip[InventoryType.EquipType.Dress]
-				//	: 0); // 服裝
+				//	: 0); // Dress
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Weapon)
 				//	? equip[InventoryType.EquipType.Weapon]
-				//	: 0); // 武器
+				//	: 0); // Weapon
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Mantle)
 				//	? equip[InventoryType.EquipType.Mantle]
-				//	: 0); // 披風
+				//	: 0); // Mantle
+				//plew.WriteInt(0);
 				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Pet)
 				//	? equip[InventoryType.EquipType.Pet]
 				//	: 0); // 靈物
@@ -113,26 +120,13 @@ namespace Server.Packet
 				//	? equip[InventoryType.EquipType.Toy]
 				//	: 0); // 玩物
 				//		  // 寵物
+				//plew.WriteInt(0); //Weapon AC
+				//plew.WriteInt(9000005); //Skin
 				//plew.WriteString(chr.Pets.Name((byte)InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Pet),
 				//	20); // PetName
-				//plew.WriteInt(chr.Pets.Level((byte)InventoryType.ItemType.Equip,
-				//	(byte)InventoryType.EquipType.Pet)); // PetLevel
-				//plew.WriteInt(chr.Pets.Hp((byte)InventoryType.ItemType.Equip,
-				//	(byte)InventoryType.EquipType.Pet)); // PetHP
-				//plew.WriteInt(chr.Pets.Mp((byte)InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Pet));
-				//plew.WriteInt(chr.Pets.Exp((byte)InventoryType.ItemType.Equip, (byte)InventoryType.EquipType.Pet));
-				//plew.WriteInt(chr.Pets.DecorateID((byte)InventoryType.ItemType.Equip,
-				//	(byte)InventoryType.EquipType.Pet));
-				//plew.WriteInt(equip.ContainsKey(InventoryType.EquipType.Pet)
-				//	? chr.UseSlot[(byte)InventoryType.ItemType.Pet5]
-				//	: 0);
-				//// 玩物
+				//plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF");
 				//plew.WriteString("", 20); // ToyName
-				//plew.WriteInt(0); // ToyLevel
-				//plew.WriteInt(0);
-				//plew.WriteInt(0);
-				//plew.WriteInt(0);
-				////
+				//plew.WriteHexString("01 00 00 00 00 00 00 00 DC BF F5 05 00 00 00 00 00 01 01 01 01 01 01 01");
 				//plew.WriteShort(0); // (byte)
 				//plew.WriteShort(WeaponUpgradeAttack); // 武器 Glow ++
 				//plew.WriteShort(0);
@@ -144,37 +138,14 @@ namespace Server.Packet
 				//plew.WriteByte(chr.IP.GetAddressBytes()[1]);
 				//plew.WriteByte(chr.IP.GetAddressBytes()[2]);
 				//plew.WriteByte(chr.IP.GetAddressBytes()[3]);
-				//plew.WriteHexString("01 4F 00 98 13 EC 14 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 F4 00 01 00 00 08 0A 81 00 33 00 BC 0A 00 00 00 00 08 05 01 42 00 08 0A 4F 0B 00 E0 FF 00 E0 22 00 00 FF E0 5A 00 E0 22 8E E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FA 00 01 00 00 18 00 81 00 19 00 B2 00 18 31 6C EB 08 05 01 51 00 18 00 6E 01 00 20 00 00 52 20 03 00 36 20 03 03 00 00 B0 04 ");
-
-
-
 
 				//plew.WriteHexString("1F 40"); // Port
 				//plew.WriteShort(0); // (byte)
 				//plew.WriteShort(0);
-				//	plew.WriteHexString("00 00 00 00 00 00 00 00");
-				//	plew.WriteInt(-1);
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				//	plew.WriteShort(-1);
-				//	plew.WriteByte(-1);
-				//	plew.WriteByte(0); // 觀戰
-				//	plew.WriteByte(0);
-				//	plew.WriteByte(0);
-				plew.WriteHexString("9C 01 81 00 D2 00 EF 02 78 3F EC EB 08 05 01 1E 00 9C 01 BF 02 00 20 00 00 2E 20 03 05 79 72 74 74 30 30 20 08 E0 02 00 05 54 65 73 74 47 47 E0 02 10 20 00 00 01 20 01 07 43 00 B4 05 02 02 0B FF 60 00 20 13 06 00 00 EC EB D1 18 8A 20 07 E0 01 00 06 DD A1 8B 00 FB 5B 7C 60 10 02 7C B2 78 60 07 E0 07 00 02 45 54 89 E0 07 12 80 00 02 41 EC EB 80 08 E0 01 00 40 6B E0 01 0D E0 02 00 02 CC 41 08 C0 0D 05 98 CC 41 00 00 01 A0 00 00 CC 40 15 09 B8 16 10 CE A9 FE 24 B3 1F 40 40 27 E0 07 43 00 FF E0 0D 51 E0 07 00 E0 04 37 00 01 C0 9B 03 79 34 08 01 20 29 E0 07 53 80 00 E0 01 BF 02 01 01 82 A0 9F 00 2E A0 07 60 00 00 F6 E0 03 37 40 0B 40 4B 02 00 53 82 20 6B 01 FF FF 98 13 81 00 46 00 5F 14 00 00 00 00 08 05 01 4F 00 98 13 EC 14 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 F4 00 01 00 00 08 0A 81 00 33 00 BC 0A 00 00 00 00 08 05 01 42 00 08 0A 4F 0B 00 E0 FF 00 E0 22 00 00 FF E0 5A 00 E0 22 8E E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FA 00 01 00 00 05 01 44 00 2C 01 75 02 00 00 00 00 01 00 00 00 02 20 03 17 79 72 74 74 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 00 99 02 01 01 00 FF FF 00 00 00 00 00 00 00 D1 18 8A 00 00 00 00 00 00 00 00 00 00 00 00 00 DD A1 8B 00 FB 5B 7C 00 00 00 00 00 7C B2 78 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 7F 00 00 01 00 00 00 00 1F 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 0F FF FF FF F0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 22 0F F0 00 00 00 00 00 00");
-				//Log.Inform("(My) MapX = {0} , MapY = {1}", MapX, MapY);
-				//Log.Inform("(My) CharacterID = {0} 遠端IP = {1}.{2}.{3}.{4} , 虛擬IP = {5}.{6}.{7}.{8}", chr.CharacterID, int.Parse(chr.Client.Title.Split('.')[0]), int.Parse(chr.Client.Title.Split('.')[1]), int.Parse(chr.Client.Title.Split('.')[2]), int.Parse(chr.Client.Title.Split('.')[3]), chr.IP.GetAddressBytes()[0], chr.IP.GetAddressBytes()[1], chr.IP.GetAddressBytes()[2], chr.IP.GetAddressBytes()[3]);
-				System.Threading.Thread.Sleep(250);
+				//plew.WriteHexString("FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 64 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6C EC 00 00 00 00 00 00 00 00 01 01 ED F5 00 00 00 00 00 00 6E EC 00 00 00 00 00 00 00 00 00 00 00 EC FF FF FF FF 00 00 00 00 00 00 00 00 FF FF FF FF 01 00 00 00 00 00 1A 03 FF FF FF FF");
 
-				//	plew.WriteHexString("9C 01 81 00 D2 00 EF 02 78 3F EC EB 08"); //CRC 
-				//	plew.WriteHexString("05 01 1E 00 9C 01 BF 02 00 20 00 00 2E 20 03 05"); // Header
-				//	plew.WriteString("yrtt00");
-				//	plew.WriteHexString("20 08 E0 02 00 05 54 65 73 74 47 47 E0 02 10 20 00 00 01 20 01 07 43 00 B4 05 02 02 0B FF 60 00 20 13 06 00 00 EC EB D1 18 8A 20 07 E0 01 00 06 DD A1 8B 00 FB 5B 7C 60 10 02 7C B2 78 60 07 E0 07 00 02 45 54 89 E0 07 12 80 00 02 41 EC EB 80 08 E0 01 00 40 6B E0 01 0D E0 02 00 02 CC 41 08 C0 0D 05 98 CC 41 00 00 01 A0 00 00 CC 40 15 09 B8 16 10 CE A9 FE 24 B3 1F 40 40 27 E0 07 43 00 FF E0 0D 51 E0 07 00 E0 04 37 00 01 C0 9B 03 79 34 08 01 20 29 E0 07 53 80 00 E0 01 BF 02 01 01 82 A0 9F 00 2E A0 07 60 00 00 F6 E0 03 37 40 0B 40 4B 02 00 53 82 20 6B 01 FF FF 98 13 81 00 46 00 5F 14 00 00 00 00 08 05 01 4F 00 98 13 EC 14 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 F4 00 01 00 00 08 0A 81 00 33 00 BC 0A 00 00 00 00 08 05 01 42 00 08 0A 4F 0B 00 E0 FF 00 E0 22 00 00 FF E0 5A 00 E0 22 8E E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FF 00 E0 FA 00 01 00 00 05 01 44 00 2C 01 75 02 00 00 00 00 01 00 00 00 02 20 03 17 79 72 74 74 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 00 99 02 01 01 00 FF FF 00 00 00 00 00 00 00 D1 18 8A 00 00 00 00 00 00 00 00 00 00 00 00 00 DD A1 8B 00 FB 5B 7C 00 00 00 00 00 7C B2 78 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 7F 00 00 01 00 00 00 00 1F 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 0F FF FF FF F0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 22 0F F0 00 00 00 00 00 00");
-				c.SendCustom(plew);
+
+			//	c.SendCrypto(plew);
 
 			}
 		}

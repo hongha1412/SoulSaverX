@@ -61,12 +61,9 @@ namespace Server.Handler
 						character.IP = hostid;
 						gc.Account.Characters.Add(character);
 					}
-					//	Log.Debug("Character List : {0}", gc.Account.Characters.IF);
 					gc.SetCharacter(gc.Account.Characters[selectCharacter]);
 				}
 				Log.Inform("Password = {0}", password);
-				//Log.Inform("encryptKey = {0}", encryptKey);
-				//Log.Inform("encryptPassword = {0}", encryptPassword);
 			}
 			catch (NoAccountException)
 			{
@@ -77,55 +74,25 @@ namespace Server.Handler
 
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
-			GamePacket.Game_LoginStatus(gc);
-			GamePacket.FW_MANAGER(gc);
-			GamePacket.Game_ServerTime(gc);
-			GamePacket.Game_LOAD_3(gc);
-			System.Threading.Thread.Sleep(250);
+			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
+			//GamePacket.ServerInfoEvent(gc);
+		//	GamePacket.ServerBuffEventStatus(gc);
 
-			GamePacket.Game_LOAD_4(gc);
-			GamePacket.Game_LOAD_5(gc);
+			//GamePacket.Cus2(gc);
+			//GamePacket.Cus3(gc);
+			MapPacket.enterMapStart(gc);
+		//	CashShopPacket.MgameCash(gc);
+		//	CashShopPacket.GuiHonCash(gc);
+			//GamePacket.Cus31(gc);
 
-			//Game_AvartarJarItem
-			//    GamePacket.Game_login2_ack(gc);
 
-			//MapFactory.AllCharacters.Add(chr);
-			//StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
-			//GamePacket.FW_DISCOUNTFACTION(gc);
-			//StatusPacket.getStatusInfo(gc);
-			//InventoryPacket.getCharacterEquip(gc);
-			//SkillPacket.getSkillInfo(gc, chr.Skills.getSkills());
-			//QuestPacket.getQuestInfo(gc, chr.Quests.getQuests());
-			//GamePacket.getQuickSlot(gc, chr.Keymap);   //TODO :
-			//StoragePacket.getStoreInfo(gc);			 //TODO :
-			//StoragePacket.getStoreMoney(gc);			 //TODO :	
-			//MapPacket.enterMapStart(gc);				 //TODO :	
-			//InventoryPacket.getInvenCash(gc);			//TODO :
-			//CashShopPacket.MgameCash(gc);					
-			//CashShopPacket.GuiHonCash(gc);
-			//InventoryPacket.getInvenEquip(gc);
-			//InventoryPacket.getInvenEquip1(gc);
-			//InventoryPacket.getInvenEquip2(gc);
-			//InventoryPacket.getInvenSpend3(gc);
-			//InventoryPacket.getInvenOther4(gc);
-			//InventoryPacket.getInvenPet5(gc);
+		///	GamePacket.Cus4(gc);
+		///	GamePacket.Cus5(gc);
+		//	StatusPacket.getStatusInfo(gc);
 		}
 
-		private static int SearchBytes(byte[] content, byte[] v)
-		{
-			throw new NotImplementedException();
-		}
 
-		public static void Character_Info_Req(InPacket lea, Client gc)
-		{
 
-			GamePacket.Game_LOAD_6(gc);
-			System.Threading.Thread.Sleep(1500);
-			GamePacket.Game_LOAD_7(gc);
-#if DEBUG
-			GamePacket.NormalNotice(gc, 4, "[GM] WARNING : Your Server is running on DEBUG mode.");
-#endif
-		}
 		public static void Command_Req(InPacket lea, Client gc)
 		{
 
@@ -144,7 +111,7 @@ namespace Server.Handler
 						break;
 					foreach (Character all in MapFactory.AllCharacters)
 					{
-						GamePacket.getNotice(all.Client, 3, cmd[1]);
+						GamePacket.getNotice(all.Client, 1, cmd[1]);
 					}
 					break;
 				case "//item":
@@ -173,7 +140,7 @@ namespace Server.Handler
 				case "//money":
 					if (cmd.Length != 2)
 						break;
-					chr.Money = int.Parse(cmd[1]);
+					chr.Money = long.Parse(cmd[1]);
 					InventoryPacket.getInvenMoney(gc, chr.Money, int.Parse(cmd[1]));
 					break;
 				case "//levelup":
@@ -182,7 +149,8 @@ namespace Server.Handler
 				case "//gogo":
 					if (cmd.Length != 3)
 						break;
-					MapPacket.warpToMapAuth(gc, true, short.Parse(cmd[1]), short.Parse(cmd[2]), short.Parse(cmd[3]), short.Parse(cmd[4]));
+					Log.Debug("GoGo Command : Map : {0} Region : {1}", short.Parse(cmd[1]), short.Parse(cmd[2]));
+					MapPacket.warpToMapAuth(gc, true, short.Parse(cmd[1]), short.Parse(cmd[2]), -1, -1);
 					break;
 				case "//hp":
 					if (cmd.Length != 2)
@@ -269,7 +237,7 @@ namespace Server.Handler
 					break;
 				case "//now":
 					DateTime now = DateTime.Now;
-					string nowtime = string.Format("Server Time Now : [{0}-{1}-{2} {3}:{4}:{5}]", now.Year, now.Month, now.Day.ToString("00.##"), now.Hour.ToString("00.##"), now.Minute.ToString("00.##"), now.Second.ToString("00.##"));
+					string nowtime = string.Format("Server Time Now : [{0}-{1}-{2} {3}:{4}:{5}]", now.Year, now.Month.ToString("00.##"), now.Day.ToString("00.##"), now.Hour.ToString("00.##"), now.Minute.ToString("00.##"), now.Second.ToString("00.##"));
 					GamePacket.NormalNotice(gc, 4, nowtime);
 					break;
 				case "//user":
@@ -291,7 +259,11 @@ namespace Server.Handler
 					GamePacket.GmGameInfo(gc);
 					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
 					break;
-
+				case "//maxlevel":
+					GamePacket.getNotice(gc, 3, "!@MaxLevel1@!,undsv");
+					System.Threading.Thread.Sleep(1000);
+					GamePacket.getNotice(gc, 3, "!@MaxLevel2@!,undsv");
+					break;
 				default:
 					break;
 			}
@@ -417,20 +389,15 @@ namespace Server.Handler
 			var PlayerClientVersion = lea.ReadInt();
 		}
 
-		//private static int SearchBytes(byte[] haystack, byte[] needle)
-		//{
-		//    var len = needle.Length;
-		//    var limit = haystack.Length - len;
-		//    for (var i = 0; i <= limit; i++)
-		//    {
-		//        var k = 0;
-		//        for (; k < len; k++)
-		//        {
-		//            if (needle[k] != haystack[i + k]) break;
-		//        }
-		//        if (k == len) return i;
-		//    }
-		//    return -1;
-		//}
+		public static void GameLoadEac_Ack(InPacket lea, Client gc)
+		{
+			GamePacket.SendEAC(gc);
+		}
+
+		public static void ComeBackEvent_Ack(InPacket lea, Client gc)
+		{
+			GamePacket.ComeBackEvent(gc);
+		}
+
 	}
 }
