@@ -19,13 +19,14 @@ namespace Server.Packet
 				plew.WriteInt(0);
 
 
-				if(chr.MapX == 0)
+				if (chr.MapX == 0)
 				{
 					plew.WriteShort(1);
 					plew.WriteShort(96);
 					plew.WriteShort(-1);
 					plew.WriteShort(-1);
-				}else
+				}
+				else
 				{
 					plew.WriteShort(chr.MapX);
 					plew.WriteShort(chr.MapY);

@@ -33,7 +33,7 @@ namespace Server.Ghost
 
 				plew.WriteByte(0); //bypass password check in debug mode
 #else
-					plew.WriteByte((byte)state);
+				plew.WriteByte((byte)state);
 #endif
 				plew.WriteByte(0);
 				plew.WriteByte(c.Account.Master);

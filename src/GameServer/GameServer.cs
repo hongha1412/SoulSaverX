@@ -91,8 +91,6 @@ namespace Server
 				port = Log.Input("Set Game Server Port [Default: 15101]: ", 15101);
 				//port = int.Parse(args[0]);
 				Log.Inform("Default Game Server Port: {0}", port);
-
-
 				Settings.Initialize();
 
 				GameServer.AutoRestartTime = 15; // TODO: Get actual restart-time.

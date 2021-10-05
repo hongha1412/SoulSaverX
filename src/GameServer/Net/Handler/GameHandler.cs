@@ -29,17 +29,7 @@ namespace Server.Handler
 			string password = data[4];
 			int selectCharacter = lea.ReadByte();
 			IPAddress hostid = lea.ReadIPAddress();
-			Log.Debug(" Username : {0} ", username);
-			Log.Debug(" Password : {0} ", password);
-			Log.Debug(" selectCharacter : {0} ", selectCharacter);
-			Log.Debug(" hostid : {0} ", hostid);
-
-
-
-
-
 			gc.SetAccount(new Account(gc));
-
 
 			try
 			{
@@ -52,7 +42,6 @@ namespace Server.Handler
 				}
 				else
 				{
-					Log.Debug("ID ---> {0}", gc.Account.ID);
 					gc.Account.Characters = new List<Character>();
 					foreach (dynamic datum in new Datums("Characters").PopulateWith("id", "accountId = '{0}' ORDER BY position ASC", gc.Account.ID))
 					{
@@ -61,26 +50,20 @@ namespace Server.Handler
 						character.IP = hostid;
 						gc.Account.Characters.Add(character);
 					}
-					//	Log.Debug("Character List : {0}", gc.Account.Characters.IF);
 					gc.SetCharacter(gc.Account.Characters[selectCharacter]);
 				}
-				Log.Inform("Password = {0}", password);
-				//Log.Inform("encryptKey = {0}", encryptKey);
-				//Log.Inform("encryptPassword = {0}", encryptPassword);
 			}
 			catch (NoAccountException)
 			{
 				gc.Dispose();
 				Log.Error("Login Fail!");
 			}
-
-
 			Character chr = gc.Character;
 			chr.CharacterID = gc.CharacterID;
 			StatusPacket.UpdateHpMp(gc, 0, 0, 0, 0);
 			GamePacket.ServerInfoEvent(gc);
 			GamePacket.ServerBuffEventStatus(gc);
-			
+
 			GamePacket.Cus2(gc);
 			GamePacket.Cus3(gc);
 			MapPacket.enterMapStart(gc);
@@ -93,16 +76,6 @@ namespace Server.Handler
 			GamePacket.Cus4(gc);
 			GamePacket.Cus5(gc);
 			StatusPacket.getStatusInfo(gc);
-
-#if DEBUG
-			GamePacket.NormalNotice(gc, 4, "[GM] เกมกำลังใช้งาน TEST SERVER");
-#endif
-
-		       
-
-
-
-
 		}
 
 
@@ -163,7 +136,7 @@ namespace Server.Handler
 				case "//gogo":
 					if (cmd.Length != 3)
 						break;
-					Log.Debug("GoGo Command : Map : {0} Region : {1}", short.Parse(cmd[1]) , short.Parse(cmd[2]));
+					Log.Debug("GoGo Command : Map : {0} Region : {1}", short.Parse(cmd[1]), short.Parse(cmd[2]));
 					MapPacket.warpToMapAuth(gc, true, short.Parse(cmd[1]), short.Parse(cmd[2]), -1, -1);
 					break;
 				case "//hp":

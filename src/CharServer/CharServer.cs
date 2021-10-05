@@ -87,7 +87,7 @@ namespace Server
 #if DEBUG
 				Log.Error(e.ToString());
 #else
-                Log.Error(e);
+				Log.Error(e);
 #endif
 			}
 

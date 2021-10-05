@@ -1,13 +1,10 @@
 using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
-using Server.Common.Utilities;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Windows;
 
 namespace Server.Common.Net
 {
@@ -306,14 +303,14 @@ namespace Server.Common.Net
 						Buffer.BlockCopy(CRCCheck, 0, CompressedPacked, 6, 2);
 						Buffer.BlockCopy(LZFCompress, 0, CompressedPacked, 12, LZFCompress.Length);
 						SendRaw(CompressedPacked);
-					}	
+					}
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Log.Error(e.ToString());
 			}
-			
+
 		}
 
 

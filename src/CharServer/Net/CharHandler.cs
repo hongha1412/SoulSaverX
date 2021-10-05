@@ -18,13 +18,8 @@ namespace Server.Ghost
 			string password = data[4];
 
 			gc.SetAccount(new Account(gc));
-
-
-
-
 			try
 			{
-				Log.Debug("MyChar_Info_Req {0} ", "gc.Account.Load");
 				gc.Account.Load(username);
 				int AccountStatus = gc.Account.Banned;
 				string AccountPassword = gc.Account.Password;
@@ -45,7 +40,7 @@ namespace Server.Ghost
 				foreach (dynamic datum in new Datums("Characters").PopulateWith("id",
 					"accountId = '{0}' && worldId = '{1}' ORDER BY position ASC", gc.Account.ID, gc.WorldID))
 				{
-					
+
 
 					Character character = new Character((int)datum.id, gc);
 					character.Load(false);
@@ -208,7 +203,7 @@ namespace Server.Ghost
 
 		public static void Create_Preview_Req(InPacket lea, Client gc)
 		{
-			int unknown1 = lea.ReadInt(); // 01 00
+			int unknown1 = lea.ReadInt(); 
 
 			CharPacket.Create_Preview_Ack(gc, unknown1);
 		}
