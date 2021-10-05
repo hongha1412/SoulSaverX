@@ -83,7 +83,7 @@ namespace Server.Common.Data
 			get
 			{
 				return string.Format(
-					"server={0}; database={1}; uid={2}; password={3}; convertzerodatetime=yes; CharSet=utf8;",
+					"server={0}; database={1}; uid={2}; password={3}; convertzerodatetime=yes; CharSet=utf8; sslmode=none",
 					Database.Host,
 					Database.Schema,
 					Database.Username,
