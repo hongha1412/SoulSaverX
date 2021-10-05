@@ -64,12 +64,12 @@ namespace Server.Ghost
 						plew.WriteShort(i + 1);
 						plew.WriteShort(i + 1);
 						plew.WriteString(ServerConstants.SERVER_IP);
-						plew.WriteInt(15101 + i);
+						plew.WriteInt(15101);
 						plew.WriteInt(i < world.Count ? world[i].LoadProportion : 0); // Number of players
 						plew.WriteInt(ServerConstants.CHANNEL_LOAD); // Maximum number of channels
 						plew.WriteInt(2); // Type of seal
 						plew.WriteInt(0);
-						plew.WriteByte(i < world.Count ? 1 : 4); // Channel open
+						plew.WriteByte(1); // Channel open
 						plew.WriteInt(15199);
 					}
 				}
@@ -84,7 +84,7 @@ namespace Server.Ghost
 			{
 				plew.WriteByte((byte)state);
 				plew.WriteString(ServerConstants.SERVER_IP);
-				plew.WriteInt(15101 + c.World.ID);
+				plew.WriteInt(15101);
 				plew.WriteInt(ServerConstants.UDP_PORT);
 
 				c.Send(plew);
