@@ -17,24 +17,22 @@ namespace Server.Packet
 				var chr = c.Character;
 				plew.WriteInt(0); // length + CRC
 				plew.WriteInt(0);
-				plew.WriteShort(chr.MapX);
-				plew.WriteShort(chr.MapY);
-				plew.WriteShort(chr.PlayerX);
-				plew.WriteShort(chr.PlayerY);
 
-				
+
+				if(chr.MapX == 0)
+				{
+					plew.WriteShort(1);
+					plew.WriteShort(96);
+					plew.WriteShort(-1);
+					plew.WriteShort(-1);
+				}else
+				{
+					plew.WriteShort(chr.MapX);
+					plew.WriteShort(chr.MapY);
+					plew.WriteShort(chr.PlayerX);
+					plew.WriteShort(chr.PlayerY);
+				}
 				c.Send(plew);
-
-				/*
-				05 01 1C 00
-				14 00 35 01
-				00 00 00 00
-				01 00
-				62 00
-				A5 08
-				D5 02
-				 */
-
 			}
 		}
 
