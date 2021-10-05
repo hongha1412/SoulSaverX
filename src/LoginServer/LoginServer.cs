@@ -63,9 +63,6 @@ namespace Server
 				IsMaintenance = Settings.GetBool("isMaintenance", "Login");
 				PatchVer = Settings.GetInt("PatchVersion", "Login");
 				PatchDownloadUrl = Settings.GetString("PatchDownloadUrl", "Login");
-
-				Log.Inform("Staff will {0} be required to connect through a staff IP.",
-					LoginServer.RequireStaffIP ? " " : " not ");
 				Log.Debug("IsMaintenance: {0}", IsMaintenance);
 				TcpListener Listener = new TcpListener(IPAddress.Any, Settings.GetInt("Port", "Login"));
 				Listener.Start();
@@ -73,8 +70,6 @@ namespace Server
 
 				LoginServer.Pinger.Interval = Settings.GetInt("PingInterval");
 				LoginServer.Pinger.Start();
-				Log.Inform("Clients pinger set to {0} ms.", LoginServer.Pinger.Interval);
-
 				foreach (string world in Settings.GetBlocksFromBlock("Worlds", 1))
 				{
 					Worlds.Add(new World()

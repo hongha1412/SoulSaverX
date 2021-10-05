@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost.Provider;
@@ -88,19 +88,10 @@ namespace Server
 
 			try
 			{
-				if (port == 0)
-				{
-					try
-					{
-						port = int.Parse(args[0]);
-					}
-					catch
-					{
-						//port = Log.Input("Port[15101]: ", 15101);
-						port = 15101;
-						Log.Inform("Default Game Server Port: {0}", port);
-					}
-				}
+				port = Log.Input("Set Game Server Port [Default: 15101]: ", 15101);
+				//port = int.Parse(args[0]);
+				Log.Inform("Default Game Server Port: {0}", port);
+
 
 				Settings.Initialize();
 

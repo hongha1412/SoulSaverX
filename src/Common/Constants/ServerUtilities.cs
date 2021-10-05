@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Server.Common.Constants
 {
@@ -6,10 +6,10 @@ namespace Server.Common.Constants
 	{
 		public enum WorldNames : byte
 		{
-			Wrold01,
-			Wrold02,
-			Wrold03,
-			World04
+			GuiHon_Character_Server1,
+			GuiHon_Character_Server2,
+			GuiHon_Character_Server3,
+			GuiHon_Character_Server4
 		}
 
 		public static class WorldNameResolver

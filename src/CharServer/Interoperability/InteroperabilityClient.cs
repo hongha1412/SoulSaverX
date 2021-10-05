@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
@@ -78,7 +78,7 @@ namespace Server.Interoperability
 					{
 						CharServer.WorldID = inPacket.ReadByte();
 
-						Log.Success("Registered Char as {0} at {1}.",
+						Log.Success("Started Character Server {0} at {1}.",
 							ServerUtilities.WorldNameResolver.GetName(CharServer.WorldID), CharServer.RemoteEndPoint);
 					}
 					break;
