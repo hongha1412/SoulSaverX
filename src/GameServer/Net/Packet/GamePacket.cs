@@ -10,24 +10,6 @@ namespace Server.Packet
 {
 	public static class GamePacket
 	{
-		public static byte[] ConvertToHexString(string value)
-		{
-			var output = new System.Collections.Generic.List<byte>();
-			value = value.Replace(" ", "");
-
-			if (value.Length % 2 != 0)
-			{
-				throw new System.InvalidOperationException("Hex string size is not even.");
-			}
-
-			for (int i = 0; i < value.Length; i += 2)
-			{
-				output.Add((byte.Parse(value.Substring(i, 2), System.Globalization.NumberStyles.HexNumber)));
-			}
-
-			return output.ToArray();
-		}
-
 		public static void Game_VersionCheck(Client c, int characterID)
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.GAMELOG))
@@ -75,7 +57,7 @@ namespace Server.Packet
 				plew.WriteInt(0);
 
 				plew.WriteByte(Type);
-				plew.WriteString(Message, 127);//!@MaxLevel2@!
+				plew.WriteString(Message, 60);//!@MaxLevel2@!
 				c.Send(plew);
 			}
 		}
@@ -404,15 +386,15 @@ namespace Server.Packet
 				{
 					case 1:
 						plew.WriteByte(1);
-						plew.WriteString(Message, 63);
+						plew.WriteString(Message, 60);
 						break;
 					case 4:
 						plew.WriteByte(4);
-						plew.WriteString(Message, 63);
+						plew.WriteString(Message, 60);
 						break;
 					case 5:
 						plew.WriteByte(5);
-						plew.WriteString(Message, 63);
+						plew.WriteString(Message, 60);
 						break;
 					case 6:         //TODO:
 						break;
