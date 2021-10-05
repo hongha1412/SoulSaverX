@@ -87,18 +87,17 @@ namespace Server.Handler
 			//    Monster Monster = new Monster(0, 1020001, 200, 10000, 10000, 0, 0, 1, 0xFF, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1408, 659, true);
 			//    Map.Monster.Add(Monster);
 			//}
+			MonsterPacket.createAllMonster(gc, Map, Map.Monster);
 
-			//MonsterPacket.createAllMonster(gc, Map, Map.Monster);
+			int j = 0;
 
-		//	int j = 0;
-//
-		//	for (int i = 0; i < 50; i++)
-		//	{
-		////		if (Map.Monster[i] != null)
-		//		{
-		//			j++;
-			//	}
-			//}
+			for (int i = 0; i < 50; i++)
+			{
+				if (Map.Monster[i] != null)
+				{
+					j++;
+				}
+			}
 
 			//for (int i = 0; i < j; i++)
 			//{
@@ -111,7 +110,7 @@ namespace Server.Handler
 
 			//if (map.GetMapCharactersTotal() < 1)
 			//{
-		//	Map.ControlMonster(gc, j);
+			Map.ControlMonster(gc, j);
 			//}
 
 			//if (chr.IsFuring == true)

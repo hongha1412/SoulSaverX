@@ -9,7 +9,7 @@ using System;
 namespace Server.Packet
 {
 	public static class GamePacket
-	{
+	{ 
 		public static void Game_VersionCheck(Client c, int characterID)
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.GAMELOG))
