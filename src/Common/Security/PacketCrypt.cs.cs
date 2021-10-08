@@ -70,24 +70,10 @@ namespace Server.Common.Security
 			{
 				for (int i = 0; i < len; i++)
 				{
-					// mov bl, privatekey[i]
-					// xor bl, buff[i]
 					int v1 = ((privateKey[i % 8] ^ publicKey[i % 8]) ^ buff[i]);
-					// mov eax, edx
-					// mov eax, 8
-					// xor bl, al
 					int v2 = v1 ^ ((v10 >> 8) & 0xFF);
-					// mov al, lena
-					// xor bl, al
 					int v3 = v2 ^ lena;
-					// inc esi <== for i++
-					// mov edi, bl
 					result[i] = (byte)v3;
-					// lea eax, [edi+edi*8]
-					// lea edi, [edx+eax*8]
-					// lea eax, [edi+edi*4]
-
-					// lea edx, [edx+eax*2]
 					v10 *= 2171;
 				}
 			}
@@ -111,13 +97,13 @@ namespace Server.Common.Security
 				}
 			}
 
-		//	Log.Hex("[ENC]Received packet from : ", result);
-			result = Decrypt2(result, len);
+			result = LZFDecompress(result, len);
 			return result;
 		}
 
+		// LZF Decompress
 
-		public byte[] Decrypt2(byte[] encryptPacket, int length)
+		public byte[] LZFDecompress(byte[] encryptPacket, int length)
 		{
 			int i = 0; // v5
 			int j = 0; // v7
