@@ -254,6 +254,26 @@ namespace Server.Handler
 				default:
 					break;
 			}
+
+			/*
+				RcvGuildJoinCheckAck pGjca->result != 0 [%d][%s]
+				RcvGuildJoinCheckAck pGuild->GetFaction() != pGjca->faction [%d]
+				RcvGuildJoinCheckAck AddJoinWaitPerson() != 0 [%d]
+				RcvGuildCreateCheckAck strlen(pGcca->id) <= 0
+				RcvGuildCreateCheckAck pSession == NULL�
+			    CServerSession::RcvGuildCreateCheckAck(). Result: %d
+				CServerSession::RcvGuildCreateCheckAck()
+				Munpa creation failed. Result: %d
+				RcvGuildJoinCheckAck pGjca->result != 0 [%d][%s]
+				RcvGuildJoinCheckAck pGuild->GetFaction() != pGjca->faction [%d]
+				RcvGuildJoinCheckAck AddJoinWaitPerson() != 0 [%d]
+				RcvGuildCreateCheckAck strlen(pGcca->id) <= 0
+				RcvGuildCreateCheckAck pSession == NULL
+				CServerSession::RcvGuildCreateCheckAck(). Result: %d0
+
+				CServerSession::RcvGuildCreateCheckAck(). Munpa creation failed. Result: %d
+			 */
+
 		}
 
 		public static void Quick_Slot_Req(InPacket lea, Client gc)
