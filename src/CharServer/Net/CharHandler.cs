@@ -82,7 +82,7 @@ namespace Server.Ghost
 
 			// Hack Check
 			int DefaultCharacterLevel = 1;
-			if (job >= 6 && job < 12)
+			if (job >= 6 && job < 12 && job != 11)
 			{
 				DefaultCharacterLevel = 60;
 			}
@@ -93,6 +93,9 @@ namespace Server.Ghost
 				account_id = 0;
 				gc.Dispose();
 			}
+
+
+			//Update  Winter 2021 -> new jobs == 9
 
 
 			Character chr = new Character();
@@ -129,6 +132,8 @@ namespace Server.Ghost
 			chr.MaxMagic = 4;
 			chr.Defense = 12;
 			chr.JumpHeight = 3;
+			chr.JumpLow = 3;
+
 
 
 			int pos = 1;
@@ -203,7 +208,7 @@ namespace Server.Ghost
 
 		public static void Create_Preview_Req(InPacket lea, Client gc)
 		{
-			int unknown1 = lea.ReadInt(); 
+			int unknown1 = lea.ReadInt();
 
 			CharPacket.Create_Preview_Ack(gc, unknown1);
 		}
