@@ -1,6 +1,5 @@
 using Server.Common;
 using Server.Ghost.Characters;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
