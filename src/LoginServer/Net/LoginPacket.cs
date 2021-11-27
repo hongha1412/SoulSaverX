@@ -31,7 +31,14 @@ namespace Server.Ghost
 
 #if DEBUG
 
-				plew.WriteByte(0); //bypass password check in debug mode
+				if(state == ServerState.LoginState.LOGIN_SERVER_DEAD)
+				{
+					plew.WriteByte(30); //Restrict Login if Maintenance mode Enable
+				}
+				else
+				{
+					plew.WriteByte(0); //bypass password check in debug mode
+				}
 #else
 				plew.WriteByte((byte)state);
 #endif

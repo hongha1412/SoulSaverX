@@ -29,6 +29,7 @@ namespace Server.Ghost
 				if (LoginServer.IsMaintenance)
 				{
 					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_SERVER_DEAD);
+					return;
 
 				}
 				else
