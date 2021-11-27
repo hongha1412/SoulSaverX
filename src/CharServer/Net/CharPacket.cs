@@ -1,9 +1,7 @@
 using Server.Characters;
 using Server.Common.Constants;
-using Server.Common.IO;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,7 +25,7 @@ namespace Server.Ghost
 					{
 						if (chr.Position == (i + 1))
 						{
-							
+
 							getCharactersData(plew, chr);
 							isCreate = true;
 							break;
