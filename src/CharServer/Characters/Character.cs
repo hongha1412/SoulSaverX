@@ -1,4 +1,4 @@
-﻿using Server.Common.Data;
+using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost;
 
@@ -12,6 +12,8 @@ namespace Server.Characters
 		public byte WorldID { get; set; }
 		public string Name { get; set; }
 		public string Title { get; set; }
+
+		public byte TitleNickName { get; set; }
 		public byte Gender { get; set; }
 		public int Hair { get; set; }
 		public int Eyes { get; set; }
@@ -29,7 +31,7 @@ namespace Server.Characters
 		public short MaxFury { get; set; }
 		public int Exp { get; set; }
 		public int Rank { get; set; }
-		public int Money { get; set; }
+		public long Money { get; set; }
 		public short MapX { get; set; }
 		public short MapY { get; set; }
 		public short PlayerX { get; set; }
@@ -52,6 +54,7 @@ namespace Server.Characters
 		public short UpgradeDefense { get; set; }
 		public short AbilityBonus { get; set; }
 		public short SkillBonus { get; set; }
+		public byte JumpLow { get; set; }
 		public byte JumpHeight { get; set; }
 		public byte Position { get; set; }
 		public string created_at { get; set; }
@@ -91,6 +94,7 @@ namespace Server.Characters
 			this.WorldID = (byte)datum.worldId;
 			this.Name = datum.name;
 			this.Title = datum.title;
+			this.TitleNickName = (byte)datum.titlenickname;
 			this.Gender = (byte)datum.gender;
 			this.Hair = datum.hair;
 			this.Eyes = datum.eyes;
@@ -126,6 +130,7 @@ namespace Server.Characters
 			this.AbilityBonus = (short)datum.abilityBonus;
 			this.SkillBonus = (short)datum.skillBonus;
 			this.JumpHeight = (byte)datum.jumpHeight;
+			this.JumpLow = (byte)datum.jumpLow;
 			this.MapX = (short)datum.mapX;
 			this.MapY = (short)datum.mapY;
 			this.PlayerX = (short)datum.playerX;
@@ -151,6 +156,7 @@ namespace Server.Characters
 			datum.worldId = this.WorldID;
 			datum.name = this.Name;
 			datum.title = this.Title;
+			datum.titlenickname = this.TitleNickName;
 			datum.gender = this.Gender;
 			datum.hair = this.Hair;
 			datum.eyes = this.Eyes;
@@ -185,6 +191,7 @@ namespace Server.Characters
 			datum.upgradeDefense = this.UpgradeDefense;
 			datum.abilityBonus = this.AbilityBonus;
 			datum.skillBonus = this.SkillBonus;
+			datum.jumpLow = this.JumpLow;
 			datum.jumpHeight = this.JumpHeight;
 			datum.mapX = this.MapX;
 			datum.mapY = this.MapY;
