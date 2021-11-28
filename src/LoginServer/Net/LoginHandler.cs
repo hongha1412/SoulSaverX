@@ -170,7 +170,7 @@ namespace Server.Ghost
 		{
 			LoginPacket.World_Ack(c);
 		}
-		public static void TWOFACTOR_REQ(InPacket lea, Client c)
+		public static void SubPassword_Req(InPacket lea, Client c)
 		{
 			lea.ReadInt();
 			string Password = lea.ReadString();

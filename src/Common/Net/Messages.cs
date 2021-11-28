@@ -42,12 +42,12 @@ namespace Server.Common.Net
     */
 	public enum LoginClientOpcode : byte
 	{
-		LOGIN_REQ = 0x30,
-		SERVERLIST_REQ = 0x32,
-		WORLD_REQ = 0x3B,
-		GAME_REQ = 0x34,
+		LOGIN_REQ = 0x30,  //CPacketLogin::`vftable
+		SERVERLIST_REQ = 0x32, //CPacketServerListReq::`vftable
+		WORLD_REQ = 0x3B,   //CPacketAgentServerListReq::`vftable
+		GAME_REQ = 0x34,    //CPacketSelectServer::`vftable
 		GAME_VERSIONINFO_REQ = 0x10,
-		TWOFACTOR_REQ = 0x39
+		SUBPASSWORD_REQ = 0x39
 	}
 
 	/*
@@ -223,11 +223,13 @@ namespace Server.Common.Net
 	{
 		// LoginServer
 		PATCH_ACK = 0x11,
-		LOGIN_ACK = 0x31,
-		SERVERLIST_ACK = 0x33,
-		WORLD_ACK = 0x3C,
-		GAME_ACK = 0x35,
-		SubPasswordACK = 0x3A
+		LOGIN_ACK = 0x31,      //CPacketLoginAck
+		SERVERLIST_ACK = 0x33, //CPacketServerListAck
+		WORLD_ACK = 0x3C,       //CPacketAgentServerListAck
+		GAME_ACK = 0x35,      //CPacketServerAck
+		LOG_MSG = 0x36, //CPacketLogMsg
+		SubPasswordACK = 0x3A, //CPacketSubPasswordAck
+		GOOGLE_OTP_LOGIN = 0x3D,
 	}
 
 	/*
