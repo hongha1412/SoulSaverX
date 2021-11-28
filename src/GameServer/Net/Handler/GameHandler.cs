@@ -247,9 +247,13 @@ namespace Server.Handler
 					GamePacket.NormalNotice(gc, 4, "[GM] GAME_INFO has copied to your clipboard."); //[GM] Game Log has copied to your clipboard.
 					break;
 				case "//maxlevel":
-					GamePacket.getNotice(gc, 3, "!@MaxLevel1@!,undsv");
-					System.Threading.Thread.Sleep(1000);
-					GamePacket.getNotice(gc, 3, "!@MaxLevel2@!,undsv");
+					Log.Inform("COMMAND_REQ NAME: {0}" , );
+					string max1 = string.Format("!@MaxLevel1@!,{0}", chr.Name);
+					string max2 = string.Format("!@MaxLevel2@!,{0}", chr.Name);
+
+					GamePacket.getNotice(gc, 3, max1);
+					System.Threading.Thread.Sleep(1500);
+					GamePacket.getNotice(gc, 3, max2);
 					break;
 				default:
 					break;
