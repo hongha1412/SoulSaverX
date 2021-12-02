@@ -175,6 +175,7 @@ namespace Server.Ghost
 			lea.ReadInt();
 			string Password = lea.ReadString();
 			string ConfrimPassword = lea.ReadString();
+			Log.Debug("Account : {0}", c.Account.Username.ToString());
 			Log.Debug("SubPassowrd Request Password: {0} Confrim : {1} ", Password, ConfrimPassword);
 			int isSubPassword = c.Account.isTwoFactor;
 			if (isSubPassword == 0)
@@ -186,7 +187,7 @@ namespace Server.Ghost
 				}
 				else
 				{
-					c.SetAccount(new Account(c));
+					c.SetAccount(c.Account);
 					c.Account.isTwoFactor = 1;
 					c.Account.TwoFactorPassword = Password;
 					c.Account.Save();
