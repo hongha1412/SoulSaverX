@@ -683,5 +683,7 @@ namespace Server.Common.Net
 		FRIEND_LIST = 0x49,
 		FRIEND_ADD = 0x4C,
 		FRIEND_ONLINE = 0x4F,
+
+		PLAYER_LIST = 0xC23,
 	}
 }
