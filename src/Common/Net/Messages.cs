@@ -436,7 +436,7 @@ namespace Server.Common.Net
 		BOPEA_ACK = 0x11B,
 		T_CHAT = 0x11C,
 
-		// 0x11E
+		
 		CASHSHOPLIST1_ACK = 0x11F,
 		CASHSHOPLIST2_ACK = 0x120,
 		CASHSHOPLIST3_ACK = 0x121,
@@ -451,16 +451,7 @@ namespace Server.Common.Net
 
 		GIFT_STORE = 0x12C,
 
-		// 0x12E,
-
-		// 0x130
-
-		// 0x132
-
-		// 0x134
-
-		// 0x138
-		// 0x139
+	
 
 		MINING_ACK = 0x13B,
 
@@ -468,24 +459,12 @@ namespace Server.Common.Net
 
 		UPGRADE_ITEM_ACK = 0x13F,
 
-		// 0x142
-
+		
 		PETRIDE_ACK = 0x144,
-		// 0x145
 
 		UPGRADE_ACCITEM_ACK = 0x147,
 
-		// 0x149
-		// 0x14A
-		// 0x14B
-		// 0x14C
-		// 0x14D
 
-		// 0x14F,
-
-		// 0x151,
-
-		// 0x153,
 
 		ENTRY_FW_ACK = 0x158,
 
@@ -506,20 +485,13 @@ namespace Server.Common.Net
 
 		CHANGE_CHARNAME_ACK = 0x169,
 
-		// 0x16D
-		// 0x16E
-
+	
 		CHAR_REFLECTION = 0x170,
 
-		// 0x173
-
-		// 0x175
-		// 0x176
 
 		MOB_REFLECT = 0x178,
 
-		// 0x17A
-		// 0x17B
+
 		CHAR_SKILL_10110 = 0x17C,
 		CHAR_SKILL_10408 = 0x17D,
 		CHAR_SKILL_10409 = 0x17E,
@@ -529,10 +501,7 @@ namespace Server.Common.Net
 
 		PUZZLE = 0x183,
 		PUZZLE_UPDATE = 0x184,
-		// 0x185
-		// 0x186
-		// 0x187
-		// 0x188
+
 
 		FREE_WARP = 0x189,
 
@@ -541,7 +510,6 @@ namespace Server.Common.Net
 
 		CHAR_SHADOW = 0x194,
 
-		// 0x197
 		COMMITSHOP = 0x198,
 
 		COMMITSHOP_OPEN_ACK = 0x19D,
@@ -559,7 +527,7 @@ namespace Server.Common.Net
 		CW_PLAYSTATE = 0x1A8,
 		PW_PLAYSTATE = 0x1A9,
 
-		// 0x1AA
+
 
 		IDENTIFY_ACK = 0x1AD,
 		FREE_WARPLIST = 0x1AE,
@@ -569,65 +537,20 @@ namespace Server.Common.Net
 
 		TOY_LIFE = 0x1BA,
 		TOY_LIFE_END = 0x1BB,
-		// 0x1BC
-		// 0x1BD
-
 		EXCHANGE_ACK = 0x1C0,
-
-		// 0x1C2
-
-		// 0x1C5
-
-		// 0x1C7
-
-		// 0x1C9
-
-		// 0x1CB
-		// 0x1CC
-		// 0x1CD,
-
-		OXSYSTEM_MANAGER = 0x1CF,
-
-		OXSYSTEM_QUESTION_ACK = 0x1D1,
-		OXSYSTEM_ANSWER = 0x1D2,
-		OXSYSTEM_RESULT = 0x1D3,
-
+		ENHANCE_EQUIP = 0x1D2,
 		USER_BUFF_USING = 0x1D4,
 		GAMEINFO = 0x1D6,
-		// 0x1D6
-		CHAR_SKILL_餌熱 = 0x1D7,
-		// 0x1D9
-
-		// 0x1DA
+		COUPON_USED_ACK = 0x1D8,
 		stInDunMessage = 0x1DB,
 		stInDunStageEffect = 0x1DC,
 		stInDunTimer = 0x1DD,
 		stIndunEnterAck = 0x1DF,
-
 		JERYUNG_BIGHIT = 0x1E1,
-
-		// 0x1E4
-
-		// 0x1E6
-
-		// 0x1E8
-
-		// 0x1EA
-
-		// 0x1EC
-
-		// 0x1EE
-
-		// 0x1F0
-		// 0x1F1
-
-		// 0x1F3
 		COUPLE_EFEECT_ENTERWARP = 0x1F4,
 		COUPLE_EFEECT_ALLUSER = 0x1F5,
 
-		// 0x1F7
-		// 0x1F8
-		// 0x1F9
+
 		EX_USER_CREATE = 0x1FA,
 
 		NOTICE_BOARD_STATE = 0x1FC,
@@ -661,16 +584,24 @@ namespace Server.Common.Net
 		PLAYER_BAG_ETC_FEATURE = 0x2E7,
 		PLAYER_BEGINNER_MAP = 0x2F6,
 
+		AUCTION_CASH_REGISTER = 0x321,
+		AUCTION_CASH_SEARCH = 0x323,
+		AUCTION_CASH_ACK = 0x325,
+		AUCTION_CASH = 0x326,
 		GAME_UI_SETTING = 0x32E,
 		SERVER_INFO_RATE = 0x39B,
 		SERVER_GUILD_WAR_ACK = 0x3A3,
+		SERVER_GUILD_WAR_STATUS = 0x3A5,
+		SERVER_GUILD_WAR_MATCH_COMPLETE = 0x3A6,
+		SERVER_GUILD_WAR_MATCHING = 0x3A9,
+		COME_BACK_EVENT_END = 0x3AD,
+		BEAUTYSHOP_USE_SUCCESS = 0x3B7,
 		COME_EVENT_ACK = 0x3BD,
 
 
 
 		SEND_EAC = 0x76D,
 		QUEST_UIHAENG = 0x7EE,
-
 	}
 
 	/*
