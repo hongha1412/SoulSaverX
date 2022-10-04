@@ -100,7 +100,7 @@ namespace Server.Common.Data
 		{
 			get
 			{
-				return "ghost"; // TODO: Load from configuration.
+				return "ghost"; 
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace Server.Common.Data
 			{
 				connection.Open();
 
-				Log.Inform("Able to connect to database '{0}'.", connection.Database);
+				Log.Inform("Connnected to database '{0}'.", connection.Database);
 
 				connection.Close();
 			}
