@@ -38,39 +38,37 @@ namespace Server.Ghost
 		}
 
 
-		public static void ServerList_Ack(Client c)
+		public static void SendServerListResponse(Client client)
 		{
-
-			using (var plew = new OutPacket(LoginServerOpcode.SERVERLIST_ACK))
+			using (var packet = new OutPacket(LoginServerOpcode.SERVERLIST_ACK))
 			{
-				for (int i = 0; i < 13; i++)
+				packet.WriteBytes(new byte[13]);
+				packet.WriteInt(LoginServer.Worlds.Count); // Number of servers
+				foreach (var world in LoginServer.Worlds)
 				{
-					plew.WriteByte(0xFF);
-				}
-				plew.WriteInt(LoginServer.Worlds.Count); // Number of servers
-				foreach (World world in LoginServer.Worlds)
-				{
-					plew.WriteShort(world.ID); // Server order
-					plew.WriteInt(world.Channel); // Number of channels
+					packet.WriteShort(world.ID); // Server order
+					packet.WriteInt(world.Channel); // Number of channels
 
 					for (int i = 0; i < 8; i++)
 					{
-						plew.WriteShort(i + 1);
-						plew.WriteShort(i + 1);
-						plew.WriteString(ServerConstants.SERVER_IP);
-						plew.WriteInt(15101);
-						plew.WriteInt(i < world.Count ? world[i].LoadProportion : 0); // Number of players
-						plew.WriteInt(ServerConstants.CHANNEL_LOAD); // Maximum number of channels
-						plew.WriteInt(2); // Type of seal
-						plew.WriteInt(0);
-						plew.WriteByte(1); // Channel open
-						plew.WriteInt(15199);
+						packet.WriteShort(i + 1);
+						packet.WriteShort(i + 1);
+						packet.WriteString(ServerConstants.SERVER_IP);
+						packet.WriteInt(15101);
+						packet.WriteInt(i < world.Count ? world[i].LoadProportion : 0); // Number of players
+						packet.WriteInt(ServerConstants.CHANNEL_LOAD); // Maximum number of channels
+						packet.WriteInt(2); // Type of seal
+						packet.WriteInt(0);
+						packet.WriteByte(1); // Channel open
+						packet.WriteInt(15199);
 					}
 				}
 
-				c.Send(plew);
+				client.Send(packet);
 			}
 		}
+
+
 
 		public static void Game_Ack(Client c, ServerState.ChannelState state)
 		{

@@ -7,7 +7,7 @@ namespace Server.Ghost
 {
 	public static class LoginHandler
 	{
-		public static void Login_Req(InPacket lea, Client c)
+		public static void HandleLoginRequest(InPacket lea, Client c)
 		{
 
 			string username = lea.ReadString();
@@ -147,13 +147,13 @@ namespace Server.Ghost
 			}
 		}
 
-		public static void ServerList_Req(InPacket lea, Client c)
+		public static void HandleServerListRequest(InPacket lea, Client c)
 		{
 			if (c.Account.Banned > 1)
 			{
 				c.Dispose();
 			}
-			LoginPacket.ServerList_Ack(c);
+			LoginPacket.SendServerListResponse(c);
 		}
 
 		public static void HandlePatchVersionRequest(InPacket packet, Client client)
@@ -162,16 +162,16 @@ namespace Server.Ghost
 		}
 
 
-		public static void Game_Req(InPacket lea, Client c)
+		public static void HandleGameRequest(InPacket lea, Client c)
 		{
 			LoginPacket.Game_Ack(c, ServerState.ChannelState.OK);
 		}
 
-		public static void World_Req(InPacket lea, Client c)
+		public static void HandleWorldRequest(InPacket lea, Client c)
 		{
 			LoginPacket.World_Ack(c);
 		}
-		public static void SubPassword_Req(InPacket lea, Client c)
+		public static void HandleSubPasswordRequest(InPacket lea, Client c)
 		{
 			lea.ReadInt();
 			string Password = lea.ReadString();

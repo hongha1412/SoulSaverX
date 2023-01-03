@@ -61,42 +61,35 @@ namespace Server.Ghost
 
 		protected override void Dispatch(InPacket inPacket)
 		{
-			try
-			{
-				if (inPacket.OperationCode == (ushort)ClientOpcode.LOGIN_SERVER)
-				{
-					inPacket.ReadUShort(); // 原始長度
-					var Header = inPacket.ReadByte(); // Read header
+			if (inPacket.OperationCode != (ushort)ClientOpcode.LOGIN_SERVER) return;
+
+			inPacket.ReadUShort(); // Original length
+			var header = (LoginClientOpcode)inPacket.ReadByte(); // Read header
 
 #if DEBUG
-					Log.Hex("Received (0x{0:X2}) packet from {1}: ", inPacket.Content, Header, this.Title);
+			Log.Hex("Received (0x{0:X2}) packet from {1}: ", inPacket.Content, header, this.Title);
 #endif
-					switch ((LoginClientOpcode)Header)
-					{
-						case LoginClientOpcode.LOGIN_REQ:
-							LoginHandler.Login_Req(inPacket, this);
-							break;
-						case LoginClientOpcode.SERVERLIST_REQ:
-							LoginHandler.ServerList_Req(inPacket, this);
-							break;
-						case LoginClientOpcode.GAME_REQ:
-							LoginHandler.Game_Req(inPacket, this);
-							break;
-						case LoginClientOpcode.WORLD_REQ:
-							LoginHandler.World_Req(inPacket, this);
-							break;
-						case LoginClientOpcode.GAME_VERSIONINFO_REQ:
-							LoginHandler.HandlePatchVersionRequest(inPacket, this);
-							break;
-						case LoginClientOpcode.SUBPASSWORD_REQ:
-							LoginHandler.SubPassword_Req(inPacket, this);
-							break;
-					}
-				}
-			}
-			catch (Exception e)
+
+			switch (header)
 			{
-				Log.Error("Unhandled Packet Exception from {0}: \n{1}", this.Title, e.ToString());
+				case LoginClientOpcode.LOGIN_REQ:
+					LoginHandler.HandleLoginRequest(inPacket, this);
+					break;
+				case LoginClientOpcode.SERVERLIST_REQ:
+					LoginHandler.HandleServerListRequest(inPacket, this);
+					break;
+				case LoginClientOpcode.GAME_REQ:
+					LoginHandler.HandleGameRequest(inPacket, this);
+					break;
+				case LoginClientOpcode.WORLD_REQ:
+					LoginHandler.HandleWorldRequest(inPacket, this);
+					break;
+				case LoginClientOpcode.GAME_VERSIONINFO_REQ:
+					LoginHandler.HandlePatchVersionRequest(inPacket, this);
+					break;
+				case LoginClientOpcode.SUBPASSWORD_REQ:
+					LoginHandler.HandleSubPasswordRequest(inPacket, this);
+					break;
 			}
 		}
 

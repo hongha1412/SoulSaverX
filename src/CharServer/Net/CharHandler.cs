@@ -11,51 +11,39 @@ namespace Server.Ghost
 {
 	public static class CharHandler
 	{
-		public static void MyChar_Info_Req(InPacket lea, Client gc)
+		public static void MyCharInfoReq(InPacket lea, Client gc)
 		{
-			string[] data = lea.ReadString(lea.Available).Split(new[] { (char)0x20 }, StringSplitOptions.None);
+			// Split the packet data by the space character
+			string[] data = lea.ReadString(lea.Available).Split(new[] { ' ' }, StringSplitOptions.None);
 			string username = data[2];
 			string password = data[4];
 
+			// Load the account for the client
 			gc.SetAccount(new Account(gc));
-			try
-			{
-				gc.Account.Load(username);
-				int AccountStatus = gc.Account.Banned;
-				string AccountPassword = gc.Account.Password;
+			gc.Account.Load(username);
 
-
-				if (!password.Equals(AccountPassword))
-				{
-					gc.Dispose();
-				}
-
-				if (AccountStatus > 1)
-				{
-					gc.Dispose();
-				}
-
-
-				gc.Account.Characters = new List<Character>();
-				foreach (dynamic datum in new Datums("Characters").PopulateWith("id",
-					"accountId = '{0}' && worldId = '{1}' ORDER BY position ASC", gc.Account.ID, gc.WorldID))
-				{
-
-
-					Character character = new Character((int)datum.id, gc);
-					character.Load(false);
-					gc.Account.Characters.Add(character);
-
-				}
-				CharPacket.MyChar_Info_Ack(gc, gc.Account.Characters);
-				Log.Success("Login Success! Username: {0}", username);
-			}
-			catch (NoAccountException)
+			// Check if the password is correct and the account is not banned
+			if (!password.Equals(gc.Account.Password) || gc.Account.Banned > 1)
 			{
 				gc.Dispose();
-				Log.Error("Login Fail!");
+				return;
 			}
+
+			// Load the characters for the account
+			gc.Account.Characters = new List<Character>();
+			foreach (dynamic datum in new Datums("Characters").PopulateWith("id",
+						 "accountId = '{0}' && worldId = '{1}' ORDER BY position ASC", gc.Account.ID, gc.WorldID))
+			{
+				Character character = new Character((int)datum.id, gc);
+				character.Load(false);
+				gc.Account.Characters.Add(character);
+			}
+
+			// Send the character information to the client
+			CharPacket.MyCharInfoAck(gc, gc.Account.Characters);
+			Log.Success("Login Success! Username: {0}", username);
 		}
+
 
 		public static void Create_MyChar_Req(InPacket lea, Client gc)
 		{
@@ -191,11 +179,15 @@ namespace Server.Ghost
 			CharPacket.Create_MyChar_Ack(gc, pos);
 		}
 
-		public static void Check_SameName_Req(InPacket lea, Client gc)
+		public static void CheckSameNameReq(InPacket packet, Client client)
 		{
-			string name = lea.ReadString(20);
-			CharPacket.Check_SameName_Ack(gc, (Database.Exists("Characters", "name = '{0}'", name) ? 0 : 1));
+			string name = packet.ReadString(20);
+			int result = Database.Exists("Characters", "name = '{0}'", name) ? 0 : 1;
+			//print debug
+			Log.Debug("CheckSameNameReq: " + name + " " + result);
+			CharPacket.SendCheckSameNameAck(client, result);
 		}
+
 
 		public static void Delete_MyChar_Req(InPacket lea, Client gc)
 		{

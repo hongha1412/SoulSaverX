@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -32,6 +32,16 @@ namespace Server.Common.IO
 
 		public static void SetLogFile(string path)
 		{
+			//check path is exist if not create it
+			if (!Directory.Exists(Path.GetDirectoryName(path)))
+			{
+				Directory.CreateDirectory(Path.GetDirectoryName(path) ?? string.Empty);
+			}
+			//if file not exit create it
+			if (!File.Exists(path))
+			{
+				File.Create(path).Close();
+			}
 			FilePath = path;
 		}
 

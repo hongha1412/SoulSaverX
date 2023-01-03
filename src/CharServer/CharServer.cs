@@ -76,7 +76,7 @@ namespace Server
 
 				//MapleData.Initialize();
 
-				CharServer.Listener = new TcpListener(IPAddress.Any, CharServer.RemoteEndPoint.Port);
+				CharServer.Listener = new TcpListener(CharServer.RemoteEndPoint.Address, CharServer.RemoteEndPoint.Port);
 				CharServer.Listener.Start();
 				Log.Inform("Initialized clients listener on {0}.", CharServer.Listener.LocalEndpoint);
 

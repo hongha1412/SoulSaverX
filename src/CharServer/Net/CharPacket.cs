@@ -1,15 +1,17 @@
+using MySqlX.XDevAPI.Common;
 using Server.Characters;
 using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Server.Ghost
 {
 	public static class CharPacket
 	{
-		public static void MyChar_Info_Ack(Client gc, List<Character> chars)
+		public static void MyCharInfoAck(Client gc, List<Character> chars)
 		{
 			using (OutPacket plew = new OutPacket(ServerOpcode.MYCHAR_INFO_ACK))
 			{
@@ -17,27 +19,11 @@ namespace Server.Ghost
 				plew.WriteInt(0);
 				plew.WriteInt(chars.Count);
 
-
 				for (int i = 0; i < 4; i++)
 				{
-					bool isCreate = false;
-					foreach (Character chr in chars)
-					{
-						if (chr.Position == (i + 1))
-						{
-
-							getCharactersData(plew, chr);
-							isCreate = true;
-							break;
-						}
-					}
-
-					if (!isCreate)
-					{
-						getCharactersData(plew, null);
-					}
+					var character = chars.FirstOrDefault(chr => chr.Position == (i + 1));
+					getCharactersData(plew, character);
 				}
-
 				// Send opcode:: 0x9 have fixed packet length of 1464, so it must send with total 1464 bytes
 				// Add empty padding for null data with closing header [01 00 00 00 01 00 00 00]
 				plew.WriteHexString(
@@ -53,17 +39,18 @@ namespace Server.Ghost
           * 2 = Unable to create a new character, please purchase the character expansion item first, and create up to 4 characters at the same time.
           * else = unknown error
          */
-		public static void Check_SameName_Ack(Client gc, int state)
+		public static void SendCheckSameNameAck(Client client, int result)
 		{
-			using (OutPacket plew = new OutPacket(ServerOpcode.CHECK_SAMENAME_ACK))
+			using (var packet = new OutPacket(ServerOpcode.CHECK_SAMENAME_ACK))
 			{
-				plew.WriteInt(0); // length + CRC
-				plew.WriteInt(0);
-				plew.WriteInt(state);
+				packet.WriteInt(0); // length + CRC
+				packet.WriteInt(0);
+				packet.WriteInt(result);
 
-				gc.Send(plew);
+				client.Send(packet);
 			}
 		}
+
 
 		/*
           * -2 = Unable to create a new character. Please purchase a character expansion item first, and create up to 4 characters at the same time.

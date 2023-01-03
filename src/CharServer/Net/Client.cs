@@ -63,7 +63,7 @@ namespace Server.Ghost
 					{
 						case ClientOpcode.MYCHAR_INFO_REQ:
 							Log.Debug("Send >> CharHandler.MyChar_Info_Req");
-							CharHandler.MyChar_Info_Req(inPacket, this);
+							CharHandler.MyCharInfoReq(inPacket, this);
 							break;
 						case ClientOpcode.CREATE_MYCHAR_REQ:
 							Log.Debug("Send >> CharHandler.Create_MyChar_Req");
@@ -71,7 +71,7 @@ namespace Server.Ghost
 							break;
 						case ClientOpcode.CHECK_SAMENAME_REQ:
 							Log.Debug("Send >> CharHandler.Check_SameName_Req");
-							CharHandler.Check_SameName_Req(inPacket, this);
+							CharHandler.CheckSameNameReq(inPacket, this);
 							break;
 						case ClientOpcode.DELETE_MYCHAR_REQ:
 							Log.Debug("Send >> CharHandler.Delete_MyChar_Req");
