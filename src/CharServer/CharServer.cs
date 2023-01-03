@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost;
@@ -44,8 +44,8 @@ namespace Server
 			{
 				worldID = value;
 
-				Console.Title = string.Format("Char Server v.{0}.{1} ({2})",
-					10,
+				Console.Title = string.Format("Character Server v.{0}.{1} ({2})",
+					2021,
 					10,
 					ServerUtilities.WorldNameResolver.GetName(CharServer.WorldID));
 			}
@@ -59,7 +59,7 @@ namespace Server
 		start:
 			CharServer.Clients = new List<Client>();
 
-			Log.Entitle("Char Server v.{0}.{1}", 10, 10);
+			Log.Entitle("Character Server v.{0}.{1}.{2}", 2021, 10, 06);
 
 			try
 			{
@@ -87,7 +87,7 @@ namespace Server
 #if DEBUG
 				Log.Error(e.ToString());
 #else
-                Log.Error(e);
+				Log.Error(e);
 #endif
 			}
 

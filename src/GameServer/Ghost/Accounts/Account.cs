@@ -1,4 +1,4 @@
-﻿using Server.Common.Data;
+using Server.Common.Data;
 using Server.Common.IO;
 using Server.Ghost.Characters;
 using Server.Net;
@@ -50,7 +50,7 @@ namespace Server.Ghost.Accounts
 
 			this.Username = datum.username;
 			this.Password = datum.password;
-			this.Creation = datum.creation;
+			//	this.Creation = datum.creation;
 			this.LoggedIn = datum.isLoggedIn;
 			this.Banned = datum.isBanned;
 			this.Master = datum.isMaster;
@@ -65,7 +65,7 @@ namespace Server.Ghost.Accounts
 
 			datum.username = this.Username;
 			datum.password = this.Password;
-			datum.creation = this.Creation;
+			//datum.creation = this.Creation;
 			datum.isLoggedIn = this.LoggedIn;
 			datum.isBanned = this.Banned;
 			datum.isMaster = this.Master;

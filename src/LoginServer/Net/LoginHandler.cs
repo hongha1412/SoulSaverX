@@ -14,6 +14,8 @@ namespace Server.Ghost
 
 			string password = lea.ReadString();
 			short passwordKey = lea.ReadShort();
+			Log.Debug("Password Key : {0}", passwordKey);
+			Log.Debug("Password = {0}", password);
 			if (username.IsAlphaNumeric() == false)
 			{
 				LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
@@ -23,14 +25,16 @@ namespace Server.Ghost
 
 			try
 			{
+				c.Account.Load(username.ToLower());
 				if (LoginServer.IsMaintenance)
 				{
 					LoginPacket.Login_Ack(c, ServerState.LoginState.LOGIN_SERVER_DEAD);
+					return;
 
 				}
 				else
 				{
-					c.Account.Load(username);
+
 
 
 					if (c.RetryLoginCount >= 3)
@@ -101,20 +105,18 @@ namespace Server.Ghost
 
 						Log.Success("Login Success! Username: {0}", username);
 					}
-					Log.Debug("Password Key : {0}", passwordKey);
-					Log.Debug("Password = {0}", password);
+
 				}
 
 			}
 			catch (NoAccountException)
 			{
+
+				LoginPacket.Login_Ack(c, ServerState.LoginState.ID_BLOCK_NONE_ACTIVATION);
 				switch (1)
 				{
 					case 1:
 						LoginPacket.Login_Ack(c, ServerState.LoginState.NO_USERNAME);
-						break;
-					case 2:
-						LoginPacket.Login_Ack(c, ServerState.LoginState.PASSWORD_ERROR);
 						break;
 				}
 
@@ -135,10 +137,11 @@ namespace Server.Ghost
 				//    //account.GiftPoints = 0;
 				//    //account.BonusPoints = 0;
 
-				c.Account.Save();
+				//c.Account.Save();
 				//    LoginPacket.Login_Ack(c, ServerState.LoginState.USER_LOCK);
 				//    return;
 				//}
+
 
 
 			}
@@ -167,11 +170,12 @@ namespace Server.Ghost
 		{
 			LoginPacket.World_Ack(c);
 		}
-		public static void TWOFACTOR_REQ(InPacket lea, Client c)
+		public static void SubPassword_Req(InPacket lea, Client c)
 		{
 			lea.ReadInt();
 			string Password = lea.ReadString();
 			string ConfrimPassword = lea.ReadString();
+			Log.Debug("Account : {0}", c.Account.Username.ToString());
 			Log.Debug("SubPassowrd Request Password: {0} Confrim : {1} ", Password, ConfrimPassword);
 			int isSubPassword = c.Account.isTwoFactor;
 			if (isSubPassword == 0)
@@ -183,7 +187,7 @@ namespace Server.Ghost
 				}
 				else
 				{
-					c.SetAccount(new Account(c));
+					c.SetAccount(c.Account);
 					c.Account.isTwoFactor = 1;
 					c.Account.TwoFactorPassword = Password;
 					c.Account.Save();

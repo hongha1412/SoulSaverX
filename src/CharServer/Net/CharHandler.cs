@@ -14,56 +14,41 @@ namespace Server.Ghost
 		public static void MyChar_Info_Req(InPacket lea, Client gc)
 		{
 			string[] data = lea.ReadString(lea.Available).Split(new[] { (char)0x20 }, StringSplitOptions.None);
-
-			//int encryptKey = int.Parse(data[1]);
 			string username = data[2];
 			string password = data[4];
 
 			gc.SetAccount(new Account(gc));
-
-
-
-
 			try
 			{
-				Log.Debug("MyChar_Info_Req {0} ", "gc.Account.Load");
 				gc.Account.Load(username);
 				int AccountStatus = gc.Account.Banned;
 				string AccountPassword = gc.Account.Password;
 
 
-#if DEBUG
-				Log.Debug("[LOG] Login Check has been bypass from DEBUG MODE");
-#else
-	if (!password.Equals(AccountPassword))
+				if (!password.Equals(AccountPassword))
 				{
 					gc.Dispose();
 				}
 
-				if(AccountStatus > 1)
+				if (AccountStatus > 1)
 				{
 					gc.Dispose();
 				}
-#endif
-
 
 
 				gc.Account.Characters = new List<Character>();
 				foreach (dynamic datum in new Datums("Characters").PopulateWith("id",
 					"accountId = '{0}' && worldId = '{1}' ORDER BY position ASC", gc.Account.ID, gc.WorldID))
 				{
-					Log.Debug("MyChar_Info_Req -> datum.id {0} -> username {1}", datum.id, gc.Account.Username);
+
 
 					Character character = new Character((int)datum.id, gc);
 					character.Load(false);
 					gc.Account.Characters.Add(character);
 
 				}
-
 				CharPacket.MyChar_Info_Ack(gc, gc.Account.Characters);
 				Log.Success("Login Success! Username: {0}", username);
-
-				Log.Debug("Password = {0}", password);
 			}
 			catch (NoAccountException)
 			{
@@ -88,26 +73,6 @@ namespace Server.Ghost
 
 
 
-
-
-			/*
-            Private
-            [05 01 ] [0A 00 38 00] [47 01 01 00] 00 00  Header
-            4E 69 6E 6A 61 35 35 35 35  CharacterName
-            00 00 00 00 00 00 00 00 00 00 00  Empty
-            01 E7 19 00  // Unknow
-            DD A1 8B 00 // Eye = 
-            D1 18 8A 00 // hair =
-            3C 87 7A 00 // weapon 8030012
-            01 00 7D 00 // Outfit 8192001
-            02 00 00 00 
-             * 
-             */
-			Log.Inform(">> Create Character");
-			Log.Debug(">> Character Name: {0} Gender : {1} Value1 : {2} Value2 : {3} Value3 : {4}", name, gender, value1, value2, value3);
-			Log.Debug(">> Character ITEM : Eye : {0} Hair: {1} Weapon: {2} Outfit: {3} Job: {4}", eyes, hair, weapon, outfit, job);
-
-
 			var account_id = gc.Account.ID;
 			if (gender != 1 && gender != 2)
 			{
@@ -117,7 +82,7 @@ namespace Server.Ghost
 
 			// Hack Check
 			int DefaultCharacterLevel = 1;
-			if (job >= 6 && job < 12)
+			if (job >= 6 && job < 12 && job != 11)
 			{
 				DefaultCharacterLevel = 60;
 			}
@@ -128,6 +93,9 @@ namespace Server.Ghost
 				account_id = 0;
 				gc.Dispose();
 			}
+
+
+			//Update  Winter 2021 -> new jobs == 9
 
 
 			Character chr = new Character();
@@ -144,8 +112,8 @@ namespace Server.Ghost
 			chr.Job = job;
 			chr.Eyes = eyes;
 			chr.Hair = hair;
-			chr.MapX = 0;
-			chr.MapY = 0;
+			chr.MapX = 1;
+			chr.MapY = 96;
 			chr.Str = 3;
 			chr.Dex = 3;
 			chr.Vit = 3;
@@ -164,6 +132,8 @@ namespace Server.Ghost
 			chr.MaxMagic = 4;
 			chr.Defense = 12;
 			chr.JumpHeight = 3;
+			chr.JumpLow = 3;
+
 
 
 			int pos = 1;
@@ -197,35 +167,27 @@ namespace Server.Ghost
 			chr.UseSlot.Add((byte)InventoryType.ItemType.Spend3, 0xFF);
 			chr.UseSlot.Add((byte)InventoryType.ItemType.Pet5, 0xFF);
 
-			Log.Debug("[Create_MyChar_Req] total char = '{0}'", gc.Account.Characters.Count);
-
 			if ((gc.Account.Characters.Count + 1) <= 4)
 			{
-				Log.Debug("[Create_MyChar_Req] trying to save '{0}' to DB", name);
 
 				chr.Save();
 				gc.Account.Characters.Insert(pos - 1, chr);
 				pos = (chr.Position << 8) + 1;
 
-				Log.Debug("[Create_MyChar_Req] save status is: '{0}'", pos);
 			}
 			else if (Database.Exists("Characters", "name = '{0}'", name))
 			{
-				Log.Debug("[Create_MyChar_Req] user exist: '{0}'", name);
 				pos = -1;
 			}
 			else if ((gc.Account.Characters.Count + 1) > 4)
 			{
-				Log.Debug("[Create_MyChar_Req] user maxed: {0} - total 4/4: '{0}'", name);
 				pos = -2;
 			}
 			else
 			{
-				Log.Debug("[Create_MyChar_Req] unknown error during save: '{0}'", name);
 				pos = 0;
 			}
 
-			Log.Debug("Send Create_MyChar_Ack: '{0}'", name);
 			CharPacket.Create_MyChar_Ack(gc, pos);
 		}
 
@@ -244,17 +206,13 @@ namespace Server.Ghost
 			CharPacket.Delete_MyChar_Ack(gc, position + 1);
 		}
 
-
-		//Preview Character 2019-08-25 14:54
 		public static void Create_Preview_Req(InPacket lea, Client gc)
 		{
-			// [Original]: [05 01] [0B 00] [14 00 24 01] [01 00] 00 00 01 00 58 03 01 00 00 00 
-			int unknown1 = lea.ReadInt(); // 01 00
+			int unknown1 = lea.ReadInt();
 
 			CharPacket.Create_Preview_Ack(gc, unknown1);
 		}
 
-		// Preview Page 2 2019-08-29 11:3 [GMT+7]
 		public static void Char_page2_preview(InPacket lea, Client gc)
 		{
 			int unknown1 = lea.ReadInt();

@@ -1,4 +1,4 @@
-﻿using Server.Common.Constants;
+using Server.Common.Constants;
 using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost.Characters;
@@ -20,53 +20,13 @@ namespace Server.Packet
 				plew.WriteInt(0);
 				plew.WriteString(chr.Name, 20);
 				plew.WriteString(chr.Title, 20);
-				plew.WriteByte(chr.Gender);
-				plew.WriteByte(chr.Level);
-				plew.WriteByte(chr.Class);
-				plew.WriteByte(chr.ClassLevel);
-				plew.WriteByte(chr.Guild);
-				plew.WriteByte(0);
-				plew.WriteShort(chr.MaxHp);
-				plew.WriteShort(chr.Hp);
-				plew.WriteShort(chr.MaxMp);
-				plew.WriteInt(chr.Mp);
-				plew.WriteInt(GameConstants.getExpNeededForLevel(chr.Level));
-				plew.WriteInt(0);
-				plew.WriteInt(chr.Exp);
-				plew.WriteInt(0);
-				plew.WriteShort(chr.Rank);
-				plew.WriteShort(chr.MaxFury); // 憤怒值(Max)
-				plew.WriteShort(chr.Fury); // 憤怒值
-				plew.WriteByte(3);
-				plew.WriteByte(chr.JumpHeight); // 跳躍高度
-				plew.WriteShort(chr.Str); // 力量
-				plew.WriteShort(chr.Dex); // 精力
-				plew.WriteShort(chr.Vit); // 氣力
-				plew.WriteShort(chr.Int); // 智力
-				plew.WriteShort(chr.MaxAttack); // 攻擊力(Max)
-				plew.WriteShort(chr.Attack); // 攻擊力(Min)
-				plew.WriteShort(chr.MaxMagic); // 魔攻力(Max)
-				plew.WriteShort(chr.Magic); // 魔攻力(Min)
-				plew.WriteShort(chr.Defense); // 防禦力
-				plew.WriteByte(equip.ContainsKey(InventoryType.EquipType.Weapon)
-					? ItemFactory.weaponData[equip[InventoryType.EquipType.Weapon]].Speed
-					: 0); // 攻擊速度 [Speed]
-				plew.WriteByte(equip.ContainsKey(InventoryType.EquipType.Weapon)
-					? ItemFactory.weaponData[equip[InventoryType.EquipType.Weapon]].AttackRange
-					: 0); // 攻擊距離
-				plew.WriteShort(chr.Avoid); // 迴避率
-				plew.WriteShort(chr.AbilityBonus); // 能力上升值
-				plew.WriteShort(chr.SkillBonus); // 技能上升值
-				plew.WriteShort(chr.UpgradeStr); // 力量+
-				plew.WriteShort(chr.UpgradeDex); // 敏捷+
-				plew.WriteShort(chr.UpgradeVit); // 氣力+
-				plew.WriteShort(chr.UpgradeInt); // 智力+
-				plew.WriteShort(chr.UpgradeAttack); // 攻擊力+
-				plew.WriteShort(chr.UpgradeMagic); // 魔攻力+
-				plew.WriteShort(chr.UpgradeDefense); // 防禦力+
-				plew.WriteShort(0);
-				plew.WriteShort(0); // Not read
-				c.Send(plew);
+				plew.WriteBytes(chr.Gender);
+				plew.WriteBytes(chr.Level);
+				plew.WriteBytes(chr.Class);
+
+
+				plew.WriteHexString("FF FF FF FF FF FF 00 00 00 45 54 89 00 56 00 00 00 56 00 00 00 3A 00 00 00 3A 00 00 00 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B0 04 3C 00 03 03 03 00 03 00 03 00 03 00 14 00 11 00 04 00 04 00 0C 00 09 00 04 00 04 00 00 00 10 00 00 00 03 01 05 25 08 00 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 6C 25 00 00 00 00 E8 03 00 00 0A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF");
+				c.SendCrypto(plew);
 			}
 		}
 
@@ -186,5 +146,32 @@ namespace Server.Packet
 				c.Send(plew);
 			}
 		}
+
+
+		public static void MarkState(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.MARK_STATE))
+			{
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
+
+				plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 71 56");
+				c.Send(plew);
+			}
+		}
+
+
+		public static void GuihonmanItem(Client c)
+		{
+			using (OutPacket plew = new OutPacket(ServerOpcode.AVATAR_ITEM))
+			{
+				plew.WriteInt(0); // length + CRC
+				plew.WriteInt(0);
+
+				plew.WriteHexString("FF 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0E 41 0A");
+				c.Send(plew);
+			}
+		}
+
 	}
 }

@@ -85,8 +85,8 @@ namespace Server.Common.Net
 			else
 			{
 #if DEBUG
-					Log.Hex("Received unknown (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode,
-					this.Title);
+				Log.Hex("Received unknown (0x{0:X2}) packet from {1}: ", inPacket.Content, inPacket.OperationCode,
+				this.Title);
 #endif
 
 			}

@@ -34,14 +34,15 @@ namespace Server.Net
 			{
 				if (!CharacterID_List.Contains(i))
 				{
-					this.CharacterID = i + 386080769;
+					this.CharacterID = i;
 					CharacterID_List.Add(this.CharacterID);
 					break;
 				}
 			}
 			this.SessionID = Randomizer.NextLong();
 			GamePacket.Game_VersionCheck(this, this.CharacterID);
-			Log.Inform("Accepted connection from {0}.", this.Title);
+			Log.Inform("New Session Logged in  CID : {0} | IP: {1}", this.CharacterID, this.Title);
+			//Log.Inform("Accepted connection from {0}.", this.Title);
 		}
 
 		protected override void Unregister()

@@ -29,10 +29,10 @@ namespace Server.Net
 					GameHandler.Quick_Slot_Req(ip, gc);
 					break;
 
-				//2019-09-01 16:48 GMT+7
-				case ClientOpcode.CHARACTER_INFO_REQ: // OPCODE = 76  // Try Change test = E4 
-					GameHandler.Character_Info_Req(ip, gc);
-					break;
+				//2019-09-01 16:48 GMT+7  
+				//case ClientOpcode.CHARACTER_INFO_REQ: // OPCODE = 76  // Try Change test = E4 
+				//	GameHandler.Character_Info_Req(ip, gc);
+				//	break;
 				case ClientOpcode.GAME_ISACTIVE:
 					GameHandler.GameisActive_Ack(ip, gc);
 					break;
@@ -80,9 +80,9 @@ namespace Server.Net
 				case ClientOpcode.SKILL_LEVELUP_REQ:
 					SkillHandler.SkillLevelUp_Req(ip, gc);
 					break;
-				//case ClientOpcode.USE_SKILL_REQ:
-				//    SkillHandler.UseSkill_Req(ip, gc);
-				//    break;
+				case ClientOpcode.USE_SKILL_REQ:
+					SkillHandler.UseSkill_Req(ip, gc);
+					break;
 				// Quest
 				case ClientOpcode.QUEST_ALL_REQ:
 					QuestHandler.Quest_All_Req(ip, gc);
@@ -254,6 +254,12 @@ namespace Server.Net
 					break;
 				case ClientOpcode.EVENTITEM_ACK:
 					TradeHandler.TradeEventItem(ip, gc);
+					break;
+				case ClientOpcode.LOAD_EAC:
+					GameHandler.GameLoadEac_Ack(ip, gc);
+					break;
+				case ClientOpcode.COME_EVENT_REQ:
+					GameHandler.ComeBackEvent_Ack(ip, gc);
 					break;
 			}
 		}

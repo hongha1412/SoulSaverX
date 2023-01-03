@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using Server.Common.IO;
 using System;
 using System.IO;
@@ -83,7 +83,7 @@ namespace Server.Common.Data
 			get
 			{
 				return string.Format(
-					"server={0}; database={1}; uid={2}; password={3}; convertzerodatetime=yes; CharSet=big5;",
+					"server={0}; database={1}; uid={2}; password={3}; convertzerodatetime=yes; CharSet=utf8; sslmode=none",
 					Database.Host,
 					Database.Schema,
 					Database.Username,
@@ -100,7 +100,7 @@ namespace Server.Common.Data
 		{
 			get
 			{
-				return "ghost"; // TODO: Load from configuration.
+				return "ghost"; 
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace Server.Common.Data
 			{
 				connection.Open();
 
-				Log.Inform("Able to connect to database '{0}'.", connection.Database);
+				Log.Inform("Connnected to database '{0}'.", connection.Database);
 
 				connection.Close();
 			}

@@ -50,7 +50,7 @@ namespace Server.Accounts
 
 			this.Username = datum.username;
 			this.Password = datum.password;
-			//  this.Creation = datum.creation;
+			//	this.Creation = datum.creation;
 			this.LoggedIn = datum.isLoggedIn;
 			this.Banned = datum.isBanned;
 			this.Master = datum.isMaster;

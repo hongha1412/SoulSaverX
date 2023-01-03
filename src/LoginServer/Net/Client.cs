@@ -88,8 +88,8 @@ namespace Server.Ghost
 						case LoginClientOpcode.GAME_VERSIONINFO_REQ:
 							LoginHandler.PatchVersion_Req(inPacket, this);
 							break;
-						case LoginClientOpcode.TWOFACTOR_REQ:
-							LoginHandler.TWOFACTOR_REQ(inPacket, this);
+						case LoginClientOpcode.SUBPASSWORD_REQ:
+							LoginHandler.SubPassword_Req(inPacket, this);
 							break;
 					}
 				}

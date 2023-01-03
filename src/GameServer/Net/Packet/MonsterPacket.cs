@@ -1,4 +1,4 @@
-﻿using Server.Common.IO.Packet;
+using Server.Common.IO.Packet;
 using Server.Common.Net;
 using Server.Ghost;
 using Server.Net;
@@ -111,8 +111,11 @@ namespace Server.Packet
 
 				for (int i = 0; i < 50; i++)
 				{
-					plew.WriteHexString("CB 46");
+					plew.WriteShort(0);
 				}
+
+
+				plew.WriteHexString("B6 3A 25 32 F1 1C B0 14 9D 36 3E 0A 35 1C A7 49 5E 18 FF 02 1B 29 BA 29 34 4D 8A 1E A0 15 B0 11 B1 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
 
 				for (int i = 0; i < 50; i++)
 				{
@@ -123,7 +126,7 @@ namespace Server.Packet
 				{
 					plew.WriteInt(Monster[i] != null ? Monster[i].HP : 0);
 				}
-
+				plew.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
 				c.Send(plew);
 			}
 		}
@@ -145,15 +148,16 @@ namespace Server.Packet
 				plew.WriteShort(0);
 				plew.WriteShort(0);
 				plew.WriteByte(0);
-				plew.WriteHexString("00 00 00");
-				plew.WriteInt(0);
-				plew.WriteInt(CharacterID);
-				plew.WriteShort(Damage);
-				plew.WriteShort(Monster.Effect); // 怪物受到的效果(0: 無、1: 無法移動、2: 中毒、3: 黑暗、4: 未知、5: 冰凍)
-				plew.WriteInt(0);
-				plew.WriteInt(Monster.HP);
-				plew.WriteShort(HitX);
-				plew.WriteShort(HitY);
+				//plew.WriteHexString("00 00 00");
+				//plew.WriteInt(0);
+				//plew.WriteInt(CharacterID);
+				//plew.WriteShort(Damage);
+				//plew.WriteShort(Monster.Effect); // The effect the monster receives (0: None, 1: Unable to move, 2: Poisoned, 3: Dark, 4: Unknown, 5: Frozen)
+				//plew.WriteInt(0);
+				//plew.WriteInt(Monster.HP);
+				//plew.WriteShort(HitX);
+				//plew.WriteShort(HitY);
+				plew.WriteHexString("00 7F 03 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 CB 1B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 00 00 00");
 				c.Send(plew);
 			}
 		}
@@ -180,8 +184,7 @@ namespace Server.Packet
 				plew.WriteShort(Monster.CrashAttack);
 				plew.WriteShort(Monster.Defense);
 				plew.WriteShort(Monster.AttackType); // Byte
-				plew.WriteShort(0x630);
-				plew.WriteShort(0);
+				plew.WriteHexString("25 0F 00 01 00 00");
 				c.Send(plew);
 			}
 		}
