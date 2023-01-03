@@ -7,15 +7,15 @@ namespace Server.Ghost
 {
 	public static class LoginPacket
 	{
-		public static void GameVersionInfoAck(Client c)
+		public static void SendGameVersionInfo(Client client)
 		{
-			using (var plew = new OutPacket(LoginServerOpcode.PATCH_ACK))
+			using (var packet = new OutPacket(LoginServerOpcode.PATCH_ACK))
 			{
-				plew.WriteInt(LoginServer.PatchVer); // Patch Version from patch.dat
-				plew.WriteInt(0);
-				plew.WriteString(LoginServer.PatchDownloadUrl);
-				plew.WriteString("live/");
-				c.Send(plew);
+				packet.WriteInt(LoginServer.PatchVer);
+				packet.WriteInt(0);
+				packet.WriteString(LoginServer.PatchDownloadUrl);
+				packet.WriteString("live/");
+				client.Send(packet);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace Server.Ghost
 
 #if DEBUG
 
-				if(state == ServerState.LoginState.LOGIN_SERVER_DEAD)
+				if (state == ServerState.LoginState.LOGIN_SERVER_DEAD)
 				{
 					plew.WriteByte(30); //Restrict Login if Maintenance mode Enable
 				}

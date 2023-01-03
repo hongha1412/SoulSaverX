@@ -156,10 +156,11 @@ namespace Server.Ghost
 			LoginPacket.ServerList_Ack(c);
 		}
 
-		public static void PatchVersion_Req(InPacket lea, Client c)
+		public static void HandlePatchVersionRequest(InPacket packet, Client client)
 		{
-			LoginPacket.GameVersionInfoAck(c);
+			LoginPacket.SendGameVersionInfo(client);
 		}
+
 
 		public static void Game_Req(InPacket lea, Client c)
 		{
@@ -207,9 +208,6 @@ namespace Server.Ghost
 					LoginPacket.SubPassLoginWrong(c);
 				}
 			}
-
-
-
 		}
 	}
 }
