@@ -24,32 +24,19 @@ namespace Server.Ghost
 		/* NetCafe
          * 會員於特約網咖連線
          */
-		public static void Login_Ack(Client c, ServerState.LoginState state, short encryptKey = 0, bool netCafe = false)
+		public static void SendLoginResponse(Client client, ServerState.LoginState state, short encryptKey = 0, bool netCafe = false)
 		{
-			using (var plew = new OutPacket(LoginServerOpcode.LOGIN_ACK))
+			using (var packet = new OutPacket(LoginServerOpcode.LOGIN_ACK))
 			{
-
-#if DEBUG
-
-				if (state == ServerState.LoginState.LOGIN_SERVER_DEAD)
-				{
-					plew.WriteByte(30); //Restrict Login if Maintenance mode Enable
-				}
-				else
-				{
-					plew.WriteByte(0); //bypass password check in debug mode
-				}
-#else
-				plew.WriteByte((byte)state);
-#endif
-				plew.WriteByte(0);
-				plew.WriteByte(c.Account.Master);
-				plew.WriteByte(c.Account.isTwoFactor);
-				plew.WriteBytes(new byte[]
-					{0x00,0x00,0x00,0x00,0x00,0x00,0x00, 0x00, 0x00, 0x00});
-				c.Send(plew);
+				packet.WriteByte(state == ServerState.LoginState.LOGIN_SERVER_DEAD ? (byte)30 : (byte)0);
+				packet.WriteByte(0);
+				packet.WriteByte(client.Account.Master);
+				packet.WriteByte(client.Account.isTwoFactor);
+				packet.WriteBytes(new byte[10]);
+				client.Send(packet);
 			}
 		}
+
 
 		public static void ServerList_Ack(Client c)
 		{

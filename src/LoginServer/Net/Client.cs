@@ -86,7 +86,7 @@ namespace Server.Ghost
 							LoginHandler.World_Req(inPacket, this);
 							break;
 						case LoginClientOpcode.GAME_VERSIONINFO_REQ:
-							LoginHandler.PatchVersion_Req(inPacket, this);
+							LoginHandler.HandlePatchVersionRequest(inPacket, this);
 							break;
 						case LoginClientOpcode.SUBPASSWORD_REQ:
 							LoginHandler.SubPassword_Req(inPacket, this);
